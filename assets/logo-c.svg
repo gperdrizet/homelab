@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="270" height="100" viewBox="0 0 270 100">
+  <!-- Option C: Isometric cube with characteristic pyrite striations -->
+  <!-- Striations: thin parallel lines on each face, clipped to face shape -->
+  <defs>
+    <clipPath id="c-clip-top">
+      <polygon points="52,6 92,26 52,46 12,26"/>
+    </clipPath>
+    <clipPath id="c-clip-right">
+      <polygon points="92,26 92,74 52,94 52,46"/>
+    </clipPath>
+    <clipPath id="c-clip-left">
+      <polygon points="12,26 52,46 52,94 12,74"/>
+    </clipPath>
+  </defs>
+
+  <!-- Base faces -->
+  <polygon points="52,6 92,26 52,46 12,26"  fill="#D4A820" stroke="#7A5800" stroke-width="1.2"/>
+  <polygon points="92,26 92,74 52,94 52,46" fill="#A87810" stroke="#7A5800" stroke-width="1.2"/>
+  <polygon points="12,26 52,46 52,94 12,74" fill="#6E4E08" stroke="#7A5800" stroke-width="1.2"/>
+
+  <!-- Top face striations: horizontal lines -->
+  <g clip-path="url(#c-clip-top)" stroke="#F0CC40" stroke-width="0.8" opacity="0.55">
+    <line x1="0" y1="13" x2="110" y2="13"/>
+    <line x1="0" y1="20" x2="110" y2="20"/>
+    <line x1="0" y1="27" x2="110" y2="27"/>
+    <line x1="0" y1="34" x2="110" y2="34"/>
+    <line x1="0" y1="41" x2="110" y2="41"/>
+  </g>
+
+  <!-- Right face striations: lines parallel to top-left edge (slope -0.5) -->
+  <g clip-path="url(#c-clip-right)" stroke="#D49028" stroke-width="0.8" opacity="0.55">
+    <line x1="30" y1="26" x2="110" y2="66"/>
+    <line x1="30" y1="34" x2="110" y2="74"/>
+    <line x1="30" y1="42" x2="110" y2="82"/>
+    <line x1="30" y1="50" x2="110" y2="90"/>
+    <line x1="30" y1="58" x2="110" y2="98"/>
+    <line x1="30" y1="66" x2="110" y2="106"/>
+    <line x1="30" y1="18" x2="110" y2="58"/>
+  </g>
+
+  <!-- Left face striations: lines parallel to top-right edge (slope +0.5) -->
+  <g clip-path="url(#c-clip-left)" stroke="#8A6418" stroke-width="0.8" opacity="0.55">
+    <line x1="-10" y1="58" x2="70" y2="18"/>
+    <line x1="-10" y1="66" x2="70" y2="26"/>
+    <line x1="-10" y1="74" x2="70" y2="34"/>
+    <line x1="-10" y1="82" x2="70" y2="42"/>
+    <line x1="-10" y1="90" x2="70" y2="50"/>
+    <line x1="-10" y1="98" x2="70" y2="58"/>
+    <line x1="-10" y1="106" x2="70" y2="66"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="108" y="64" font-family="'Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="700" fill="#1a1a1a" letter-spacing="-0.5">pyrite</text>
+</svg>

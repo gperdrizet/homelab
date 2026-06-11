@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="96" viewBox="0 0 300 96">
+
+  <!--
+    Pixel art crystal cluster. Pixel size = 4px.
+    All coordinates are multiples of 4.
+    Crystals are open at the bottom (polylines, no closing segment).
+    Tops are staircase-irregular. Sides step to create lean.
+  -->
+
+  <!-- Crystal 1: leans left (left edge steps outward going up), medium height -->
+  <polyline
+    points="8,88  8,52  4,52  4,32  8,28  12,32  16,28  20,32  24,28  28,32  28,88"
+    fill="none" stroke="#C89010" stroke-width="3.5"
+    stroke-linejoin="miter" stroke-linecap="square"/>
+
+  <!-- Crystal 2: tallest, mostly straight, multiple jagged top steps -->
+  <polyline
+    points="36,88  36,8  40,4  44,8  48,4  52,8  56,4  60,8  60,88"
+    fill="none" stroke="#C89010" stroke-width="3.5"
+    stroke-linejoin="miter" stroke-linecap="square"/>
+
+  <!-- Crystal 3: leans right (right edge steps outward going down), shortest -->
+  <polyline
+    points="68,88  68,44  72,40  76,44  80,40  84,44  88,44  88,52  92,52  92,88"
+    fill="none" stroke="#C89010" stroke-width="3.5"
+    stroke-linejoin="miter" stroke-linecap="square"/>
+
+  <!-- Wordmark -->
+  <text x="112" y="64"
+        font-family="'Helvetica Neue',Arial,sans-serif"
+        font-size="36" font-weight="700" fill="#1a1a1a" letter-spacing="-1">pyrite</text>
+
+</svg>
