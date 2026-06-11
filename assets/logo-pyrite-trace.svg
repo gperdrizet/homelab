@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Pyrite Crystal Trace</title>
+  <desc id="desc">Direct trace-style pyrite cluster based on the hand-drawn sketch.</desc>
+
+  <g fill="none" stroke="#B7AA72" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Center tall crystal -->
+    <path d="M126 22 L176 74 L128 126 L80 72 Z"/>
+    <path d="M80 72 L96 136 L128 126"/>
+    <path d="M176 74 L170 126 L128 126"/>
+
+    <!-- Left crystal -->
+    <path d="M42 106 L80 72 L128 126 L80 186 L40 150 Z"/>
+    <path d="M80 186 L128 126"/>
+
+    <!-- Right crystal -->
+    <path d="M176 112 L214 96 L248 150 L208 190 L168 146 Z"/>
+    <path d="M176 112 L128 126"/>
+    <path d="M128 126 L168 146"/>
+
+    <!-- Long lower base lines from the sketch -->
+    <path d="M80 186 L128 126 L208 190"/>
+    <path d="M80 186 L128 176 L166 198 L208 190"/>
+  </g>
+</svg>
