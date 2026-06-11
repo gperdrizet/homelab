@@ -1,0 +1,19 @@
+site_name: homelab docs
+site_description: Documentation for the gperdrizet homelab infrastructure
+site_url: https://gperdrizet.github.io/homelab/
+repo_name: gperdrizet/homelab
+repo_url: https://github.com/gperdrizet/homelab
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Machines: machines.md
+  - Network: network.md
+  - Operations: operations.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true

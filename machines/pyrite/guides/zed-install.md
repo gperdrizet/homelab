@@ -1,4 +1,4 @@
-# Zed IDE — install on pyrite
+# Zed IDE: install on pyrite
 
 [Zed](https://zed.dev/) is a high-performance, GPU-accelerated code editor with
 built-in AI assistance. This guide covers installation on pyrite (Ubuntu desktop).

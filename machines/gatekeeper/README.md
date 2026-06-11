@@ -17,7 +17,7 @@ VPS running public-facing services, nginx reverse proxy, Tailscale exit node, an
 
 ## Role
 
-- Public reverse proxy (nginx) — terminates TLS for all services
+- Public reverse proxy (nginx): terminates TLS for all services
 - Hosts multiple web applications in Docker (logkeep, bench, bug-hunter, feedback, model-gateway, nixx, etc.)
 - Monitoring stack (Prometheus, Grafana, Loki, Alertmanager)
 - Tailscale exit node and Headscale control server

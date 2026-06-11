@@ -1,6 +1,6 @@
 # Secrets management
 
-All secrets — passwords, API keys, tokens, and credentials — are managed through
+All secrets (passwords, API keys, tokens, and credentials) are managed through
 two complementary systems. **No secrets are ever committed to this or any other repo.**
 
 ---
@@ -21,12 +21,12 @@ any other personal login.
 
 Each project follows the `.env.template` pattern:
 
-- `.env.template` — committed to the project repo. Contains all variable names with
+- `.env.template`: committed to the project repo. Contains all variable names with
   placeholder values and comments explaining each secret.
-- `.env` / `.env.production` / `.env.staging` — **not committed** (in `.gitignore`).
+- `.env` / `.env.production` / `.env.staging`: **not committed** (in `.gitignore`).
   Contains real values. Stored on the server and backed up to Vaultwarden as secure notes.
 
-Vaultwarden is the single source of truth for what `.env` values are in use — if a
+Vaultwarden is the single source of truth for what `.env` values are in use. If a
 server is rebuilt, all secrets can be retrieved from there.
 
 ### Secrets inventory

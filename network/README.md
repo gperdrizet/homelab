@@ -1,6 +1,6 @@
 # Network
 
-Overview of the homelab network topology — how the three machines connect to each
+Overview of the homelab network topology: how the three machines connect to each
 other and to the internet.
 
 ---
@@ -38,7 +38,7 @@ See [tailnet.md](tailnet.md) for full details.
 | pyrite     | pyrite     | 100.64.0.2   | Client, exit node enabled         |
 | laptop     | laptop     | 100.64.0.3   | Client                            |
 | voxxel     | voxxel     | 100.64.0.4   | Android client                    |
-| arkk       | arkk       | TBD          | Client (offline — recovering)     |
+| arkk       | arkk       | TBD          | Client (offline; recovering)     |
 
 All client devices route internet traffic through gatekeeper (exit node).
 
@@ -47,7 +47,7 @@ All client devices route internet traffic through gatekeeper (exit node).
 ## Local LAN
 
 All home-office machines (pyrite, arkk) connect to the internet via a standard
-home router/ISP connection. No static public IP on the LAN — all public services
+home router/ISP connection. No static public IP on the LAN; all public services
 run on gatekeeper.
 
 ---

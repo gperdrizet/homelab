@@ -33,7 +33,7 @@ All domains below are served over HTTPS on port 443.
 |------------------------------|----------------------------|-------------------------|---------------------------------------|
 | perdrizet.org                | redirect                   | Let's Encrypt (certbot) | Redirects to logkeep.perdrizet.org    |
 | www.perdrizet.org            | redirect                   | Let's Encrypt (certbot) | Redirects to logkeep.perdrizet.org    |
-| logkeep.perdrizet.org        | http://127.0.0.1:8000      | Let's Encrypt (certbot) | LogKeep production (blue/green deploy); **currently down** — mid-update |
+| logkeep.perdrizet.org        | http://127.0.0.1:8000      | Let's Encrypt (certbot) | LogKeep production (blue/green deploy); **currently down** (mid-update) |
 | staging.perdrizet.org        | http://100.64.0.1:8003     | Let's Encrypt (certbot) | LogKeep staging (Tailscale-only access) |
 | feedback.perdrizet.org       | http://127.0.0.1:18080     | Let's Encrypt (certbot) | Feedback/contact form app (Django)    |
 | admin.perdrizet.org          | http://127.0.0.1:8600      | Let's Encrypt (certbot) | Site admin agent (LLM-backed, systemd service) |
@@ -86,7 +86,7 @@ running on pyrite). They are only reachable via nginx on the VPS.
 | 47302 | pyrite:47302         | JupyterLab            |
 
 **VS Code Tunnel** (`vscode-tunnel.service` on pyrite) connects outbound to
-the Microsoft relay — no VPS port is involved. Accessible at
+the Microsoft relay; no VPS port is involved. Accessible at
 `https://vscode.dev/tunnel/pyrite`.
 
 ### Headscale
@@ -122,8 +122,8 @@ Managed by `/opt/logkeep/docker/` (project: `logkeep`).
 | Port                | Container                  | Service                      |
 |---------------------|----------------------------|------------------------------|
 | 127.0.0.1:5432      | logkeep-postgres           | PostgreSQL database (prod)   |
-| 127.0.0.1:8001      | logkeep-blue               | LogKeep blue (production) **[STOPPED — mid-update]** |
-| 127.0.0.1:8002      | logkeep-green              | LogKeep green (production) **[STOPPED — mid-update]** |
+| 127.0.0.1:8001      | logkeep-blue               | LogKeep blue (production) **[STOPPED: mid-update]** |
+| 127.0.0.1:8002      | logkeep-green              | LogKeep green (production) **[STOPPED: mid-update]** |
 | 127.0.0.1:9187      | logkeep-postgres-exporter  | Postgres Prometheus exporter |
 | 100.64.0.1:8003     | logkeep-staging            | LogKeep staging (Tailscale-only) |
 | 5432 (internal)     | logkeep-postgres-staging   | PostgreSQL for staging       |
@@ -169,8 +169,8 @@ FastAPI backend + frontend web app. Staging is Tailscale-only (no public nginx v
 
 Managed by `~/vps-infrastructure/compose/docker-compose.btcpay.yml` (project: `compose`).
 BTCPay Server for Bitcoin payment processing. Accessible at `100.64.0.1:23000` (Tailscale-only).
-`compose-btcd-1` is a Bitcoin full node — it maintains a copy of the blockchain and uses ~500MB–1GB RAM.
-**Currently stopped** (2026-05-24) — not in active use. To restart: `cd ~/vps-infrastructure/compose && docker compose -f docker-compose.btcpay.yml up -d`
+`compose-btcd-1` is a Bitcoin full node; it maintains a copy of the blockchain and uses ~500MB–1GB RAM.
+**Currently stopped** (2026-05-24); not in active use. To restart: `cd ~/vps-infrastructure/compose && docker compose -f docker-compose.btcpay.yml up -d`
 
 | Port                  | Container          | Service                                     |
 |-----------------------|--------------------|---------------------------------------------|
@@ -204,13 +204,13 @@ Managed by `/opt/bench/docker/docker-compose.prod.yml` (project: `bench`).
 | N/A                 | bench-celery-beat-staging  | Celery beat (staging)        |
 | 6379 (internal)     | bench-redis-staging        | Redis (staging)              |
 
-Nginx listens on `100.64.0.1:8012` (Tailscale IP) for staging — no public domain.
+Nginx listens on `100.64.0.1:8012` (Tailscale IP) for staging; no public domain.
 
 ### Services on host (non-Docker)
 
 | Port             | Service                  | Notes                                                    |
 |------------------|--------------------------|----------------------------------------------------------|
-| 127.0.0.1:8600   | perdrizet-admin (systemd)| Site admin agent — uvicorn, `/opt/perdrizet.org-admin/`  |
+| 127.0.0.1:8600   | perdrizet-admin (systemd)| Site admin agent: uvicorn, `/opt/perdrizet.org-admin/`  |
 
 ### Docker containers (feedback stack)
 
