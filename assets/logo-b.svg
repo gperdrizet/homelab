@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="270" height="100" viewBox="0 0 270 100">
+  <!-- Option B: Top-down cube (hexagonal), flat tones — more icon/badge style -->
+  <!-- 7 key points: Top(52,5) TR(91,27) BR(91,73) Bot(52,95) BL(13,73) TL(13,27) Center(52,50) -->
+  <!-- Top face rhombus -->
+  <polygon points="52,5 91,27 52,50 13,27" fill="#E8C840" stroke="#7A5000" stroke-width="1.2"/>
+  <!-- Right face rhombus -->
+  <polygon points="91,27 91,73 52,95 52,50" fill="#B89020" stroke="#7A5000" stroke-width="1.2"/>
+  <!-- Left face rhombus -->
+  <polygon points="13,27 52,50 52,95 13,73" fill="#7A5C0C" stroke="#7A5000" stroke-width="1.2"/>
+  <!-- Wordmark -->
+  <text x="108" y="64" font-family="'Helvetica Neue',Arial,sans-serif" font-size="32" font-weight="700" fill="#1a1a1a" letter-spacing="-0.5">pyrite</text>
+</svg>
