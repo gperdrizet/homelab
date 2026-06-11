@@ -2,7 +2,7 @@
 
 NAS and RAID storage server, physically located in the home office alongside pyrite.
 
-**Status: RECOVERING** — drive replacement in progress, resilvering and restore needed.
+**Status: RECOVERING**: drive replacement in progress, resilvering and restore needed.
 
 ---
 
@@ -22,7 +22,7 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 **Network:**
 - LAN (gigabit Ethernet to router)
 - Direct bonded link to pyrite (high-speed NFS)
-- Tailscale client (100.64.0.<!-- TODO -->) — when operational
+- Tailscale client (100.64.0.<!-- TODO -->) when operational
 
 ---
 
@@ -30,7 +30,7 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 
 - Primary backup target for gatekeeper databases and application data
 - Primary backup target for pyrite documents, photos, and project files
-- NFS server — exposes storage to pyrite over the direct bonded link
+- NFS server: exposes storage to pyrite over the direct bonded link
 - Offsite backup staging point (future: restic → cloud)
 
 ---
@@ -64,5 +64,5 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 
 ## See also
 
-- [backups/README.md](../../backups/README.md) — restic backup strategy
-- [network/lan.md](../../network/lan.md) — bonded link configuration
+- [backups/README.md](../../backups/README.md): restic backup strategy
+- [network/lan.md](../../network/lan.md): bonded link configuration

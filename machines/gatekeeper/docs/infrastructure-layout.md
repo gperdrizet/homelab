@@ -89,7 +89,7 @@ Current VPS organization after Phase 1-3C (Monitoring Separation, Backups, Nginx
 /opt/bench-staging/              # Bench staging
     └── docker/              # Staging compose (Tailscale-only via nginx 100.64.0.1:8012)
 
-/opt/spark/                      # Apache Spark — DECOMMISSIONED (failed experiment)
+/opt/spark/                      # Apache Spark: DECOMMISSIONED (failed experiment)
 
 /etc/nginx/
 ├── conf.d/
@@ -138,8 +138,8 @@ Current VPS organization after Phase 1-3C (Monitoring Separation, Backups, Nginx
 - **monitoring-blackbox-exporter** (9115) - SSL cert / endpoint monitoring
 
 ### Applications
-- **logkeep-blue** (8001) - LogKeep production (blue slot) **[STOPPED — pending major update]**
-- **logkeep-green** (8002) - LogKeep production (green slot) **[STOPPED — pending major update]**
+- **logkeep-blue** (8001) - LogKeep production (blue slot) **[STOPPED: pending major update]**
+- **logkeep-green** (8002) - LogKeep production (green slot) **[STOPPED: pending major update]**
 - **logkeep-staging** (100.64.0.1:8003) - LogKeep staging (Tailscale-only)
 - **logkeep-postgres-staging** - PostgreSQL for logkeep staging (separate from prod)
 - **feedback-app-1** (127.0.0.1:18080) - Feedback/contact app (Django, `/opt/feedback/`)
@@ -164,7 +164,7 @@ Current VPS organization after Phase 1-3C (Monitoring Separation, Backups, Nginx
 - **bug-hunter-staging-frontend-1** (100.64.0.1:8507) - Bug Hunter staging frontend (Tailscale-only)
 - **bug-hunter-staging-backend-1** - Bug Hunter staging backend (internal)
 - **bug-hunter-staging-db-1** - PostgreSQL for Bug Hunter staging (internal)
-- **compose-btcpay-1** (100.64.0.1:23000) - BTCPay Server UI (Tailscale-only) **[STOPPED 2026-05-24 — not in active use]**
+- **compose-btcpay-1** (100.64.0.1:23000) - BTCPay Server UI (Tailscale-only) **[STOPPED 2026-05-24: not in active use]**
 - **compose-btcd-1** - Bitcoin full node (~500MB–1GB RAM) **[STOPPED]**
 - **compose-nbxplorer-1** - NBXplorer blockchain indexer **[STOPPED]**
 - **compose-btcpay-db-1** - PostgreSQL for BTCPay **[STOPPED]**
@@ -241,7 +241,7 @@ To restart BTCPay: `cd ~/vps-infrastructure/compose && docker compose -f docker-
 
 ## Next Steps
 
-1. **LogKeep major update** — containers stopped pending rewrite. When redeploying:
+1. **LogKeep major update**: containers stopped pending rewrite. When redeploying:
    - Tune gunicorn worker count in `docker-compose.prod.yml` (current default spawns ~10 workers × ~135 MB = ~1.4 GB). Set `--workers` to 2–3 to cap at ~400 MB.
    - Fix LLM API key in `.env` (logkeep has been sending 401s to model-gateway since the model-gateway migration; retry storm was generating `HighRequestRateSpike` alerts continuously)
 2. **Database Migration to Pyrite** - Create databases, migrate data, update compose files

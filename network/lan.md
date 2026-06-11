@@ -1,11 +1,11 @@
-# Local network — bonded link and LAN layout
+# Local network: bonded link and LAN layout
 
 ---
 
 ## LAN
 
 All home-office machines connect to the internet via a standard home router.
-No services are exposed directly from the LAN — all public endpoints run on
+No services are exposed directly from the LAN; all public endpoints run on
 gatekeeper (VPS).
 
 | Device  | LAN interface | LAN IP | Notes |
