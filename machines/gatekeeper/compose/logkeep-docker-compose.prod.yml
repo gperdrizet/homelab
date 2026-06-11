@@ -1,0 +1,172 @@
+services:
+  # PostgreSQL Database (shared between production and staging)
+  postgres:
+    image: postgres:16-alpine
+    container_name: logkeep-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: logkeep
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../scripts/init-staging-db.sql:/docker-entrypoint-initdb.d/init-staging-db.sql:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - logkeep-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # Blue Application (Active Production)
+  app-blue:
+    image: gperdrizet/logkeep:latest
+    container_name: logkeep-blue
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/logkeep
+      - GUNICORN_WORKERS=9
+      - LOG_LEVEL=info
+    ports:
+      - "127.0.0.1:8001:8000"
+    volumes:
+      - app_data_blue:/app/data
+      - app_logs_blue:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - logkeep-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+    labels:
+      - "com.logkeep.slot=blue"
+      - "com.logkeep.environment=production"
+
+  # Green Application (New Deployment Target)
+  app-green:
+    image: gperdrizet/logkeep:latest
+    container_name: logkeep-green
+    restart: "no"  # Only started during deployments
+    env_file:
+      - .env.production
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/logkeep
+      - GUNICORN_WORKERS=9
+      - LOG_LEVEL=info
+    ports:
+      - "127.0.0.1:8002:8000"
+    volumes:
+      - app_data_green:/app/data
+      - app_logs_green:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - logkeep-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+    labels:
+      - "com.logkeep.slot=green"
+      - "com.logkeep.environment=production"
+
+  # Note: Nginx runs on the host system, not in a container
+  # Config files are in nginx/ directory and copied to /etc/nginx/conf.d/
+  # Symlink /etc/nginx/conf.d/logkeep.conf points to either blue.conf or green.conf
+
+  # Note: Monitoring services (prometheus, grafana, loki, promtail, node-exporter,
+  # alertmanager, cadvisor, blackbox-exporter) have been moved to
+  # /srv/infra/docker-compose.monitoring.yml
+
+  # PostgreSQL Exporter (Database Metrics)
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: logkeep-postgres-exporter
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/logkeep?sslmode=disable"
+    ports:
+      - "127.0.0.1:9187:9187"
+    depends_on:
+      - postgres
+    networks:
+      - logkeep-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+    labels:
+      - "com.logkeep.service=monitoring"
+
+  # Headplane (Headscale web UI)
+  headplane:
+    image: ghcr.io/tale/headplane:latest
+    container_name: headplane
+    restart: unless-stopped
+    healthcheck:
+      disable: true
+    volumes:
+      - /opt/headplane/config.yaml:/etc/headplane/config.yaml:ro
+      - /etc/headscale/config.yaml:/etc/headscale/config.yaml:ro
+    ports:
+      - "127.0.0.1:3001:3001"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - logkeep-network
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+    labels:
+      - "com.logkeep.service=monitoring"
+
+networks:
+  logkeep-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  app_data_blue:
+    driver: local
+  app_data_green:
+    driver: local
+  app_logs_blue:
+    driver: local
+  app_logs_green:
+    driver: local

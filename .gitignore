@@ -1,0 +1,29 @@
+# Secrets — never commit these
+.env
+.env.*
+!.env.template
+*.pem
+*.key
+*.p12
+id_rsa
+id_ed25519
+secrets.yml
+secrets.yaml
+
+# OS / editor
+.DS_Store
+.vscode/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+
+# restic cache
+.cache/restic/
