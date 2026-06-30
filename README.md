@@ -7,7 +7,7 @@ Documentation, configuration, and runbooks for the gperdrizet personal computing
 Most content here is intentionally public: setup guides, deployment patterns, and operational
 notes that may be useful to others (including AI/ML bootcamp students).
 
-**Secrets are never committed to this repo.** See [secrets/README.md](secrets/README.md) for
+**Secrets are never committed to this repo.** See [docs/secrets/README.md](docs/secrets/README.md) for
 how credentials and API keys are managed.
 
 ## Documentation site
@@ -52,17 +52,17 @@ See [docs/machines/pyrite/services/README.md](docs/machines/pyrite/services/READ
 
 ## Network
 
-See [network/](network/) for topology, Tailscale/Headscale config, and the local LAN layout
+See [docs/network/](docs/network/) for topology, Tailscale/Headscale config, and the local LAN layout
 including the bonded pyrite↔arkk connection.
 
 ## Secrets
 
-See [secrets/](secrets/): Vaultwarden (self-hosted Bitwarden) for passwords and credentials,
+See [docs/secrets/](docs/secrets/): Vaultwarden (self-hosted Bitwarden) for passwords and credentials,
 `.env.template` pattern for per-project infrastructure secrets.
 
 ## Backups
 
-See [backups/](backups/): restic-based backup strategy targeting arkk RAID array.
+See [docs/backups/](docs/backups/): restic-based backup strategy targeting arkk RAID array.
 
 ## External repos (hosted on this infrastructure)
 

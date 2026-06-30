@@ -2,9 +2,9 @@
 
 ## Topology docs
 
-- [network overview](https://github.com/gperdrizet/homelab/blob/main/network/README.md)
-- [local LAN and bonded link](https://github.com/gperdrizet/homelab/blob/main/network/lan.md)
-- [tailnet notes](https://github.com/gperdrizet/homelab/blob/main/network/tailnet.md)
+- [network overview](network/README.md)
+- [local LAN and bonded link](network/lan.md)
+- [tailnet notes](network/tailnet.md)
 
 ## Key design points
 

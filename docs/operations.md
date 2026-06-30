@@ -2,14 +2,18 @@
 
 ## Backup and recovery
 
-- [backups strategy](https://github.com/gperdrizet/homelab/blob/main/backups/README.md)
-- [gatekeeper backup improvement notes](https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/backup-improvements.md)
+- [backups strategy](backups/README.md)
+- [gatekeeper backup improvement notes](machines/gatekeeper/docs/backup-improvements.md)
 
 ## Secrets handling
 
-- [secrets management](https://github.com/gperdrizet/homelab/blob/main/secrets/README.md)
+- [secrets management](secrets/README.md)
+
+## Build images
+
+- [docker images](docker-images/README.md)
 
 ## Service inventory on gatekeeper
 
-- [service and port inventory](https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/services.md)
-- [infrastructure layout](https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/infrastructure-layout.md)
+- [service and port inventory](machines/gatekeeper/docs/services.md)
+- [infrastructure layout](machines/gatekeeper/docs/infrastructure-layout.md)

@@ -2,7 +2,7 @@
 
 Focused backlog for services to host on pyrite and the shared infrastructure work needed to run them reliably.
 
-Note: workstation platform tasks (Wayland, boot, kernel tuning, tunnel operations) are tracked in https://github.com/gperdrizet/homelab/blob/main/machines/pyrite/docs/TODO.md.
+Note: workstation platform tasks (Wayland, boot, kernel tuning, tunnel operations) are tracked in https://github.com/gperdrizet/homelab/blob/main/docs/machines/pyrite/docs/TODO.md.
 
 ## New services to add
 

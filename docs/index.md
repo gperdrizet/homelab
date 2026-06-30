@@ -9,7 +9,7 @@ This site is the published documentation view for the homelab repository.
 - Core services hosted on pyrite
 - Pyrite platform runbooks (boot, Wayland, remote access, troubleshooting)
 - Network topology and tailnet notes
-- Operational runbooks for backups and secrets
+- Operational runbooks for backups, secrets, and docker images
 
 ## Source repository
 

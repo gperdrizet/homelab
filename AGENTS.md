@@ -35,9 +35,10 @@ Each machine directory should follow this structure:
 ## Repository map
 
 - docs/machines/: machine-specific operational state
-- network/: topology and tailnet design
-- backups/: backup strategy and scripts
-- secrets/: secret handling strategy, templates only in git
+- docs/network/: topology and tailnet design
+- docs/backups/: backup strategy and scripts
+- docs/secrets/: secret handling strategy, templates only in git
+- docs/docker-images/: external image dependency notes
 - docs/: MkDocs site content for published documentation
 
 ## Authoring conventions

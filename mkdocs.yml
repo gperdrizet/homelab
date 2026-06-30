@@ -28,8 +28,16 @@ nav:
           - Platform TODO: machines/pyrite/docs/TODO.md
           - Services: machines/pyrite/services/README.md
       - Arkk: machines/arkk/README.md
-  - Network: network.md
-  - Operations: operations.md
+        - Network:
+          - Overview: network.md
+          - Topology: network/README.md
+          - LAN and Bonding: network/lan.md
+          - Tailnet and Headscale: network/tailnet.md
+        - Operations:
+          - Overview: operations.md
+          - Backups: backups/README.md
+          - Secrets: secrets/README.md
+          - Docker Images: docker-images/README.md
 
 markdown_extensions:
   - admonition
