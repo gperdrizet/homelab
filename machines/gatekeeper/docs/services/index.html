@@ -1,0 +1,1705 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the gperdrizet homelab infrastructure">
+      
+      
+      
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/services/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Gatekeeper service inventory - homelab docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gatekeeper-service-inventory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            homelab docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gatekeeper service inventory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    homelab docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Orientation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pyrite
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pyrite
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/platform-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/boot-and-startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot and Startup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/wayland-and-av/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wayland and AV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Remote Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/change-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Change Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform TODO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#public-facing-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public-facing ports
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nginx-vhosts-all-on-port-443" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nginx vhosts (all on port 443)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#localhost-only-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Localhost-only ports
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Localhost-only ports">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pyrite reverse tunnel endpoints (on VPS, bound to 127.0.0.1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#headscale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Headscale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-monitoring-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (monitoring stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-logkeep-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (logkeep stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-model-gateway-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (model-gateway stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-bug-hunter-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (bug-hunter stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-btcpay-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (BTCPay stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-bench-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (bench stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#services-on-host-non-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Services on host (non-Docker)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docker-containers-feedback-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker containers (feedback stack)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tailscale-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailscale Network
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dns-records-on-perdrizetorg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS records on perdrizet.org
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gatekeeper-service-inventory">Gatekeeper service inventory<a class="headerlink" href="#gatekeeper-service-inventory" title="Permanent link">&para;</a></h1>
+<p>A record of all services running on gatekeeper (74.208.107.78), the ports
+they use, and any domains they are exposed on. Keep this file updated whenever
+a service is added, removed, or reconfigured.</p>
+<p>Last updated: 2026-06-10 (added feedback, admin, nixx, site-staging, model-gateway-staging, bench-staging; updated logkeep and staging status)</p>
+<hr />
+<h2 id="public-facing-ports">Public-facing ports<a class="headerlink" href="#public-facing-ports" title="Permanent link">&para;</a></h2>
+<p>These ports are open in ufw and accept connections from the internet.</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>Service</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22</td>
+<td>TCP</td>
+<td>sshd (default, disabled)</td>
+<td>Overridden by port 44441 in sshd_config</td>
+</tr>
+<tr>
+<td>80</td>
+<td>TCP</td>
+<td>nginx</td>
+<td>Redirects all HTTP to HTTPS</td>
+</tr>
+<tr>
+<td>443</td>
+<td>TCP</td>
+<td>nginx</td>
+<td>HTTPS, terminates TLS for all vhosts</td>
+</tr>
+<tr>
+<td>44441</td>
+<td>TCP</td>
+<td>sshd</td>
+<td>Non-default SSH port, in /etc/ssh/sshd_config</td>
+</tr>
+<tr>
+<td>54321</td>
+<td>TCP</td>
+<td>nginx TCP stream proxy</td>
+<td>Public internet access to remote PostgreSQL server at 100.64.0.2:5432 (via Tailscale)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="nginx-vhosts-all-on-port-443">nginx vhosts (all on port 443)<a class="headerlink" href="#nginx-vhosts-all-on-port-443" title="Permanent link">&para;</a></h2>
+<p>Traffic reaches nginx on ports 80 and 443. Port 80 redirects to HTTPS.
+All domains below are served over HTTPS on port 443.</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Backend</th>
+<th>TLS source</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perdrizet.org</td>
+<td>redirect</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Redirects to logkeep.perdrizet.org</td>
+</tr>
+<tr>
+<td>www.perdrizet.org</td>
+<td>redirect</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Redirects to logkeep.perdrizet.org</td>
+</tr>
+<tr>
+<td>logkeep.perdrizet.org</td>
+<td>http://127.0.0.1:8000</td>
+<td>Let's Encrypt (certbot)</td>
+<td>LogKeep production (blue/green deploy); <strong>currently down</strong> (mid-update)</td>
+</tr>
+<tr>
+<td>staging.perdrizet.org</td>
+<td>http://100.64.0.1:8003</td>
+<td>Let's Encrypt (certbot)</td>
+<td>LogKeep staging (Tailscale-only access)</td>
+</tr>
+<tr>
+<td>feedback.perdrizet.org</td>
+<td>http://127.0.0.1:18080</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Feedback/contact form app (Django)</td>
+</tr>
+<tr>
+<td>admin.perdrizet.org</td>
+<td>http://127.0.0.1:8600</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Site admin agent (LLM-backed, systemd service)</td>
+</tr>
+<tr>
+<td>nixx.perdrizet.org</td>
+<td>http://100.64.0.2:8000</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Personal assistant/memory PWA (proxies to pyrite)</td>
+</tr>
+<tr>
+<td>site-staging.perdrizet.org</td>
+<td>/opt/perdrizet.org-staging</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Staging for perdrizet.org personal brand site (static Astro build)</td>
+</tr>
+<tr>
+<td>bench.perdrizet.org</td>
+<td>http://127.0.0.1:8010</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Bench web app</td>
+</tr>
+<tr>
+<td>model.perdrizet.org</td>
+<td>http://127.0.0.1:8503</td>
+<td>Let's Encrypt (certbot)</td>
+<td>model-gateway (legacy domain; replaced by promptlyapi.com)</td>
+</tr>
+<tr>
+<td>headscale.perdrizet.org</td>
+<td>http://127.0.0.1:8090</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Tailscale control server (Headscale)</td>
+</tr>
+<tr>
+<td>headplane.perdrizet.org</td>
+<td>http://127.0.0.1:3001</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Headscale web UI</td>
+</tr>
+<tr>
+<td>grafana.perdrizet.org</td>
+<td>http://127.0.0.1:3000</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Grafana monitoring dashboard</td>
+</tr>
+<tr>
+<td>code.perdrizet.org</td>
+<td>http://127.0.0.1:47301</td>
+<td>Let's Encrypt (certbot)</td>
+<td>OpenVSCode Server on pyrite (via autossh tunnel); nginx basic auth</td>
+</tr>
+<tr>
+<td>jupyter.perdrizet.org</td>
+<td>http://127.0.0.1:47302</td>
+<td>Let's Encrypt (certbot)</td>
+<td>JupyterLab on pyrite (via autossh tunnel); JupyterLab built-in auth</td>
+</tr>
+<tr>
+<td>bug-hunter.perdrizet.org</td>
+<td>http://127.0.0.1:8509</td>
+<td>Let's Encrypt (certbot)</td>
+<td>Bug Hunter web app (production)</td>
+</tr>
+<tr>
+<td>promptlyapi.com</td>
+<td>http://127.0.0.1:8503</td>
+<td>Let's Encrypt (certbot)</td>
+<td>model-gateway primary public domain (authenticated API gateway; proxies to llama.cpp on pyrite)</td>
+</tr>
+</tbody>
+</table>
+<p>The nginx TCP stream proxy for port 54321 is configured directly in
+/etc/nginx/nginx.conf (not in a vhost file) and provides public internet
+access to a remote PostgreSQL server at 100.64.0.2:5432 via Tailscale.</p>
+<p>The reverse proxies for code.perdrizet.org and jupyter.perdrizet.org forward
+to localhost ports that are kept open by an autossh reverse tunnel from pyrite
+(<code>dev-tunnel.service</code> on pyrite). See <code>tailnet/scripts/setup-dev-server.sh</code>
+for service definitions.</p>
+<p><code>vscode.dev/tunnel/pyrite</code> provides an alternative browser-based VS Code
+access path via the Microsoft relay service (<code>vscode-tunnel.service</code> on
+pyrite). This route supports the full Microsoft Extension Marketplace,
+including GitHub Copilot, which is unavailable on code.perdrizet.org
+(Open VSX registry only). Authentication uses the <code>gperdrizet</code> GitHub account.</p>
+<p>Blue/green deployment for LogKeep uses a symlink at
+<code>/etc/nginx/conf.d/logkeep.conf</code> → <code>/etc/nginx/logkeep-configs/{blue,green}.conf</code>.</p>
+<hr />
+<h2 id="localhost-only-ports">Localhost-only ports<a class="headerlink" href="#localhost-only-ports" title="Permanent link">&para;</a></h2>
+<p>These ports are bound to 127.0.0.1 or a container network and are not
+directly reachable from the internet.</p>
+<h3 id="pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001">Pyrite reverse tunnel endpoints (on VPS, bound to 127.0.0.1)<a class="headerlink" href="#pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001" title="Permanent link">&para;</a></h3>
+<p>These ports are created by the autossh reverse tunnel (<code>dev-tunnel.service</code>
+running on pyrite). They are only reachable via nginx on the VPS.</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Forwards to</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>47301</td>
+<td>pyrite:47301</td>
+<td>OpenVSCode Server</td>
+</tr>
+<tr>
+<td>47302</td>
+<td>pyrite:47302</td>
+<td>JupyterLab</td>
+</tr>
+</tbody>
+</table>
+<p><strong>VS Code Tunnel</strong> (<code>vscode-tunnel.service</code> on pyrite) connects outbound to
+the Microsoft relay; no VPS port is involved. Accessible at
+<code>https://vscode.dev/tunnel/pyrite</code>.</p>
+<h3 id="headscale">Headscale<a class="headerlink" href="#headscale" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Protocol</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3001</td>
+<td>TCP/HTTP</td>
+<td>Headplane (Headscale web UI)</td>
+</tr>
+<tr>
+<td>8090</td>
+<td>TCP/HTTP</td>
+<td>Headscale main listener</td>
+</tr>
+<tr>
+<td>9099</td>
+<td>TCP/HTTP</td>
+<td>Headscale Prometheus metrics</td>
+</tr>
+<tr>
+<td>50443</td>
+<td>TCP/gRPC</td>
+<td>Headscale gRPC endpoint</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-monitoring-stack">Docker containers (monitoring stack)<a class="headerlink" href="#docker-containers-monitoring-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/srv/infra/docker-compose.monitoring.yml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3000</td>
+<td>monitoring-grafana</td>
+<td>Grafana dashboard</td>
+</tr>
+<tr>
+<td>3100</td>
+<td>monitoring-loki</td>
+<td>Loki log aggregator</td>
+</tr>
+<tr>
+<td>8080</td>
+<td>monitoring-cadvisor</td>
+<td>cAdvisor container metrics</td>
+</tr>
+<tr>
+<td>9090</td>
+<td>monitoring-prometheus</td>
+<td>Prometheus metrics collector</td>
+</tr>
+<tr>
+<td>9093</td>
+<td>monitoring-alertmanager</td>
+<td>Alertmanager</td>
+</tr>
+<tr>
+<td>9100</td>
+<td>monitoring-node-exporter</td>
+<td>Node exporter (host metrics)</td>
+</tr>
+<tr>
+<td>9115</td>
+<td>monitoring-blackbox-exporter</td>
+<td>Blackbox exporter (SSL/HTTP)</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td>monitoring-promtail</td>
+<td>Promtail log shipper</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-logkeep-stack">Docker containers (logkeep stack)<a class="headerlink" href="#docker-containers-logkeep-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/opt/logkeep/docker/</code> (project: <code>logkeep</code>).
+- Production services defined in <code>docker-compose.prod.yml</code> (blue/green deploy)
+- Staging managed separately at <code>/opt/logkeep-staging/</code> with its own postgres</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>127.0.0.1:5432</td>
+<td>logkeep-postgres</td>
+<td>PostgreSQL database (prod)</td>
+</tr>
+<tr>
+<td>127.0.0.1:8001</td>
+<td>logkeep-blue</td>
+<td>LogKeep blue (production) <strong>[STOPPED: mid-update]</strong></td>
+</tr>
+<tr>
+<td>127.0.0.1:8002</td>
+<td>logkeep-green</td>
+<td>LogKeep green (production) <strong>[STOPPED: mid-update]</strong></td>
+</tr>
+<tr>
+<td>127.0.0.1:9187</td>
+<td>logkeep-postgres-exporter</td>
+<td>Postgres Prometheus exporter</td>
+</tr>
+<tr>
+<td>100.64.0.1:8003</td>
+<td>logkeep-staging</td>
+<td>LogKeep staging (Tailscale-only)</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>logkeep-postgres-staging</td>
+<td>PostgreSQL for staging</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-model-gateway-stack">Docker containers (model-gateway stack)<a class="headerlink" href="#docker-containers-model-gateway-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/opt/model-gateway/docker-compose.yml</code> (project: <code>model-gateway</code>).
+An authenticated, metered API gateway for the llama.cpp server running on pyrite.
+Users register at <code>/register</code> and receive a trial allocation (500k tokens, 14 days).
+API calls use Bearer tokens and are OpenAI SDK-compatible. Token top-ups via Stripe or BTCPay.</p>
+<p><strong>Production</strong> (<code>/opt/model-gateway/</code>):</p>
+<p>| Port              | Container              | Service                                    |
+|-------------------|------------------------|--------------------------------------------||
+| 127.0.0.1:8503    | model-gateway-api      | FastAPI gateway (uvicorn)                  |
+| 5432 (internal)   | model-gateway-db       | PostgreSQL (users, balances, usage events) |
+| 100.64.0.1:8504   | model-gateway-adminer  | Adminer DB UI (Tailscale-only)             |</p>
+<p><strong>Staging</strong> (<code>/opt/model-gateway-staging/</code>, Tailscale-only):</p>
+<p>| Port              | Container                    | Service                                    |
+|-------------------|------------------------------|--------------------------------------------||
+| 100.64.0.1:8505   | model-gateway-api-staging    | FastAPI gateway staging                    |
+| 5432 (internal)   | model-gateway-db-staging     | PostgreSQL (staging)                       |
+| 100.64.0.1:8506   | model-gateway-adminer-staging| Adminer DB UI (staging, Tailscale-only)    |</p>
+<h3 id="docker-containers-bug-hunter-stack">Docker containers (bug-hunter stack)<a class="headerlink" href="#docker-containers-bug-hunter-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/opt/bug-hunter/</code> (project: <code>bug-hunter</code>) and <code>/opt/bug-hunter-staging/</code> (project: <code>bug-hunter-staging</code>).
+FastAPI backend + frontend web app. Staging is Tailscale-only (no public nginx vhost).</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>127.0.0.1:8509</td>
+<td>bug-hunter-frontend-1</td>
+<td>Frontend (production)</td>
+</tr>
+<tr>
+<td>8000 (internal)</td>
+<td>bug-hunter-backend-1</td>
+<td>FastAPI backend (production)</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>bug-hunter-db-1</td>
+<td>PostgreSQL (production)</td>
+</tr>
+<tr>
+<td>100.64.0.1:8507</td>
+<td>bug-hunter-staging-frontend-1</td>
+<td>Frontend (staging, Tailscale-only)</td>
+</tr>
+<tr>
+<td>8000 (internal)</td>
+<td>bug-hunter-staging-backend-1</td>
+<td>FastAPI backend (staging)</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>bug-hunter-staging-db-1</td>
+<td>PostgreSQL (staging)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-btcpay-stack">Docker containers (BTCPay stack)<a class="headerlink" href="#docker-containers-btcpay-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>~/vps-infrastructure/compose/docker-compose.btcpay.yml</code> (project: <code>compose</code>).
+BTCPay Server for Bitcoin payment processing. Accessible at <code>100.64.0.1:23000</code> (Tailscale-only).
+<code>compose-btcd-1</code> is a Bitcoin full node; it maintains a copy of the blockchain and uses ~500MB–1GB RAM.
+<strong>Currently stopped</strong> (2026-05-24); not in active use. To restart: <code>cd ~/vps-infrastructure/compose &amp;&amp; docker compose -f docker-compose.btcpay.yml up -d</code></p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>100.64.0.1:23000</td>
+<td>compose-btcpay-1</td>
+<td>BTCPay Server UI</td>
+</tr>
+<tr>
+<td>8332-8333 (internal)</td>
+<td>compose-btcd-1</td>
+<td>Bitcoin full node (~500MB–1GB RAM)</td>
+</tr>
+<tr>
+<td>32838 (internal)</td>
+<td>compose-nbxplorer-1</td>
+<td>NBXplorer blockchain indexer</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>compose-btcpay-db-1</td>
+<td>PostgreSQL (BTCPay + NBXplorer data)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-bench-stack">Docker containers (bench stack)<a class="headerlink" href="#docker-containers-bench-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/opt/bench/docker/docker-compose.prod.yml</code> (project: <code>bench</code>).</p>
+<p><strong>Production</strong>:</p>
+<p>| Port                | Container                  | Service                      |
+|---------------------|----------------------------|-----------------------------||
+| 127.0.0.1:8010      | bench-web                  | Bench web app                |
+| 5432 (internal)     | bench-postgres             | PostgreSQL                   |
+| N/A                 | bench-celery               | Celery worker                |
+| N/A                 | bench-celery-beat          | Celery beat                  |
+| 6379 (internal)     | bench-redis                | Redis                        |
+| 127.0.0.1:9188      | bench-postgres-exporter    | Postgres Prometheus exporter |</p>
+<p><strong>Staging</strong> (<code>/opt/bench-staging/</code>, Tailscale-only at <code>100.64.0.1:8012</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>127.0.0.1:8011</td>
+<td>bench-web-staging</td>
+<td>Bench staging app</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>bench-postgres-staging</td>
+<td>PostgreSQL (staging)</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td>bench-celery-staging</td>
+<td>Celery worker (staging)</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td>bench-celery-beat-staging</td>
+<td>Celery beat (staging)</td>
+</tr>
+<tr>
+<td>6379 (internal)</td>
+<td>bench-redis-staging</td>
+<td>Redis (staging)</td>
+</tr>
+</tbody>
+</table>
+<p>Nginx listens on <code>100.64.0.1:8012</code> (Tailscale IP) for staging; no public domain.</p>
+<h3 id="services-on-host-non-docker">Services on host (non-Docker)<a class="headerlink" href="#services-on-host-non-docker" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Service</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>127.0.0.1:8600</td>
+<td>perdrizet-admin (systemd)</td>
+<td>Site admin agent: uvicorn, <code>/opt/perdrizet.org-admin/</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-containers-feedback-stack">Docker containers (feedback stack)<a class="headerlink" href="#docker-containers-feedback-stack" title="Permanent link">&para;</a></h3>
+<p>Managed by <code>/opt/feedback/docker-compose.prod.yml</code> (project: <code>feedback</code>).
+Django feedback/contact form app for perdrizet.org.</p>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Container</th>
+<th>Service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>127.0.0.1:18080</td>
+<td>feedback-app-1</td>
+<td>Django app (gunicorn)</td>
+</tr>
+<tr>
+<td>N/A</td>
+<td>feedback-worker-1</td>
+<td>Celery worker</td>
+</tr>
+<tr>
+<td>5432 (internal)</td>
+<td>feedback-db-1</td>
+<td>PostgreSQL</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="tailscale-network">Tailscale Network<a class="headerlink" href="#tailscale-network" title="Permanent link">&para;</a></h2>
+<p><strong>Control Server:</strong> Headscale at headscale.perdrizet.org
+<strong>MagicDNS Domain:</strong> ts.perdrizet.org</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Hostname</th>
+<th>Tailscale IP</th>
+<th>Status</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VPS</td>
+<td>gatekeeper</td>
+<td>100.64.0.1</td>
+<td>idle</td>
+<td>Exit node (advertised)</td>
+</tr>
+<tr>
+<td>Desktop</td>
+<td>pyrite</td>
+<td>100.64.0.2</td>
+<td>active</td>
+<td>Client (exit node enabled)</td>
+</tr>
+<tr>
+<td>Laptop</td>
+<td>laptop</td>
+<td>100.64.0.3</td>
+<td>varies</td>
+<td>Client</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>voxxel</td>
+<td>100.64.0.4</td>
+<td>varies</td>
+<td>Android client</td>
+</tr>
+</tbody>
+</table>
+<p>All client devices route internet traffic through the VPS exit node (100.64.0.1).
+SSH between Linux devices uses Tailscale IPs or MagicDNS hostnames (e.g., gatekeeper.ts.perdrizet.org).</p>
+<p>The peer at 100.64.0.2 (pyrite) hosts:
+- llama.cpp server (port 8502) - backend for model-gateway (accessed from gatekeeper over Tailscale)
+- PostgreSQL server (port 5432) - accessible via nginx TCP proxy on port 54321
+- OpenVSCode Server (port 47301) - tunneled to VPS via autossh, proxied via code.perdrizet.org
+- JupyterLab (port 47302) - tunneled to VPS via autossh, proxied via jupyter.perdrizet.org
+- VS Code Tunnel - outbound Microsoft relay connection, accessible at vscode.dev/tunnel/pyrite (full marketplace + Copilot)</p>
+<p><strong>Note:</strong> WireGuard (wg0) has been decommissioned. All remote connectivity
+now uses Tailscale.</p>
+<hr />
+<h2 id="dns-records-on-perdrizetorg">DNS records on perdrizet.org<a class="headerlink" href="#dns-records-on-perdrizetorg" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Type</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Redirects to logkeep subdomain</td>
+</tr>
+<tr>
+<td>www.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Redirects to logkeep subdomain</td>
+</tr>
+<tr>
+<td>logkeep.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>LogKeep production</td>
+</tr>
+<tr>
+<td>staging.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>LogKeep staging (Tailscale-only)</td>
+</tr>
+<tr>
+<td>feedback.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Feedback/contact app</td>
+</tr>
+<tr>
+<td>admin.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Site admin agent</td>
+</tr>
+<tr>
+<td>nixx.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Personal assistant PWA (proxies to pyrite)</td>
+</tr>
+<tr>
+<td>site-staging.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Staging for perdrizet.org static site</td>
+</tr>
+<tr>
+<td>bench.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Bench web app</td>
+</tr>
+<tr>
+<td>model.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>model-gateway (legacy; replaced by promptlyapi.com)</td>
+</tr>
+<tr>
+<td>headscale.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Tailscale control server</td>
+</tr>
+<tr>
+<td>headplane.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Headscale web UI</td>
+</tr>
+<tr>
+<td>grafana.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Monitoring dashboard</td>
+</tr>
+<tr>
+<td>code.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>OpenVSCode Server (remote dev)</td>
+</tr>
+<tr>
+<td>jupyter.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>JupyterLab (remote dev)</td>
+</tr>
+<tr>
+<td>bug-hunter.perdrizet.org</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Bug Hunter web app</td>
+</tr>
+</tbody>
+</table>
+<p><strong>External domains (non-perdrizet.org)</strong></p>
+<table>
+<thead>
+<tr>
+<th>Record</th>
+<th>Type</th>
+<th>Value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>promptlyapi.com</td>
+<td>A</td>
+<td>74.208.107.78</td>
+<td>Primary public domain for model-gateway (replaces model.perdrizet.org)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

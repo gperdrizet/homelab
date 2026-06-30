@@ -10,22 +10,24 @@
       
       
       
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/configs/nginx/">
+      
       
       
       
         
       
       
-      <link rel="icon" href="/homelab/assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>homelab docs</title>
+        <title>Nginx Configuration Management - homelab docs</title>
       
     
     
-      <link rel="stylesheet" href="/homelab/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -44,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("/homelab/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,6 +63,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#nginx-configuration-management" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -73,7 +80,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/homelab/." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -93,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Nginx Configuration Management
             
           </span>
         </div>
@@ -183,7 +190,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/homelab/." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -213,7 +220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -240,7 +247,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/agents/" class="md-nav__link">
+      <a href="../../../../agents/" class="md-nav__link">
         
   
   
@@ -314,7 +321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -389,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/" class="md-nav__link">
+      <a href="../../../pyrite/" class="md-nav__link">
         
   
   
@@ -417,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/platform-baseline/" class="md-nav__link">
+      <a href="../../../pyrite/docs/platform-baseline/" class="md-nav__link">
         
   
   
@@ -445,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/boot-and-startup/" class="md-nav__link">
+      <a href="../../../pyrite/docs/boot-and-startup/" class="md-nav__link">
         
   
   
@@ -473,7 +480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/wayland-and-av/" class="md-nav__link">
+      <a href="../../../pyrite/docs/wayland-and-av/" class="md-nav__link">
         
   
   
@@ -501,7 +508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/remote-access/" class="md-nav__link">
+      <a href="../../../pyrite/docs/remote-access/" class="md-nav__link">
         
   
   
@@ -529,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/troubleshooting/" class="md-nav__link">
+      <a href="../../../pyrite/docs/troubleshooting/" class="md-nav__link">
         
   
   
@@ -557,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/change-log/" class="md-nav__link">
+      <a href="../../../pyrite/docs/change-log/" class="md-nav__link">
         
   
   
@@ -585,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/TODO/" class="md-nav__link">
+      <a href="../../../pyrite/docs/TODO/" class="md-nav__link">
         
   
   
@@ -613,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/services/" class="md-nav__link">
+      <a href="../../../pyrite/services/" class="md-nav__link">
         
   
   
@@ -656,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/network/" class="md-nav__link">
+      <a href="../../../../network/" class="md-nav__link">
         
   
   
@@ -683,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/operations/" class="md-nav__link">
+      <a href="../../../../operations/" class="md-nav__link">
         
   
   
@@ -720,6 +727,193 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#active-sites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active Sites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssl-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSL Certificates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSL Certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#renewal-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Renewal Process
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration Management
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-state-phase-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current State (Phase 3)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adding-a-new-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adding a New Site
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing-a-site" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Removing a Site
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standard-configuration-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Configuration Template
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Best Practices
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-improvements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Improvements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -732,8 +926,199 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="nginx-configuration-management">Nginx Configuration Management<a class="headerlink" href="#nginx-configuration-management" title="Permanent link">&para;</a></h1>
+<h2 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h2>
+<pre><code>/srv/infra/configs/nginx/
+└── sites-available/
+    ├── bench.perdrizet.org      # Bench application
+    ├── blue.conf                # LogKeep blue slot
+    ├── green.conf               # LogKeep green slot
+    ├── staging.conf             # LogKeep staging
+    ├── headscale                # Headscale VPN admin
+    ├── gpt.conf                 # GPT/LLM service
+    ├── matrix.perdrizet.org     # Matrix server (historical)
+    └── prism.perdrizet.org      # Prism service (historical)
+</code></pre>
+<h2 id="active-sites">Active Sites<a class="headerlink" href="#active-sites" title="Permanent link">&para;</a></h2>
+<p>Current nginx configuration in <code>/etc/nginx/sites-enabled/</code>:
+- <code>bench.perdrizet.org</code> → http://127.0.0.1:8010
+- <code>gpt.conf</code> → (check config for upstream)
+- <code>headscale</code> → (Headscale service)
+- <code>staging.conf</code> → LogKeep staging app</p>
+<h2 id="ssl-certificates">SSL Certificates<a class="headerlink" href="#ssl-certificates" title="Permanent link">&para;</a></h2>
+<p>Managed by <strong>Let's Encrypt</strong> via certbot:
+- Auto-renewal enabled via systemd timer
+- Certificates stored in <code>/etc/letsencrypt/live/</code>
+- Nginx configs reference certs with "managed by Certbot" comments</p>
+<h3 id="renewal-process">Renewal Process<a class="headerlink" href="#renewal-process" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash"># Check certificate status
+sudo certbot certificates
+
+# Manual renewal (not Usually needed - auto-renews)
+sudo certbot renew
+
+# Test renewal
+sudo certbot renew --dry-run
+</code></pre>
+<h2 id="configuration-management">Configuration Management<a class="headerlink" href="#configuration-management" title="Permanent link">&para;</a></h2>
+<h3 id="current-state-phase-3">Current State (Phase 3)<a class="headerlink" href="#current-state-phase-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Source files</strong>: <code>/srv/infra/configs/nginx/sites-available/</code></li>
+<li><strong>Active configs</strong>: <code>/etc/nginx/sites-enabled/</code> (symlinks)</li>
+<li><strong>System config</strong>: <code>/etc/nginx/sites-available/</code> (current location)</li>
+</ul>
+<h3 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Edit configs in <code>/srv/infra/configs/nginx/sites-available/</code></li>
+<li>Copy to <code>/etc/nginx/sites-available/</code></li>
+<li>Create symlink in <code>/etc/nginx/sites-enabled/</code></li>
+<li>Test: <code>sudo nginx -t</code></li>
+<li>Reload: <code>sudo systemctl reload nginx</code></li>
+<li>Commit changes to vps-infrastructure git repo</li>
+</ol>
+<h3 id="adding-a-new-site">Adding a New Site<a class="headerlink" href="#adding-a-new-site" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash"># 1. Create config
+vim /srv/infra/configs/nginx/sites-available/example.com
+
+# 2. Copy to nginx directory
+sudo cp /srv/infra/configs/nginx/sites-available/example.com /etc/nginx/sites-available/
+
+# 3. Enable site
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+
+# 4. Get SSL certificate
+sudo certbot --nginx -d example.com
+
+# 5. Test and reload
+sudo nginx -t &amp;&amp; sudo systemctl reload nginx
+</code></pre>
+<h3 id="removing-a-site">Removing a Site<a class="headerlink" href="#removing-a-site" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash"># 1. Disable site
+sudo rm /etc/nginx/sites-enabled/example.com
+
+# 2. Reload nginx
+sudo systemctl reload nginx
+
+# 3. Revoke certificate (optional)
+sudo certbot revoke --cert-name example.com
+
+# 4. Archive config
+mv /srv/infra/configs/nginx/sites-available/example.com \
+   /srv/infra/configs/nginx/sites-available/.archived/
+</code></pre>
+<h2 id="standard-configuration-template">Standard Configuration Template<a class="headerlink" href="#standard-configuration-template" title="Permanent link">&para;</a></h2>
+<pre><code class="language-nginx">server {
+    server_name example.com;
+
+    # Logging
+    access_log /var/log/nginx/example.com.access.log;
+    error_log /var/log/nginx/example.com.error.log;
+
+    # Proxy settings
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $host;
+
+        proxy_pass http://127.0.0.1:PORT;
+
+        proxy_buffering off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+    }
+
+    # SSL configuration (added by certbot)
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+}
+
+# HTTP to HTTPS redirect
+server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$host$request_uri;
+}
+</code></pre>
+<h2 id="security-best-practices">Security Best Practices<a class="headerlink" href="#security-best-practices" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>SSL/TLS</strong> - All sites must use HTTPS (certbot managed)</li>
+<li><strong>Headers</strong> - Include security headers (X-Forwarded-For, X-Forwarded-Proto)</li>
+<li><strong>Upstream</strong> - Only bind to 127.0.0.1 for application ports</li>
+<li><strong>Logs</strong> - Separate access/error logs per site</li>
+<li><strong>Updates</strong> - Keep nginx and certbot updated</li>
+</ol>
+<h2 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h2>
+<p>Nginx metrics exported to Prometheus via:
+- <strong>monitoring-nginx-exporter</strong> (port 9113)
+- Scraped by monitoring-prometheus
+- Alerts configured for:
+  - High error rates
+  - Certificate expiration (&lt; 30 days)
+  - Service unavailability</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<pre><code class="language-bash"># Check nginx status
+sudo systemctl status nginx
+
+# Test configuration
+sudo nginx -t
+
+# View error logs
+sudo tail -f /var/log/nginx/error.log
+
+# View site-specific logs
+sudo tail -f /var/log/nginx/SITENAME.access.log
+
+# Reload configuration
+sudo systemctl reload nginx
+
+# Restart nginx
+sudo systemctl restart nginx
+
+# Check SSL certificate
+sudo certbot certificates
+
+# Check which ports are listening
+sudo ss -tlnp | grep nginx
+</code></pre>
+<h2 id="future-improvements">Future Improvements<a class="headerlink" href="#future-improvements" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Containerize nginx (optional - current systemd setup works well)</li>
+<li>[ ] Centralized logging to Loki (currently file-based)</li>
+<li>[ ] Rate limiting configuration</li>
+<li>[ ] WAF/ModSecurity integration</li>
+<li>[ ] HTTP/3 support</li>
+<li>[ ] Automated config testing in CI/CD</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Nginx docs: https://nginx.org/en/docs/</li>
+<li>Let's Encrypt: https://letsencrypt.org/docs/</li>
+<li>Certbot: https://eff-certbot.readthedocs.io/</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -770,10 +1155,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/homelab/", "features": [], "search": "/homelab/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/homelab/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

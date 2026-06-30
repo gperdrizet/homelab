@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/pyrite/docs/wayland-and-av/">
       
+      
+        <link rel="prev" href="../boot-and-startup/">
+      
+      
+        <link rel="next" href="../remote-access/">
       
       
         
       
       
-      <link rel="icon" href="/homelab/assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>homelab docs</title>
+        <title>Wayland and AV - homelab docs</title>
       
     
     
-      <link rel="stylesheet" href="/homelab/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -44,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("/homelab/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#wayland-and-av" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -73,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/homelab/." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -93,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Wayland and AV
             
           </span>
         </div>
@@ -183,7 +194,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/homelab/." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -213,7 +224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -240,7 +251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/agents/" class="md-nav__link">
+      <a href="../../../../agents/" class="md-nav__link">
         
   
   
@@ -264,18 +275,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -296,7 +309,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -314,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -339,18 +352,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
@@ -371,7 +386,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -389,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
@@ -417,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/platform-baseline/" class="md-nav__link">
+      <a href="../platform-baseline/" class="md-nav__link">
         
   
   
@@ -445,7 +460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/boot-and-startup/" class="md-nav__link">
+      <a href="../boot-and-startup/" class="md-nav__link">
         
   
   
@@ -470,10 +485,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/wayland-and-av/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wayland and AV
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -489,6 +531,92 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#session-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-code-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VS Code setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obs-screen-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OBS screen capture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chrome-setup-on-nvidia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chrome setup on NVIDIA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zoom-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zoom notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App validation checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -501,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/remote-access/" class="md-nav__link">
+      <a href="../remote-access/" class="md-nav__link">
         
   
   
@@ -529,7 +657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/troubleshooting/" class="md-nav__link">
+      <a href="../troubleshooting/" class="md-nav__link">
         
   
   
@@ -557,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/change-log/" class="md-nav__link">
+      <a href="../change-log/" class="md-nav__link">
         
   
   
@@ -585,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/TODO/" class="md-nav__link">
+      <a href="../TODO/" class="md-nav__link">
         
   
   
@@ -613,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/services/" class="md-nav__link">
+      <a href="../../services/" class="md-nav__link">
         
   
   
@@ -656,7 +784,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/network/" class="md-nav__link">
+      <a href="../../../../network/" class="md-nav__link">
         
   
   
@@ -683,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/operations/" class="md-nav__link">
+      <a href="../../../../operations/" class="md-nav__link">
         
   
   
@@ -720,6 +848,82 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#session-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Session model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vs-code-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VS Code setup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#obs-screen-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        OBS screen capture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chrome-setup-on-nvidia" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Chrome setup on NVIDIA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zoom-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Zoom notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        App validation checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -732,8 +936,74 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="wayland-and-av">Wayland and AV<a class="headerlink" href="#wayland-and-av" title="Permanent link">&para;</a></h1>
+<p>Operational guide for Wayland desktop behavior, browser/editor rendering, and screen capture.</p>
+<h2 id="session-model">Session model<a class="headerlink" href="#session-model" title="Permanent link">&para;</a></h2>
+<ul>
+<li>GDM greeter: X11</li>
+<li>User desktop session: GNOME Wayland</li>
+</ul>
+<p>Confirm session type after login:
+- echo $XDG_SESSION_TYPE</p>
+<h2 id="vs-code-setup">VS Code setup<a class="headerlink" href="#vs-code-setup" title="Permanent link">&para;</a></h2>
+<p>Use native Wayland flags in ~/.config/code-flags.conf:
+- --enable-features=UseOzonePlatform,WaylandWindowDecorations
+- --ozone-platform=wayland</p>
+<p>Fallback if VS Code fails to launch:
+- Remove ~/.config/code-flags.conf</p>
+<h2 id="obs-screen-capture">OBS screen capture<a class="headerlink" href="#obs-screen-capture" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use Screen Capture (PipeWire) sources.</li>
+<li>Remove legacy Screen Capture (XSHM) sources.</li>
+</ul>
+<p>Verify audio/video portal stack:
+- systemctl --user status pipewire pipewire-pulse</p>
+<h2 id="chrome-setup-on-nvidia">Chrome setup on NVIDIA<a class="headerlink" href="#chrome-setup-on-nvidia" title="Permanent link">&para;</a></h2>
+<p>Use ~/.config/chrome-flags.conf:
+- --enable-features=UseOzonePlatform,WaylandWindowDecorations
+- --ozone-platform=wayland</p>
+<p>Do not enable VaapiVideoDecodeLinuxGL on this host profile.
+Do not enable Vulkan-related flags with Wayland on NVIDIA.</p>
+<h2 id="zoom-notes">Zoom notes<a class="headerlink" href="#zoom-notes" title="Permanent link">&para;</a></h2>
+<p>Known behavior:
+- Zoom may black-screen on second screen share attempt in Wayland portal flow.</p>
+<p>Practical workaround:
+- Launch Zoom via XWayland:
+  - env QT_QPA_PLATFORM=xcb /usr/bin/zoom %U</p>
+<p>Desktop integration fix:
+- Use a valid full desktop entry in ~/.local/share/applications/Zoom.desktop.
+- Never create a one-line or empty override file.</p>
+<h2 id="app-validation-checklist">App validation checklist<a class="headerlink" href="#app-validation-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Firefox:</li>
+<li>sign in and validate sync restore.</li>
+<li>Thunderbird:</li>
+<li>complete account setup and send/receive check.</li>
+<li>Steam:</li>
+<li>first launch and game render test.</li>
+<li>Zoom:</li>
+<li>repeat stop/start screen share test.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -770,10 +1040,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/homelab/", "features": [], "search": "/homelab/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/homelab/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/pyrite/docs/boot-and-startup/">
       
+      
+        <link rel="prev" href="../platform-baseline/">
+      
+      
+        <link rel="next" href="../wayland-and-av/">
       
       
         
       
       
-      <link rel="icon" href="/homelab/assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>homelab docs</title>
+        <title>Boot and Startup - homelab docs</title>
       
     
     
-      <link rel="stylesheet" href="/homelab/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -44,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("/homelab/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#boot-and-startup" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -73,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/homelab/." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -93,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Boot and Startup
             
           </span>
         </div>
@@ -183,7 +194,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/homelab/." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -213,7 +224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -240,7 +251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/agents/" class="md-nav__link">
+      <a href="../../../../agents/" class="md-nav__link">
         
   
   
@@ -264,18 +275,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -296,7 +309,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -314,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -339,18 +352,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
@@ -371,7 +386,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -389,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
@@ -417,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/platform-baseline/" class="md-nav__link">
+      <a href="../platform-baseline/" class="md-nav__link">
         
   
   
@@ -442,10 +457,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/boot-and-startup/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot and Startup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -461,6 +503,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#startup-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remaining-optional-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining optional optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revert-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revert references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -473,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/wayland-and-av/" class="md-nav__link">
+      <a href="../wayland-and-av/" class="md-nav__link">
         
   
   
@@ -501,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/remote-access/" class="md-nav__link">
+      <a href="../remote-access/" class="md-nav__link">
         
   
   
@@ -529,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/troubleshooting/" class="md-nav__link">
+      <a href="../troubleshooting/" class="md-nav__link">
         
   
   
@@ -557,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/change-log/" class="md-nav__link">
+      <a href="../change-log/" class="md-nav__link">
         
   
   
@@ -585,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/TODO/" class="md-nav__link">
+      <a href="../TODO/" class="md-nav__link">
         
   
   
@@ -613,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/services/" class="md-nav__link">
+      <a href="../../services/" class="md-nav__link">
         
   
   
@@ -656,7 +762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/network/" class="md-nav__link">
+      <a href="../../../../network/" class="md-nav__link">
         
   
   
@@ -683,7 +789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/operations/" class="md-nav__link">
+      <a href="../../../../operations/" class="md-nav__link">
         
   
   
@@ -720,6 +826,60 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#startup-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Startup strategy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remaining-optional-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remaining optional optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verification checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revert-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Revert references
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -732,8 +892,96 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="boot-and-startup">Boot and startup<a class="headerlink" href="#boot-and-startup" title="Permanent link">&para;</a></h1>
+<p>Boot and login optimization log for pyrite.</p>
+<p>Outcome:
+- Baseline boot time improved from about 2m28s to about 40s to graphical target.</p>
+<h2 id="startup-strategy">Startup strategy<a class="headerlink" href="#startup-strategy" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Use socket activation for Docker:</li>
+<li>Disable eager daemon start:</li>
+<li>sudo systemctl disable docker containerd</li>
+<li>Enable docker socket:</li>
+<li>
+<p>sudo systemctl enable docker.socket</p>
+</li>
+<li>
+<p>Disable non-essential boot services:</p>
+</li>
+<li>containerd</li>
+<li>lvm2-monitor</li>
+<li>gnome-remote-desktop</li>
+<li>apport</li>
+</ol>
+<p>Command:
+- sudo systemctl disable containerd lvm2-monitor gnome-remote-desktop apport</p>
+<ol>
+<li>Reduce snap loop mounts:</li>
+<li>Migrated Firefox, Thunderbird, and Steam from snap to apt.</li>
+<li>
+<p>Kept only required snaps for livepatch.</p>
+</li>
+<li>
+<p>Fix NFS boot blocking:</p>
+</li>
+<li>Updated ark.service and big_itch.service to use network-online.target.</li>
+<li>
+<p>Added TimeoutStartSec to avoid long hangs when NAS is unavailable.</p>
+</li>
+<li>
+<p>Remove legacy tunnel services from boot path:</p>
+</li>
+<li>wg-quick@wg0 disabled and archived.</li>
+<li>dev-tunnel.service disabled.</li>
+<li>
+<p>logkeep-tunnel.service disabled.</p>
+</li>
+<li>
+<p>Warm reboot reliability:</p>
+</li>
+<li>Kernel params in /etc/default/grub:</li>
+<li>reboot=efi nvidia.NVreg_PreserveVideoMemoryAllocations=0</li>
+</ol>
+<h2 id="remaining-optional-optimization">Remaining optional optimization<a class="headerlink" href="#remaining-optional-optimization" title="Permanent link">&para;</a></h2>
+<ul>
+<li>nvidia-cdi-refresh.service can be disabled if GPU passthrough in containers is not needed.</li>
+<li>sudo systemctl disable nvidia-cdi-refresh.service</li>
+</ul>
+<h2 id="verification-checklist">Verification checklist<a class="headerlink" href="#verification-checklist" title="Permanent link">&para;</a></h2>
+<p>Boot critical chain:
+- systemd-analyze critical-chain</p>
+<p>Boot blame:
+- systemd-analyze blame</p>
+<p>Service status checks:
+- systemctl status docker.socket
+- systemctl status ark.service big_itch.service
+- systemctl status tailscaled</p>
+<h2 id="revert-references">Revert references<a class="headerlink" href="#revert-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Re-enable docker and containerd eager startup:</li>
+<li>sudo systemctl enable docker containerd</li>
+<li>sudo systemctl disable docker.socket</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -770,10 +1018,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/homelab/", "features": [], "search": "/homelab/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/homelab/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

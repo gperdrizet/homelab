@@ -10,22 +10,28 @@
       
       
       
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/pyrite/docs/platform-baseline/">
       
+      
+        <link rel="prev" href="../../">
+      
+      
+        <link rel="next" href="../boot-and-startup/">
       
       
         
       
       
-      <link rel="icon" href="/homelab/assets/images/favicon.png">
+      <link rel="icon" href="../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>homelab docs</title>
+        <title>Platform Baseline - homelab docs</title>
       
     
     
-      <link rel="stylesheet" href="/homelab/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
       
       
 
@@ -44,7 +50,7 @@
       
     
     
-    <script>__md_scope=new URL("/homelab/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -61,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#pyrite-platform-baseline" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -73,7 +84,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/homelab/." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -93,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Platform Baseline
             
           </span>
         </div>
@@ -183,7 +194,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/homelab/." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -213,7 +224,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/." class="md-nav__link">
+      <a href="../../../.." class="md-nav__link">
         
   
   
@@ -240,7 +251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/agents/" class="md-nav__link">
+      <a href="../../../../agents/" class="md-nav__link">
         
   
   
@@ -264,18 +275,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -296,7 +309,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -314,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/" class="md-nav__link">
+      <a href="../../../" class="md-nav__link">
         
   
   
@@ -339,18 +352,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
         
           
           <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
@@ -371,7 +386,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -389,7 +404,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/" class="md-nav__link">
+      <a href="../../" class="md-nav__link">
         
   
   
@@ -414,10 +429,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/platform-baseline/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Baseline
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -433,6 +475,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#current-architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current architecture decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baseline-settings-and-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline settings and verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-pyrite-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core pyrite services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-follow-ups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open follow-ups
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -445,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/boot-and-startup/" class="md-nav__link">
+      <a href="../boot-and-startup/" class="md-nav__link">
         
   
   
@@ -473,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/wayland-and-av/" class="md-nav__link">
+      <a href="../wayland-and-av/" class="md-nav__link">
         
   
   
@@ -501,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/remote-access/" class="md-nav__link">
+      <a href="../remote-access/" class="md-nav__link">
         
   
   
@@ -529,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/troubleshooting/" class="md-nav__link">
+      <a href="../troubleshooting/" class="md-nav__link">
         
   
   
@@ -557,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/change-log/" class="md-nav__link">
+      <a href="../change-log/" class="md-nav__link">
         
   
   
@@ -585,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/docs/TODO/" class="md-nav__link">
+      <a href="../TODO/" class="md-nav__link">
         
   
   
@@ -613,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/machines/pyrite/services/" class="md-nav__link">
+      <a href="../../services/" class="md-nav__link">
         
   
   
@@ -656,7 +762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/network/" class="md-nav__link">
+      <a href="../../../../network/" class="md-nav__link">
         
   
   
@@ -683,7 +789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/homelab/operations/" class="md-nav__link">
+      <a href="../../../../operations/" class="md-nav__link">
         
   
   
@@ -720,6 +826,60 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#current-architecture-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current architecture decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#baseline-settings-and-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline settings and verification
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-pyrite-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core pyrite services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-follow-ups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open follow-ups
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -732,8 +892,93 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="pyrite-platform-baseline">Pyrite platform baseline<a class="headerlink" href="#pyrite-platform-baseline" title="Permanent link">&para;</a></h1>
+<p>Canonical workstation baseline for pyrite.</p>
+<p>System profile:
+- Host: pyrite
+- OS: Ubuntu 24.04 LTS
+- Desktop: GNOME
+- Display stack: Wayland user sessions, X11 GDM greeter
+- GPU: NVIDIA (GTX 1070 and Tesla P100)
+- Tailnet IP: 100.64.0.2</p>
+<h2 id="current-architecture-decisions">Current architecture decisions<a class="headerlink" href="#current-architecture-decisions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Networking and ingress:</li>
+<li>Tailscale is the only tunnel fabric for pyrite service access.</li>
+<li>Public ingress terminates on gatekeeper; gatekeeper proxies to pyrite over tailnet.</li>
+<li>
+<p>Legacy WireGuard and autossh tunnels are retired.</p>
+</li>
+<li>
+<p>Service bind posture:</p>
+</li>
+<li>OpenVSCode Server binds to 100.64.0.2.</li>
+<li>JupyterLab binds to 100.64.0.2.</li>
+<li>
+<p>pyrite core services are consumed through gatekeeper proxying where applicable.</p>
+</li>
+<li>
+<p>Desktop session posture:</p>
+</li>
+<li>GDM greeter runs X11 for faster login handoff on NVIDIA.</li>
+<li>
+<p>User session defaults to Wayland for day-to-day desktop use.</p>
+</li>
+<li>
+<p>Performance defaults:</p>
+</li>
+<li>vm.swappiness=10</li>
+<li>kernel.numa_balancing=1</li>
+<li>GNOME Mutter check-alive-timeout=15000</li>
+</ol>
+<h2 id="baseline-settings-and-verification">Baseline settings and verification<a class="headerlink" href="#baseline-settings-and-verification" title="Permanent link">&para;</a></h2>
+<p>Kernel and scheduler tuning:
+- Config file: /etc/sysctl.d/99-perf.conf
+- Values:
+  - vm.swappiness=10
+  - kernel.numa_balancing=1</p>
+<p>Apply:
+- sudo sysctl -p /etc/sysctl.d/99-perf.conf</p>
+<p>Verify:
+- sysctl vm.swappiness kernel.numa_balancing</p>
+<p>GNOME Mutter timeout:
+- gsettings set org.gnome.mutter check-alive-timeout 15000</p>
+<p>Verify:
+- gsettings get org.gnome.mutter check-alive-timeout</p>
+<p>GDM greeter on X11 while preserving Wayland sessions:
+- Flag file: /etc/tmpfiles.d/gdm-greeter-x11.conf
+- Expected content:
+  - f /run/gdm/disable-wayland 0644 root root -</p>
+<p>Apply immediately:
+- sudo systemd-tmpfiles --create /etc/tmpfiles.d/gdm-greeter-x11.conf</p>
+<h2 id="core-pyrite-services">Core pyrite services<a class="headerlink" href="#core-pyrite-services" title="Permanent link">&para;</a></h2>
+<p>See https://github.com/gperdrizet/homelab/blob/main/machines/pyrite/services/README.md for full service inventory and external repo links.</p>
+<h2 id="open-follow-ups">Open follow-ups<a class="headerlink" href="#open-follow-ups" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Remove stale archived WireGuard artifacts and comments in gatekeeper nginx notes.</li>
+<li>Confirm Firefox sync restoration after snap to apt migration.</li>
+<li>Complete app validation matrix in wayland-and-av.md.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -770,10 +1015,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/homelab/", "features": [], "search": "/homelab/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/homelab/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

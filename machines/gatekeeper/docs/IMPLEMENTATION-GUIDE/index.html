@@ -1,0 +1,1424 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the gperdrizet homelab infrastructure">
+      
+      
+      
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>VPS Infrastructure Reorganization - Implementation Guide - homelab docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vps-infrastructure-reorganization-implementation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            homelab docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              VPS Infrastructure Reorganization - Implementation Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    homelab docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Orientation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pyrite
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pyrite
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/platform-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/boot-and-startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot and Startup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/wayland-and-av/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wayland and AV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Remote Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/change-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Change Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/docs/TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform TODO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pyrite/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-implementation-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Implementation Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-Implementation Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#confirmed-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Confirmed Details
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3c-completion-summary-april-20-2026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#docker-project-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docker Project Cleanup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Docker Project Cleanup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changes-made" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changes Made
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#databases-to-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Databases to Create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#users-to-create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Users to Create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-strings-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Strings Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revised-execution-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REVISED EXECUTION ORDER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="REVISED EXECUTION ORDER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-quick-wins-week-1-8-12-hours-ready-to-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Quick Wins (Week 1, 8-12 hours) READY TO START
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-foundation-week-2-3-14-18-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Foundation (Week 2-3, 14-18 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-migration-week-3-4-26-38-hours-revised-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-a-infrastructure-migration-no-database-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part A: Infrastructure Migration (No database dependencies)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-b-database-application-migration-requires-pyrite-databases-ready" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part B: Database &amp; Application Migration (Requires pyrite databases ready)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-polish-optional-week-5-6-6-10-hours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Polish (Optional, Week 5-6, 6-10 hours)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CURRENT STATUS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NOTES
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="vps-infrastructure-reorganization-implementation-guide">VPS Infrastructure Reorganization - Implementation Guide<a class="headerlink" href="#vps-infrastructure-reorganization-implementation-guide" title="Permanent link">&para;</a></h1>
+<p><strong>Created:</strong> April 7, 2026<br />
+<strong>Last Updated:</strong> April 20, 2026<br />
+<strong>Status:</strong> Phase 3C complete, Phase 3D (database migration) pending</p>
+<hr />
+<h2 id="pre-implementation-summary">Pre-Implementation Summary<a class="headerlink" href="#pre-implementation-summary" title="Permanent link">&para;</a></h2>
+<h3 id="confirmed-details">Confirmed Details<a class="headerlink" href="#confirmed-details" title="Permanent link">&para;</a></h3>
+<p><strong>Infrastructure:</strong>
+- VPS: gatekeeper (74.208.107.78), Ubuntu, 19 containers
+- Remote: pyrite (100.64.0.2), Ubuntu 24.04, Tailscale peer
+- Services: Dev/testing only, downtime acceptable
+- No existing backups (code on GitHub only)</p>
+<p><strong>Current State:</strong>
+- LogKeep: <code>/opt/logkeep/docker/</code> - has blue (8001), green (8002), staging (8003)
+  - DB: <code>logkeep-postgres</code> (local container) with databases: <code>logkeep</code>, <code>logkeep_staging</code>
+  - User: <code>logkeep_admin</code>
+- Bench: <code>/opt/bench/docker/</code> - single deployment (8010, under 'bench' project)
+   - DB: <code>bench-postgres</code> (local container) with database: <code>bench</code>
+  - User: <code>bench</code>
+  - No staging environment yet</p>
+<p><strong>Pyrite (100.64.0.2):</strong>
+- PostgreSQL 16 in container
+- llama.cpp as systemd service
+- postgres_exporter container running
+- Large RAID array with SSD cache
+- Always-on
+- SSH: Port 4444 (non-standard)</p>
+<p><strong>Decisions:</strong>
+- New GitHub repo: <code>vps-infrastructure</code>
+- DNS: Manual via Ionos dashboard (user will create records when ready)
+- Ionos wildcard cert: User will research details later
+- Phase 4 (Polish): Optional
+- Timeline: Natural pace, pause after Phase 1</p>
+<hr />
+<h2 id="phase-3c-completion-summary-april-20-2026">✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)<a class="headerlink" href="#phase-3c-completion-summary-april-20-2026" title="Permanent link">&para;</a></h2>
+<h3 id="docker-project-cleanup">Docker Project Cleanup<a class="headerlink" href="#docker-project-cleanup" title="Permanent link">&para;</a></h3>
+<p>The stale 'docker' compose project has been eliminated. All containers now use proper project names:</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Containers</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>bench</strong></td>
+<td>5</td>
+<td><code>/opt/bench/docker/docker-compose.prod.yml</code></td>
+</tr>
+<tr>
+<td><strong>logkeep</strong></td>
+<td>6</td>
+<td><code>/opt/logkeep/docker/docker-compose.{prod,staging}.yml</code></td>
+</tr>
+<tr>
+<td><strong>infra</strong></td>
+<td>8</td>
+<td><code>/srv/infra/docker-compose.monitoring.yml</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="changes-made">Changes Made<a class="headerlink" href="#changes-made" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Bench Project Rename</strong></li>
+<li>Moved containers from 'docker' to 'bench' project: <code>docker-bench-*</code> → explicit <code>bench-*</code> names</li>
+<li>Modified compose file to use external volume <code>docker_bench-postgres-data</code> to preserve data</li>
+<li>
+<p>All 5 containers (web, postgres, redis, celery, celery-beat) now running under 'bench' project</p>
+</li>
+<li>
+<p><strong>LogKeep Project Consolidation</strong></p>
+</li>
+<li>Moved staging container from 'docker' to 'logkeep' project</li>
+<li>Staging compose now part of unified logkeep project with production</li>
+<li>Removed 8 stale monitoring services from logkeep-docker-compose.prod.yml</li>
+<li>
+<p>Removed obsolete <code>version</code> keys from compose files</p>
+</li>
+<li>
+<p><strong>Network Cleanup</strong></p>
+</li>
+<li>Orphaned <code>docker_logkeep-network</code> removed</li>
+<li>Clean network structure: <code>bench_bench-network</code>, <code>logkeep_logkeep-network</code>, <code>monitoring-network</code></li>
+<li>
+<p>Prometheus scrapes targets on monitoring-network and logkeep_logkeep-network</p>
+</li>
+<li>
+<p><strong>Nginx &amp; Configuration Sync</strong></p>
+</li>
+<li>model.conf: Comments updated (WireGuard → Tailscale)</li>
+<li>logkeep.conf: Removed OCSP stapling block to match live</li>
+<li>
+<p>All configs synced to repo</p>
+</li>
+<li>
+<p><strong>Git Commit</strong></p>
+</li>
+<li>All changes committed: <code>f52f7ef - Sync repo with live infrastructure</code></li>
+<li>11 files updated, 277 insertions, 351 deletions</li>
+</ol>
+<hr />
+<p><strong>IMPORTANT:</strong> User will create these after Phase 3 Services 1, 3, 8 are complete (before Services 2, 5, 6, 7).</p>
+<h3 id="databases-to-create">Databases to Create<a class="headerlink" href="#databases-to-create" title="Permanent link">&para;</a></h3>
+<pre><code class="language-sql">-- LogKeep databases
+CREATE DATABASE logkeep_prod;
+CREATE DATABASE logkeep_staging;
+
+-- Bench databases
+CREATE DATABASE bench_prod;
+CREATE DATABASE bench_staging;  -- New, start empty
+</code></pre>
+<h3 id="users-to-create">Users to Create<a class="headerlink" href="#users-to-create" title="Permanent link">&para;</a></h3>
+<pre><code class="language-sql">-- LogKeep user
+CREATE USER logkeep_user WITH PASSWORD '&lt;secure_password&gt;';
+GRANT ALL PRIVILEGES ON DATABASE logkeep_prod TO logkeep_user;
+GRANT ALL PRIVILEGES ON DATABASE logkeep_staging TO logkeep_user;
+
+-- In each logkeep database, grant schema permissions:
+\c logkeep_prod
+GRANT ALL PRIVILEGES ON SCHEMA public TO logkeep_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logkeep_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO logkeep_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO logkeep_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO logkeep_user;
+
+\c logkeep_staging
+GRANT ALL PRIVILEGES ON SCHEMA public TO logkeep_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logkeep_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO logkeep_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO logkeep_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO logkeep_user;
+
+-- Bench user
+CREATE USER bench_user WITH PASSWORD '&lt;secure_password&gt;';
+GRANT ALL PRIVILEGES ON DATABASE bench_prod TO bench_user;
+GRANT ALL PRIVILEGES ON DATABASE bench_staging TO bench_user;
+
+-- In each bench database, grant schema permissions:
+\c bench_prod
+GRANT ALL PRIVILEGES ON SCHEMA public TO bench_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO bench_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bench_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO bench_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO bench_user;
+
+\c bench_staging
+GRANT ALL PRIVILEGES ON SCHEMA public TO bench_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO bench_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bench_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO bench_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO bench_user;
+</code></pre>
+<h3 id="connection-strings-format">Connection Strings Format<a class="headerlink" href="#connection-strings-format" title="Permanent link">&para;</a></h3>
+<p>After database creation, user should provide these connection strings:</p>
+<pre><code class="language-bash"># LogKeep Production
+LOGKEEP_PROD_DB=postgresql://logkeep_user:&lt;password&gt;@100.64.0.2:5432/logkeep_prod
+
+# LogKeep Staging
+LOGKEEP_STAGING_DB=postgresql://logkeep_user:&lt;password&gt;@100.64.0.2:5432/logkeep_staging
+
+# Bench Production
+BENCH_PROD_DB=postgresql://bench_user:&lt;password&gt;@100.64.0.2:5432/bench_prod
+
+# Bench Staging
+BENCH_STAGING_DB=postgresql://bench_user:&lt;password&gt;@100.64.0.2:5432/bench_staging
+</code></pre>
+<hr />
+<h2 id="revised-execution-order">REVISED EXECUTION ORDER<a class="headerlink" href="#revised-execution-order" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p><strong>SSH Key Setup for Remote Backups:</strong></p>
+<p>Remote backups to pyrite work automatically using your user's SSH keys (no sudo required).</p>
+<p><strong>Setup verification:</strong></p>
+<pre><code class="language-bash"># Test backup script (runs as your user, not root)
+/srv/backups/backup-databases.sh
+
+# Verify remote backups
+ssh pyrite &quot;ls -lh /mnt/storage/backups/vps/&quot;
+</code></pre>
+<p><strong>Note:</strong> 
+- Backup script runs as <code>siderealyear</code> user (docker group membership allows container access)
+- <code>/srv/backups</code> and <code>/var/log/vps-backup.log</code> owned by <code>siderealyear</code>
+- SSH to pyrite uses your <code>~/.ssh/config</code> settings (hostname: pyrite, port: 4444)</p>
+<p><strong>Daily Backup Schedule: Configured</strong></p>
+<p>Cron job configured in user crontab (siderealyear, not root):</p>
+<pre><code class="language-bash"># Daily backups at 2 AM
+0 2 * * * /srv/backups/backup-databases.sh
+</code></pre>
+<p>To view or edit:</p>
+<pre><code class="language-bash">crontab -l  # View current crontab
+crontab -e  # Edit crontab
+</code></pre>
+<hr />
+<h3 id="phase-1-quick-wins-week-1-8-12-hours-ready-to-start">Phase 1: Quick Wins (Week 1, 8-12 hours) READY TO START<a class="headerlink" href="#phase-1-quick-wins-week-1-8-12-hours-ready-to-start" title="Permanent link">&para;</a></h3>
+<p><strong>No changes from original plan.</strong> All tasks can proceed immediately:</p>
+<ul>
+<li>[x] 1.1 - Clean up unused Docker networks</li>
+<li>[x] 1.2 - Remove unused UFW rules</li>
+<li>[x] 1.3 - Fix logkeep-staging health check (Python urllib instead of curl)</li>
+<li>[x] 1.4 - Add SSL certificate monitoring (Blackbox Exporter on port 9115)</li>
+<li>[x] 1.5 - Add container health alerts (4 rules: unhealthy, restarting, memory, CPU)</li>
+<li>[x] 1.6 - Add disk usage alerts (verified existing rules)</li>
+<li>[x] 1.7 - Document SSH reverse tunnel (deprecated - already done)</li>
+<li>[x] 1.8 - Create initial backup script (runs as siderealyear, syncs to pyrite)</li>
+<li>[x] 1.9 - Test backup restoration (verified bench database restore)</li>
+</ul>
+<p><strong>Pause Point:</strong> Evaluate results, decide whether to continue to Phase 2.</p>
+<hr />
+<h3 id="phase-2-foundation-week-2-3-14-18-hours">Phase 2: Foundation (Week 2-3, 14-18 hours)<a class="headerlink" href="#phase-2-foundation-week-2-3-14-18-hours" title="Permanent link">&para;</a></h3>
+<p><strong>No changes from original plan:</strong></p>
+<ul>
+<li>[x] 2.1 - Create <code>vps-infrastructure</code> GitHub repository</li>
+<li>[x] 2.2 - Set up repository structure</li>
+<li>[x] 2.3 - Export current docker-compose files</li>
+<li>[ ] 2.4 - Create <code>docker-compose.core.yml</code></li>
+<li>[ ] 2.5 - Externalize secrets to <code>.env</code> template</li>
+<li>[x] 2.6 - Export nginx configs</li>
+<li>[x] 2.7 - Export Prometheus/Grafana configs</li>
+<li>[x] 2.8 - Create deployment script</li>
+<li>[x] 2.9 - Create health check script</li>
+<li>[ ] 2.10 - Create documentation generation script</li>
+<li>[x] 2.11 - Write documentation</li>
+<li>[x] 2.12 - Verify Ionos wildcard certificate (user will research)</li>
+<li>[x] 2.13 - Plan Let's Encrypt to Ionos migration (deferred)</li>
+<li>[x] 2.14 - Create <code>/srv/infra/</code> directory structure</li>
+</ul>
+<hr />
+<h3 id="phase-3-migration-week-3-4-26-38-hours-revised-order">Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER<a class="headerlink" href="#phase-3-migration-week-3-4-26-38-hours-revised-order" title="Permanent link">&para;</a></h3>
+<p><strong>CRITICAL CHANGE:</strong> Database consolidation moved to AFTER network consolidation.</p>
+<h4 id="part-a-infrastructure-migration-no-database-dependencies">Part A: Infrastructure Migration (No database dependencies)<a class="headerlink" href="#part-a-infrastructure-migration-no-database-dependencies" title="Permanent link">&para;</a></h4>
+<p><strong>Service 1: Monitoring Stack Separation (3-4 hours)</strong> ✅ COMPLETE
+- [x] 3.1 - Export Grafana dashboards
+- [x] 3.2 - Create <code>docker-compose.monitoring.yml</code> (rename containers: <code>monitoring-*</code>)
+- [x] 3.3 - Stop current <code>logkeep-*</code> monitoring containers
+- [x] 3.4 - Move volumes to <code>/srv/infra/data/monitoring/</code>
+- [x] 3.5 - Start new independent monitoring stack
+- [x] 3.6 - Validate Grafana access, check datasources
+- [x] 3.7 - Verify Prometheus scraping all targets
+- [x] 3.8 - Test alert rules and Alertmanager
+- [x] 3.9 - Confirm monitoring independence
+- <strong>Downtime:</strong> 5 min (acceptable)</p>
+<p><strong>Service 3: Public Access Strategy (1 hour)</strong> ✅ COMPLETE
+- [x] 3.19 - Update nginx TCP stream for PostgreSQL (db.perdrizet.org:54321 → 100.64.0.2:5432)
+- [x] 3.20 - Rename gpt.conf → llm.conf, update domain (llm.perdrizet.org → 100.64.0.2:8502)
+- [x] 3.21 - Add DNS A records (user action: db.perdrizet.org, llm.perdrizet.org)
+- [x] 3.22 - Test nginx config: <code>nginx -t</code>
+- [x] 3.23 - Reload nginx: <code>nginx -s reload</code>
+- [x] 3.24 - Test PostgreSQL access from external machine
+- [x] 3.25 - Test llama.cpp access: <code>curl -I https://llm.perdrizet.org</code>
+- [x] 3.26 - Update documentation
+- [x] 3.27 - Update services.md
+- [x] 3.28 - Remove unused SSH reverse tunnel (no action needed - nothing listening)
+- <strong>Downtime:</strong> &lt;1 min</p>
+<p><strong>Service 4: Headplane - SKIP</strong> Already working, user said don't touch it</p>
+<p><strong>Service 8: Network Consolidation (1 hour)</strong> ✅ COMPLETE
+- [x] 3.59 - Verify Tailscale peer identity: <code>tailscale status</code>
+- [x] 3.60 - Test PostgreSQL via Tailscale: <code>nc -zv 100.64.0.2 5432</code>
+- [x] 3.61 - Test llama.cpp via Tailscale: <code>curl -I http://100.64.0.2:8502</code>
+- [x] 3.62 - Verify nginx already using Tailscale IPs (from Service 3)
+- [x] 3.63 - Monitor for 1 hour - no connectivity issues
+- [x] 3.64 - Tear down WireGuard: <code>wg-quick down wg0; systemctl disable wg-quick@wg0</code>
+- [x] 3.65 - Remove UFW rule for port 51820
+- [x] 3.66 - Archive WireGuard config (backup)
+- [x] 3.67 - Update documentation
+- <strong>Downtime:</strong> 2-3 min</p>
+<p><strong>🛑 PAUSE POINT - User Action Required:</strong>
+1. Create databases on pyrite (see "DATABASE REQUIREMENTS" above)
+2. Create users (logkeep_user, bench_user)
+3. Provide connection strings to continue</p>
+<hr />
+<h4 id="part-b-database-application-migration-requires-pyrite-databases-ready">Part B: Database &amp; Application Migration (Requires pyrite databases ready)<a class="headerlink" href="#part-b-database-application-migration-requires-pyrite-databases-ready" title="Permanent link">&para;</a></h4>
+<p><strong>Service 2: Database Setup Verification (30 min)</strong>
+- [ ] 3.10 - Test connection to pyrite PostgreSQL: <code>psql -h 100.64.0.2 -p 5432 -U logkeep_user -d logkeep_prod</code>
+- [ ] 3.11 - Verify all 4 databases exist and users have correct permissions
+- [ ] 3.12 - Export bench database: <code>docker exec bench-postgres pg_dump -U bench bench &gt; bench-export.sql</code>
+- [ ] 3.13 - Import to pyrite: <code>psql -h 100.64.0.2 -U bench_user -d bench_prod &lt; bench-export.sql</code>
+- [ ] 3.14 - Export logkeep production: <code>docker exec logkeep-postgres pg_dump -U logkeep_admin logkeep &gt; logkeep-prod-export.sql</code>
+- [ ] 3.15 - Export logkeep staging: <code>docker exec logkeep-postgres pg_dump -U logkeep_admin logkeep_staging &gt; logkeep-staging-export.sql</code>
+- [ ] 3.16 - Import to pyrite
+- [ ] 3.17 - Test connectivity and query counts
+- [ ] 3.18 - Update <code>.env</code> with remote connection strings (user provides)</p>
+<p><strong>Service 5: Bench Stack Migration (3-4 hours)</strong>
+- [ ] 3.32 - Create <code>docker-compose.bench.yml</code> (blue, green, staging, remote DB, no local postgres)
+- [ ] 3.33 - Stop old bench containers
+- [ ] 3.34 - Start new bench stack
+- [ ] 3.35 - Validate bench-blue connects to remote DB
+- [ ] 3.36 - Create nginx vhost for bench-staging.perdrizet.org
+- [ ] 3.37 - Update bench.perdrizet.org → bench-blue (port 8012)
+- [ ] 3.38 - Validate production: https://bench.perdrizet.org
+- [ ] 3.39 - Validate staging: https://bench-staging.perdrizet.org
+- [ ] 3.40 - Test bench-green
+- [ ] 3.41 - Keep old bench-postgres container for 1 week
+- [ ] 3.42 - Document blue-green procedure
+- <strong>Downtime:</strong> 5-10 min
+- <strong>Containers eliminated:</strong> -1 (later)</p>
+<p><strong>Service 6: LogKeep Staging (1 hour)</strong>
+- [ ] 3.43 - Stop staging
+- [ ] 3.44 - Fix health check (from Phase 1)
+- [ ] 3.45 - Update compose - use remote DB
+- [ ] 3.46 - Start via new compose
+- [ ] 3.47 - Validate staging access and DB connection
+- <strong>Downtime:</strong> 2 min</p>
+<p><strong>Service 7: LogKeep Production (4-6 hours)</strong>
+- [ ] 3.48 - Update <code>docker-compose.logkeep.yml</code> (blue, green use remote DB, no local postgres)
+- [ ] 3.49 - Deploy new blue
+- [ ] 3.50 - Validate DB connection
+- [ ] 3.51 - Update nginx → new blue
+- [ ] 3.52 - Reload nginx
+- [ ] 3.53 - Validate production traffic
+- [ ] 3.54 - Stop old containers
+- [ ] 3.55 - Deploy new green
+- [ ] 3.56 - Update compose final ports
+- [ ] 3.57 - Reconfigure nginx
+- [ ] 3.58 - Keep old postgres for 1 week
+- <strong>Downtime:</strong> 0 (blue/green)
+- <strong>Containers eliminated:</strong> -1 (later)</p>
+<p><strong>Service 9: PostgreSQL Monitoring (2 hours)</strong>
+- [ ] 3.68 - Verify exporter on pyrite: <code>curl http://100.64.0.2:9187/metrics</code>
+- [ ] 3.69 - Add scrape job to Prometheus
+- [ ] 3.70 - Reload Prometheus
+- [ ] 3.71 - Validate scraping in Grafana
+- [ ] 3.72 - Create Grafana dashboard for pyrite PostgreSQL
+- [ ] 3.73 - Add alert rules
+- [ ] 3.74 - Test alerts
+- [ ] 3.75 - Document unified monitoring
+- <strong>Downtime:</strong> None</p>
+<p><strong>Post-Migration Validation (2-3 hours)</strong>
+- [ ] 3.76 - Verify all services in new locations
+- [ ] 3.77 - Run health check: <code>./scripts/health-check.sh</code>
+- [ ] 3.78 - Verify monitoring (including pyrite)
+- [ ] 3.79 - Test all public endpoints
+- [ ] 3.80 - Test bench blue-green swap
+- [ ] 3.81 - Test logkeep blue-green swap
+- [ ] 3.82 - Generate updated docs
+- [ ] 3.83 - Monitor for 24-48 hours
+- [ ] 3.84 - Verify remote PostgreSQL load handling
+- [ ] 3.85 - Remove old <code>/opt/</code> directories (wait 1 week)
+- [ ] 3.86 - Remove WireGuard backup (wait 1 week)
+- [ ] 3.87 - Remove old PostgreSQL containers and volumes (wait 1 week)</p>
+<hr />
+<h3 id="phase-4-polish-optional-week-5-6-6-10-hours">Phase 4: Polish (Optional, Week 5-6, 6-10 hours)<a class="headerlink" href="#phase-4-polish-optional-week-5-6-6-10-hours" title="Permanent link">&para;</a></h3>
+<p><strong>Deferred - can be added later if desired:</strong>
+- Ionos certificate expiry monitoring
+- Public Grafana/Headplane access
+- Tailscale peer health monitoring
+- Additional Grafana dashboards
+- Automated documentation updates
+- Disaster recovery drill
+- Performance tuning
+- Runbooks creation</p>
+<hr />
+<h2 id="current-status">CURRENT STATUS<a class="headerlink" href="#current-status" title="Permanent link">&para;</a></h2>
+<p><strong>Phases 1-2:</strong> Complete<br />
+<strong>Phase 3 Part A:</strong> Complete (Services 1, 3, 8)<br />
+<strong>Next Action:</strong> User creates databases on pyrite, then begin Phase 3 Part B</p>
+<p><strong>Critical Path:</strong>
+1. ~~Phase 1 → evaluate → Phase 2 → Phase 3 Part A~~ ✅ Done
+2. <strong>PAUSE (current):</strong> User creates pyrite databases
+3. Phase 3 Part B → completion</p>
+<p><strong>Total Estimated Time:</strong>
+- Phase 1: 8-12 hours
+- Phase 2: 14-18 hours<br />
+- Phase 3 Part A: 5-6 hours
+- <strong>USER ACTION: Database creation</strong>
+- Phase 3 Part B: 10-14 hours
+- Phase 3 Validation: 2-3 hours
+- <strong>Total: 39-53 hours</strong></p>
+<p><strong>Container Reduction:</strong> 19 → 17 containers (-2 PostgreSQL after validation period)</p>
+<hr />
+<h2 id="notes">NOTES<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>No monitoring gaps matter</strong> - services are dev/testing only</li>
+<li><strong>Downtime acceptable</strong> - not supporting real users</li>
+<li><strong>No rush</strong> - proceed at natural pace</li>
+<li><strong>Headplane</strong> - working correctly, excluded from migration</li>
+<li><strong>DNS records</strong> - user will create manually when services are ready to go public</li>
+<li><strong>Ionos cert</strong> - user researching, not blocking</li>
+<li><strong>Backups</strong> - new script will backup to pyrite</li>
+<li><strong>VPS-local PostgreSQL</strong> - keep running for 1 week after migration for safety</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": [], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

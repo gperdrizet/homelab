@@ -1,0 +1,16 @@
+# rsync exclude patterns (applied inside each selected target)
+# Examples:
+
+# Skip all logs folders at any depth
+**/logs/**
+
+# Skip app data scratch directories
+**/data/tmp/**
+
+# Skip Python cache and node modules
+**/__pycache__/**
+**/node_modules/**
+
+# Skip single files by pattern
+*.log
+*.tmp

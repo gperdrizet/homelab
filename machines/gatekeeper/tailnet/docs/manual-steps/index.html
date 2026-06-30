@@ -1,0 +1,1171 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the gperdrizet homelab infrastructure">
+      
+      
+      
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/tailnet/docs/manual-steps/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Manual setup steps - homelab docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manual-setup-steps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="homelab docs" class="md-header__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            homelab docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Manual setup steps
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="homelab docs" class="md-nav__button md-logo" aria-label="homelab docs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    homelab docs
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/gperdrizet/homelab" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    gperdrizet/homelab
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Orientation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Machines
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Machines
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pyrite
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pyrite
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/platform-baseline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform Baseline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/boot-and-startup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boot and Startup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/wayland-and-av/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Wayland and AV
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/remote-access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Remote Access
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/change-log/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Change Log
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/docs/TODO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Platform TODO
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../pyrite/services/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../operations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-add-a-dns-a-record" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Add a DNS A record
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1a-verify-nginx-and-certbot-after-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1a: Verify nginx and certbot after install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-generate-a-pre-auth-key-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Generate a pre-auth key (recommended)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-approve-a-device-node-interactive-registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Approve a device node (interactive registration)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-approve-exit-node-routes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Approve exit node routes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-configure-the-phone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure the phone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#magicdns-hostnames" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MagicDNS hostnames
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="manual-setup-steps">Manual setup steps<a class="headerlink" href="#manual-setup-steps" title="Permanent link">&para;</a></h1>
+<p>Some steps in the tailnet setup cannot be fully automated. This document covers
+each manual step in the order it appears in the setup sequence from README.md.</p>
+<h2 id="step-1-add-a-dns-a-record">Step 1: Add a DNS A record<a class="headerlink" href="#step-1-add-a-dns-a-record" title="Permanent link">&para;</a></h2>
+<p>Before installing Headscale, add a DNS A record pointing the control server
+subdomain to the VPS public IP address. This record must exist and propagate
+before certbot can issue a TLS certificate during the install.</p>
+<p>In your DNS provider, create:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Name</th>
+<th>Value</th>
+<th>TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>headscale.perdrizet.org</td>
+<td><VPS public IP></td>
+<td>300</td>
+</tr>
+</tbody>
+</table>
+<p>Verify propagation before proceeding:</p>
+<pre><code>dig headscale.perdrizet.org A +short
+</code></pre>
+<p>The command should return the VPS public IP. If it does not, wait for the TTL
+to expire and try again.</p>
+<hr />
+<h2 id="step-1a-verify-nginx-and-certbot-after-install">Step 1a: Verify nginx and certbot after install<a class="headerlink" href="#step-1a-verify-nginx-and-certbot-after-install" title="Permanent link">&para;</a></h2>
+<p>After running <code>scripts/install-headscale.sh</code>, confirm that nginx is serving
+Headscale correctly and that the TLS certificate was issued.</p>
+<p>Check that nginx is running and the headscale site is active:</p>
+<pre><code>sudo nginx -t
+sudo systemctl status nginx
+sudo ls -la /etc/nginx/sites-enabled/
+</code></pre>
+<p>Check that the Let's Encrypt certificate exists:</p>
+<pre><code>sudo certbot certificates
+</code></pre>
+<p>The output should show a certificate for <code>headscale.perdrizet.org</code> with a
+valid expiry date. Certbot installs a cron job or systemd timer to renew the
+certificate automatically.</p>
+<p>Confirm the Headscale health endpoint responds over HTTPS:</p>
+<pre><code>curl -s https://headscale.perdrizet.org/health
+</code></pre>
+<p>Expected output: <code>{"status":"pass"}</code>. If nginx returns a 502 error, Headscale
+may not be running yet. Check with:</p>
+<pre><code>sudo systemctl status headscale
+sudo journalctl -u headscale -n 30
+</code></pre>
+<hr />
+<h2 id="step-2-generate-a-pre-auth-key-recommended">Step 2: Generate a pre-auth key (recommended)<a class="headerlink" href="#step-2-generate-a-pre-auth-key-recommended" title="Permanent link">&para;</a></h2>
+<p>Pre-auth keys let devices register with Headscale without requiring a URL
+approval for each one. Generate a key on the VPS after Headscale is installed.</p>
+<p>First, get the numeric user ID (Headscale v0.28 requires IDs, not usernames):</p>
+<pre><code>sudo headscale users list
+</code></pre>
+<p>Then create a reusable key valid for 24 hours:</p>
+<pre><code>sudo headscale preauthkeys create --user &lt;id&gt; --expiration 24h --reusable
+</code></pre>
+<p>Copy the printed key. Pass it to <code>install-tailscale-client.sh</code> on each device:</p>
+<pre><code>sudo bash scripts/install-tailscale-client.sh --auth-key &lt;key&gt;
+</code></pre>
+<p>The key expires after 24 hours. Generate a new one if it expires before use.
+A reusable key can be used for multiple devices without generating a new one
+each time.
+Once a device has registered, the pre-auth key is no longer needed for that
+device.</p>
+<hr />
+<h2 id="step-3-approve-a-device-node-interactive-registration">Step 3: Approve a device node (interactive registration)<a class="headerlink" href="#step-3-approve-a-device-node-interactive-registration" title="Permanent link">&para;</a></h2>
+<p>If a device was registered without a pre-auth key, the Tailscale client prints
+a URL like:</p>
+<pre><code>https://headscale.perdrizet.org/register/nodekey:XXXX...
+</code></pre>
+<p>On the VPS, approve the node using the node key from that URL.
+First, find the numeric user ID, then register the node:</p>
+<pre><code>sudo headscale users list
+sudo headscale nodes register --user &lt;id&gt; --key nodekey:XXXX...
+</code></pre>
+<p>Verify the node was registered and is active:</p>
+<pre><code>headscale nodes list
+</code></pre>
+<p>The output should show the device with a recent "last seen" timestamp. Repeat
+for each device.</p>
+<hr />
+<h2 id="step-4-approve-exit-node-routes">Step 4: Approve exit node routes<a class="headerlink" href="#step-4-approve-exit-node-routes" title="Permanent link">&para;</a></h2>
+<p>After running <code>scripts/configure-exit-node.sh</code> on the VPS, the exit node
+advertises two routes: <code>0.0.0.0/0</code> (all IPv4 traffic) and <code>::/0</code> (all IPv6
+traffic). These must be explicitly approved before client devices can use them.</p>
+<p>In Headscale v0.28, route approval is done via <code>nodes approve-routes</code>. First
+find the node ID, then list and approve the routes:</p>
+<pre><code>sudo headscale nodes list
+sudo headscale nodes list-routes
+</code></pre>
+<p>The output will look similar to:</p>
+<pre><code>ID | Hostname   | Approved | Available | Serving (Primary)
+1  | gatekeeper |          | 0.0.0.0/0 |
+   |            |          | ::/0      |
+</code></pre>
+<p>Approve both exit node routes in a single command (replace <code>1</code> with the node
+ID shown in <code>nodes list</code> if it differs):</p>
+<pre><code>sudo headscale nodes approve-routes --identifier 1 --routes &quot;0.0.0.0/0,::/0&quot;
+</code></pre>
+<p>Confirm the routes are now approved and serving:</p>
+<pre><code>sudo headscale nodes list-routes
+</code></pre>
+<p>The "Approved" and "Serving" columns should both show <code>0.0.0.0/0</code> and <code>::/0</code>.</p>
+<p>After approval, run <code>scripts/configure-client.sh</code> on the desktop and laptop.</p>
+<hr />
+<h2 id="step-5-configure-the-phone">Step 5: Configure the phone<a class="headerlink" href="#step-5-configure-the-phone" title="Permanent link">&para;</a></h2>
+<p>The Tailscale mobile app supports custom control servers. Follow these steps:</p>
+<ol>
+<li>
+<p>Install the Tailscale app (iOS App Store or Google Play Store).</p>
+</li>
+<li>
+<p>Before logging in, open the app settings:</p>
+</li>
+<li>On iOS: tap the Tailscale logo at the top of the home screen, then
+     "Settings".</li>
+<li>
+<p>On Android: tap the three-dot menu, then "Settings".</p>
+</li>
+<li>
+<p>Find the "Control server" or "Custom control server" option and enter:
+   <code>https://headscale.perdrizet.org</code></p>
+</li>
+<li>
+<p>Tap "Log in". The app will open a browser window showing a URL like:
+   <code>https://headscale.perdrizet.org/register/nodekey:XXXX...</code></p>
+</li>
+<li>
+<p>On the VPS, approve the phone:
+   <code>sudo headscale users list
+   sudo headscale nodes register --user &lt;id&gt; --key nodekey:XXXX...</code></p>
+</li>
+<li>
+<p>The app should show the tailnet devices as peers.</p>
+</li>
+<li>
+<p>To activate the exit node, go to the exit node settings in the app and
+   select "gatekeeper" (the VPS). The phone will route all internet traffic
+   through the VPS.</p>
+</li>
+</ol>
+<hr />
+<h2 id="magicdns-hostnames">MagicDNS hostnames<a class="headerlink" href="#magicdns-hostnames" title="Permanent link">&para;</a></h2>
+<p>With MagicDNS enabled in the Headscale config, devices are reachable at
+<code>&lt;system-hostname&gt;.perdrizet.org</code> in addition to their Tailscale IP.</p>
+<p>The hostname used in MagicDNS is the system hostname of the device at the time
+of registration. Verify a device's hostname with:</p>
+<pre><code>hostname
+</code></pre>
+<p>Expected MagicDNS hostnames for this tailnet:</p>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>System hostname</th>
+<th>MagicDNS hostname</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desktop</td>
+<td>pyrite</td>
+<td>pyrite.ts.perdrizet.org</td>
+</tr>
+<tr>
+<td>Laptop</td>
+<td>laptop</td>
+<td>laptop.ts.perdrizet.org</td>
+</tr>
+<tr>
+<td>Phone</td>
+<td>phone</td>
+<td>phone.ts.perdrizet.org</td>
+</tr>
+<tr>
+<td>VPS (gatekeeper)</td>
+<td>gatekeeper</td>
+<td>gatekeeper.ts.perdrizet.org</td>
+</tr>
+</tbody>
+</table>
+<p>If a device's system hostname does not match the expected names above, update
+<code>/etc/hostname</code> and reboot before registering the device with Headscale.</p>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p><strong>Headscale does not start after install</strong></p>
+<p>Inspect the service logs:</p>
+<pre><code>sudo journalctl -u headscale -n 50
+</code></pre>
+<p>If the journal shows "No entries", run the command with <code>sudo</code> -- the
+<code>headscale</code> user's logs are only visible to root.</p>
+<p>Common causes:
+- A port is already in use. Headscale listens on <code>127.0.0.1:8090</code> (HTTP),
+  <code>127.0.0.1:9099</code> (metrics), and <code>127.0.0.1:50443</code> (gRPC). Check for
+  conflicts with:
+  <code>sudo ss -tlnp | grep ':8090\|:9099\|:50443'</code>
+  If a port is taken, edit the relevant variable in
+  <code>scripts/install-headscale.sh</code> and update <code>/etc/headscale/config.yaml</code> and
+  <code>/etc/nginx/sites-available/headscale</code> to match.
+- The config key <code>ip_prefixes</code> is invalid in Headscale v0.23+. The correct
+  key is <code>prefixes</code> with <code>v4</code>, <code>v6</code>, and <code>allocation</code> subkeys (the install
+  script handles this automatically for new installs).
+- <code>server_url cannot be part of base_domain</code>: the <code>base_domain</code> in config.yaml
+  must not overlap with the <code>server_url</code> hostname. For example, if
+  <code>server_url</code> is <code>https://headscale.perdrizet.org</code>, do not set
+  <code>base_domain: perdrizet.org</code>. Use a distinct subdomain like
+  <code>ts.perdrizet.org</code>.</p>
+<p><strong>nginx returns 502 Bad Gateway for headscale.perdrizet.org</strong></p>
+<p>This means nginx is running but cannot reach Headscale on
+<code>http://127.0.0.1:8090</code>. Check that Headscale is running:</p>
+<pre><code>sudo systemctl status headscale
+sudo journalctl -u headscale -n 20
+</code></pre>
+<p>Confirm that Headscale is actually bound to port 8090:</p>
+<pre><code>sudo ss -tlnp | grep 8090
+</code></pre>
+<p><strong>certbot fails to issue a certificate</strong></p>
+<p>Certbot uses the HTTP-01 challenge, which requires nginx to be running and
+port 80 to be reachable from the internet. Common causes:
+- The DNS A record has not propagated yet. Re-check with
+  <code>dig headscale.perdrizet.org A +short</code>.
+- Port 80 is blocked by the firewall. Verify with <code>sudo ufw status</code>.
+- Another nginx config is capturing port 80 traffic before the ACME challenge
+  path. Check <code>/etc/nginx/sites-enabled/</code> for conflicting server blocks.</p>
+<p>After resolving the cause, re-run certbot manually:</p>
+<pre><code>sudo certbot certonly --nginx -d headscale.perdrizet.org
+</code></pre>
+<p>Then reload nginx:</p>
+<pre><code>sudo systemctl reload nginx
+</code></pre>
+<p><strong>The TLS certificate for headscale.perdrizet.org has expired</strong></p>
+<p>Certbot installs a renewal timer automatically. Verify it is active:</p>
+<pre><code>sudo systemctl status certbot.timer
+</code></pre>
+<p>To renew immediately:</p>
+<pre><code>sudo certbot renew
+sudo systemctl reload nginx
+</code></pre>
+<p><strong>A device does not appear in <code>headscale nodes list</code></strong></p>
+<ul>
+<li>Confirm <code>tailscale up --login-server=...</code> completed without errors on that
+  device.</li>
+<li>If using interactive registration, check that the node key was approved on
+  the VPS.</li>
+<li>Check the Headscale logs: <code>journalctl -u headscale -n 50</code></li>
+</ul>
+<p><strong>Exit node is active but <code>curl https://ifconfig.me</code> does not return the VPS IP</strong></p>
+<ul>
+<li>Verify the exit node routes are enabled: <code>headscale routes list</code></li>
+<li>Confirm the client has the exit node set: <code>tailscale status</code></li>
+<li>Check that IP forwarding is active on the VPS: <code>sysctl net.ipv4.ip_forward</code>
+  (should return <code>1</code>).</li>
+</ul>
+<p><strong>SSH connection refused over Tailscale IP</strong></p>
+<ul>
+<li>Verify the SSH daemon is running on the target device: <code>systemctl status sshd</code></li>
+<li>Confirm the Tailscale IP is reachable: <code>ping &lt;tailscale-ip&gt;</code></li>
+<li>Check that the public key was distributed: <code>cat ~/.ssh/authorized_keys</code> on
+  the target device.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": [], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
