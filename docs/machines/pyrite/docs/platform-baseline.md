@@ -61,7 +61,7 @@ Apply immediately:
 
 ## Core pyrite services
 
-See ../services/README.md for full service inventory and external repo links.
+See https://github.com/gperdrizet/homelab/blob/main/machines/pyrite/services/README.md for full service inventory and external repo links.
 
 ## Open follow-ups
 

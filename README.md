@@ -35,14 +35,14 @@ Pushing to `main` triggers the publish workflow, which runs `mkdocs gh-deploy --
 
 | Machine    | Role                                    | Location       | Status  |
 |------------|-----------------------------------------|----------------|---------|
-| [gatekeeper](machines/gatekeeper/) | VPS: public-facing services, reverse proxy, monitoring | Ionos cloud (74.208.107.78) | Active |
-| [pyrite](machines/pyrite/)     | Desktop: primary dev and compute machine | Home office    | Active  |
-| [arkk](machines/arkk/)       | NAS: RAID storage server, NFS          | Home office    | Recovering |
+| [gatekeeper](docs/machines/gatekeeper/) | VPS: public-facing services, reverse proxy, monitoring | Ionos cloud (74.208.107.78) | Active |
+| [pyrite](docs/machines/pyrite/)     | Desktop: primary dev and compute machine | Home office    | Active  |
+| [arkk](docs/machines/arkk/)       | NAS: RAID storage server, NFS          | Home office    | Recovering |
 
 ## Core services on pyrite
 
 These are the primary services hosted on pyrite for the broader homelab stack.
-See [machines/pyrite/services/README.md](machines/pyrite/services/README.md) for full details.
+See [docs/machines/pyrite/services/README.md](docs/machines/pyrite/services/README.md) for full details.
 
 | Service | Port | Access path | Notes |
 |---------|------|-------------|-------|

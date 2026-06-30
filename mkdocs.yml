@@ -7,13 +7,13 @@ repo_url: https://github.com/gperdrizet/homelab
 theme:
   name: material
 
-docs_dir: .
+docs_dir: docs
 
 nav:
-  - Home: docs/index.md
-  - Agent Orientation: AGENTS.md
+  - Home: index.md
+  - Agent Orientation: agents.md
   - Machines:
-      - Overview: docs/machines.md
+      - Overview: machines.md
       - Pyrite:
           - Overview: machines/pyrite/README.md
           - Platform Baseline: machines/pyrite/docs/platform-baseline.md
@@ -24,8 +24,8 @@ nav:
           - Change Log: machines/pyrite/docs/change-log.md
           - Platform TODO: machines/pyrite/docs/TODO.md
           - Services: machines/pyrite/services/README.md
-  - Network: docs/network.md
-  - Operations: docs/operations.md
+  - Network: network.md
+  - Operations: operations.md
 
 markdown_extensions:
   - admonition
