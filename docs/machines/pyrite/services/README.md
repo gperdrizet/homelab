@@ -7,7 +7,7 @@ Planned additions and infrastructure follow-up tasks are tracked in
 [TODO.md](TODO.md).
 
 Platform-level workstation setup and tuning notes are tracked in
-../docs/.
+https://github.com/gperdrizet/homelab/tree/main/machines/pyrite/docs.
 
 ---
 

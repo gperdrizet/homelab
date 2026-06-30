@@ -2,20 +2,20 @@
 
 ## Overview
 
-- [gatekeeper machine docs](https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/README.md)
-- [pyrite machine docs](https://github.com/gperdrizet/homelab/blob/main/machines/pyrite/README.md)
-- [arkk machine docs](https://github.com/gperdrizet/homelab/blob/main/machines/arkk/README.md)
+- [gatekeeper machine docs](https://github.com/gperdrizet/homelab/blob/main/docs/machines/gatekeeper/README.md)
+- [pyrite machine docs](https://github.com/gperdrizet/homelab/blob/main/docs/machines/pyrite/README.md)
+- [arkk machine docs](https://github.com/gperdrizet/homelab/blob/main/docs/machines/arkk/README.md)
 
 ## Pyrite published runbooks
 
-- [Pyrite overview](../machines/pyrite/README.md)
-- [Platform baseline](../machines/pyrite/docs/platform-baseline.md)
-- [Boot and startup](../machines/pyrite/docs/boot-and-startup.md)
-- [Wayland and AV](../machines/pyrite/docs/wayland-and-av.md)
-- [Remote access](../machines/pyrite/docs/remote-access.md)
-- [Troubleshooting](../machines/pyrite/docs/troubleshooting.md)
-- [Change log](../machines/pyrite/docs/change-log.md)
-- [Platform TODO](../machines/pyrite/docs/TODO.md)
+- [Pyrite overview](machines/pyrite/README.md)
+- [Platform baseline](machines/pyrite/docs/platform-baseline.md)
+- [Boot and startup](machines/pyrite/docs/boot-and-startup.md)
+- [Wayland and AV](machines/pyrite/docs/wayland-and-av.md)
+- [Remote access](machines/pyrite/docs/remote-access.md)
+- [Troubleshooting](machines/pyrite/docs/troubleshooting.md)
+- [Change log](machines/pyrite/docs/change-log.md)
+- [Platform TODO](machines/pyrite/docs/TODO.md)
 
 ## Core services on pyrite
 
@@ -25,5 +25,5 @@
 
 ## Service details
 
-- [pyrite services](../machines/pyrite/services/README.md)
-- [pyrite service roadmap todo](../machines/pyrite/services/TODO.md)
+- [pyrite services](machines/pyrite/services/README.md)
+- [pyrite service roadmap todo](https://github.com/gperdrizet/homelab/blob/main/docs/machines/pyrite/services/TODO.md)
