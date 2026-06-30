@@ -69,3 +69,4 @@ on pyrite (or via model-gateway):
 
 - [Zed docs](https://zed.dev/docs)
 - [machines/pyrite/README.md](../README.md)
+- [machines/pyrite/docs/wayland-and-av.md](../docs/wayland-and-av.md)

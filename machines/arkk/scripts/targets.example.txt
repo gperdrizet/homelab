@@ -1,0 +1,7 @@
+# One relative path per line, from source root /mnt/arkk
+# Comments and blank lines are ignored
+
+photos
+projects/current
+backups/postgres
+shared/media/films
