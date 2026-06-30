@@ -1,63 +1,82 @@
-# homelab: Agent Instructions
+# homelab agent orientation
 
-Personal computing infrastructure for the gperdrizet homelab.
-Three machines: **gatekeeper** (VPS), **pyrite** (desktop/compute), **arkk** (NAS, recovering).
+Quick orientation for coding agents working in this repository.
 
----
+## Purpose
 
-## Repo layout
+This repo stores infrastructure docs, configs, and runbooks for a multi-machine homelab:
+- gatekeeper: public VPS and ingress plane
+- pyrite: workstation and compute plane
+- arkk: NAS and storage plane
 
-```
-machines/gatekeeper/   VPS: nginx, Docker apps, monitoring, Tailscale exit node
-machines/pyrite/       Desktop: dev, GPU compute, llama.cpp, PostgreSQL, nixx, guides/
-machines/arkk/         NAS: RAID storage, NFS (currently recovering from drive failure)
-network/               Topology, Tailscale/Headscale config, bonded LAN link docs
-secrets/               Secrets strategy (Vaultwarden) + docker-compose placeholder
-backups/               restic backup strategy and scripts
-docker-images/         Link to gperdrizet/docker-images repo
-```
+## Reusable machine documentation model
 
-Full service/port/domain inventory: [machines/gatekeeper/docs/services.md](machines/gatekeeper/docs/services.md)  
-Directory layout and container lists: [machines/gatekeeper/docs/infrastructure-layout.md](machines/gatekeeper/docs/infrastructure-layout.md)
+Each machine directory should follow this structure:
 
----
+1. README.md
+- machine identity, role, network identity, and quick links
 
-## Machines
+2. docs/
+- platform-baseline.md: canonical decisions and current posture
+- boot-and-startup.md: boot critical path and service ordering
+- wayland-and-av.md or equivalent UI/AV notes where relevant
+- remote-access.md: SSH, tunnel, and remote control model
+- troubleshooting.md: symptom to fix notes
+- change-log.md: important machine-level transitions
+- TODO.md: open platform tasks
 
-| Machine    | IP / hostname     | Tailscale IP | SSH |
-|------------|-------------------|--------------|-----|
-| gatekeeper | 74.208.107.78     | 100.64.0.1   | `ssh siderealyear@74.208.107.78 -p 44441` or `ssh gatekeeper` |
-| pyrite     | home office (LAN) | 100.64.0.2   | `ssh pyrite` (via Tailscale) |
-| arkk       | home office (LAN) | TBD          | offline, recovering |
+3. services/
+- README.md: currently hosted services and ingress model
+- TODO.md: service roadmap only (no workstation tuning tasks)
 
-User on gatekeeper: `siderealyear`
+4. guides/
+- app or tool install guides specific to that machine
 
----
+## Repository map
 
-## Key conventions
+- docs/machines/: machine-specific operational state
+- network/: topology and tailnet design
+- backups/: backup strategy and scripts
+- secrets/: secret handling strategy, templates only in git
+- docs/: MkDocs site content for published documentation
 
-- **Secrets never in git.** `.env` files are gitignored. Templates (`.env.template`) are committed. Real values live in Vaultwarden (self-hosted Bitwarden on gatekeeper).
-- **Tailscale-only staging.** Staging instances of all apps are bound to `100.64.0.1` (gatekeeper's Tailscale IP) and are not publicly accessible.
-- **nginx configs are version-controlled** in `machines/gatekeeper/configs/nginx/conf.d/`. After editing, copy to `/etc/nginx/conf.d/` on gatekeeper and run `sudo nginx -t && sudo systemctl reload nginx`.
-- **Monitoring configs** live in `machines/gatekeeper/configs/monitoring/`. After editing `prometheus.yml`, redeploy: `cd /srv/infra && docker compose -f docker-compose.monitoring.yml -p infra up -d --force-recreate prometheus`.
-- **Commit scope prefixes**: `fix:`, `feat:`, `docs:`, `chore:`; match the existing commit style.
+## Authoring conventions
 
----
+1. Single source of truth:
+- keep platform internals in machine docs/
+- keep service inventory in machine services/
 
-## Infrastructure status notes
+2. Keep secrets out of git:
+- commit .env.template files only
+- store real credentials in Vaultwarden
 
-- gatekeeper runs Docker for all app stacks. The only non-Docker services on the host are nginx, headscale (systemd), and `perdrizet-admin` (systemd, uvicorn on :8600).
-- logkeep production is currently **down** (mid-update: blue/green containers stopped).
-- BTCPay stack is **stopped** (not in active use).
-- arkk is **offline** (RAID drive replacement in progress).
-- `/opt/spark/` on gatekeeper is **decommissioned**; ignore it.
-- model-gateway serves the OpenAI-compatible LLM API. Primary public domain: `promptlyapi.com`. Legacy: `model.perdrizet.org`.
+3. Prefer tailnet private paths:
+- services should be private-by-default
+- public ingress should terminate on gatekeeper
 
----
+4. Document every operational change with:
+- decision
+- apply steps
+- verify steps
+- revert path
 
-## External repos (documented here, maintained separately)
+## Current infrastructure notes
 
-- [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp): inference server on pyrite
-- [gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server): PostgreSQL on pyrite
-- [gperdrizet/nixx](https://github.com/gperdrizet/nixx): personal assistant/memory system on pyrite
-- [gperdrizet/docker-images](https://github.com/gperdrizet/docker-images): custom Docker base images
+- gatekeeper hosts public nginx ingress and most containerized app stacks
+- pyrite hosts core compute and data services consumed via tailnet
+- arkk remains the storage target and recovery-in-progress node
+
+## Fast orientation links
+
+- Root overview: README.md
+- Gatekeeper service/domain inventory: docs/machines/gatekeeper/docs/services.md
+- Gatekeeper infra layout: docs/machines/gatekeeper/docs/infrastructure-layout.md
+- Pyrite overview: docs/machines/pyrite/README.md
+- Pyrite platform docs: docs/machines/pyrite/docs/
+
+## External repos in this ecosystem
+
+- https://github.com/gperdrizet/llama.cpp
+- https://github.com/gperdrizet/postgreSQL-server
+- https://github.com/gperdrizet/nixx
+- https://github.com/gperdrizet/docker-images
