@@ -6,12 +6,15 @@ the rest of the homelab. Each service is maintained in its own repo.
 Planned additions and infrastructure follow-up tasks are tracked in
 [TODO.md](TODO.md).
 
+Platform-level workstation setup and tuning notes are tracked in
+../docs/.
+
 ---
 
 ## llama.cpp inference server
 
 **Repo:** [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp)  
-**Port:** 8502 (Tailscale-accessible from gatekeeper)  
+**Port:** 8502 (tailnet path from gatekeeper to 100.64.0.2)  
 **Backend for:** model-gateway on gatekeeper (promptlyapi.com, model.perdrizet.org)
 
 ---
@@ -27,8 +30,16 @@ Planned additions and infrastructure follow-up tasks are tracked in
 ## nixx server
 
 **Repo:** [gperdrizet/nixx](https://github.com/gperdrizet/nixx)  
-**Port:** 8000 (Tailscale-accessible from gatekeeper)  
+**Port:** 8000 (tailnet path from gatekeeper to 100.64.0.2)  
 **Used by:** nixx.perdrizet.org reverse proxy on gatekeeper
+
+---
+
+## Access and ingress model
+
+- pyrite services are consumed privately over tailnet by gatekeeper.
+- Public TLS termination and external domain routing happen on gatekeeper nginx.
+- Legacy autossh and WireGuard tunnels are retired for pyrite service ingress.
 
 ---
 

@@ -1,60 +1,68 @@
 # pyrite
 
-Primary development and compute machine, physically located in the home office.
+Primary development and compute workstation in the home office.
 
 ---
 
-## Hardware
+## Hardware profile
 
-<!-- TODO: fill in actual specs -->
-**Form factor:** Desktop  
-**CPU:** <!-- e.g. AMD Ryzen 9 5900X -->  
-**RAM:** <!-- e.g. 64 GB DDR4 -->  
-**GPU:** <!-- e.g. NVIDIA RTX 3090 -->  
-**Storage:**
-- <!-- OS drive, e.g. 1TB NVMe SSD -->
-- <!-- Data drive(s) -->
+**Platform:** Supermicro X9SRA-3  
+**CPU:** Intel Xeon E5-2697 v2 (12-core)  
+**RAM:** 251 GB  
+**GPU:** NVIDIA GTX 1070 + Tesla P100  
+**OS:** Ubuntu 24.04 LTS
 
-**OS:** Ubuntu (LTS)  
-**Network:** 
-- LAN (gigabit Ethernet to router)
-- Direct bonded link to arkk (NFS storage)
-- Tailscale client (100.64.0.2)
+**Network:**
+- LAN connectivity in home office
+- Tailscale client: 100.64.0.2
+- NFS client to arkk storage mounts
 
 ---
 
 ## Role
 
-- Primary development machine: VS Code, Zed, Python, Docker
-- Compute: GPU workloads, AI/ML training and inference
-- Runs llama.cpp inference server (port 8502): backend for model-gateway on gatekeeper
-- Runs PostgreSQL server (port 5432): exposed via gatekeeper TCP proxy on port 54321
-- Runs nixx server (port 8000): proxied by gatekeeper at nixx.perdrizet.org
-- Reverse tunnel to gatekeeper: exposes OpenVSCode Server (47301) and JupyterLab (47302)
-- NFS client to arkk RAID array
+- Primary developer desktop (VS Code, Zed, Python, Docker)
+- GPU compute host for local AI and inference workflows
+- Host for core services consumed by gatekeeper over tailnet
+- Workstation platform for Wayland desktop and AV tooling
 
 ---
 
-## Services
+## Access model
 
-| Service | Port | Notes |
-|---------|------|-------|
-| llama.cpp | 8502 | LLM inference, Tailscale-accessible from gatekeeper |
-| PostgreSQL | 5432 | Exposed via gatekeeper TCP proxy (public port 54321) |
-| nixx | 8000 | Personal assistant/memory system proxied via nixx.perdrizet.org |
-| OpenVSCode Server | 47301 | Tunneled to gatekeeper via autossh, proxied at code.perdrizet.org |
-| JupyterLab | 47302 | Tunneled to gatekeeper via autossh, proxied at jupyter.perdrizet.org |
-| VS Code Tunnel | N/A | Outbound relay to vscode.dev/tunnel/pyrite (full marketplace + Copilot) |
-
-For a top-level summary of core pyrite-hosted services, see [../../README.md#core-services-on-pyrite](../../README.md#core-services-on-pyrite).
-
-See [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp) and
-[gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server), and
-[gperdrizet/nixx](https://github.com/gperdrizet/nixx) for those service repos.
+- Tailscale is the canonical private network path.
+- Public ingress terminates on gatekeeper, then proxies to pyrite via 100.64.0.2.
+- VS Code tunnel is available for browser-based remote editing.
 
 ---
 
-## Contents
+## Core services
 
-- [guides/](guides/): Install and setup guides for tools on this machine
-- [services/](services/): Notes on services running here
+| Service | Port | Access path | Notes |
+|---------|------|-------------|-------|
+| llama.cpp | 8502 | gatekeeper over tailnet | Backend for model-gateway |
+| PostgreSQL | 5432 | gatekeeper stream proxy (54321 public) | Remote database access |
+| nixx | 8000 | gatekeeper reverse proxy | nixx.perdrizet.org |
+| OpenVSCode Server | 47301 | gatekeeper reverse proxy over tailnet | code.perdrizet.org |
+| JupyterLab | 47302 | gatekeeper reverse proxy over tailnet | jupyter.perdrizet.org |
+| VS Code Tunnel | N/A | vscode.dev/tunnel/pyrite | Outbound remote access path |
+
+Service repo references:
+- https://github.com/gperdrizet/llama.cpp
+- https://github.com/gperdrizet/postgreSQL-server
+- https://github.com/gperdrizet/nixx
+
+---
+
+## Documentation map
+
+- [docs/platform-baseline.md](docs/platform-baseline.md): canonical workstation posture and decisions
+- [docs/boot-and-startup.md](docs/boot-and-startup.md): boot-path optimization and service ordering
+- [docs/wayland-and-av.md](docs/wayland-and-av.md): Wayland, OBS, Chrome, Zoom behavior
+- [docs/remote-access.md](docs/remote-access.md): Tailscale and VS Code tunnel operations
+- [docs/troubleshooting.md](docs/troubleshooting.md): known issues and fixes
+- [docs/change-log.md](docs/change-log.md): consolidated migration history
+- [docs/TODO.md](docs/TODO.md): remaining platform tasks
+
+- [services/](services/): pyrite service inventory and service roadmap
+- [guides/](guides/): app and tooling setup guides

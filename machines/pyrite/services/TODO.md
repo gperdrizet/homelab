@@ -2,6 +2,8 @@
 
 Focused backlog for services to host on pyrite and the shared infrastructure work needed to run them reliably.
 
+Note: workstation platform tasks (Wayland, boot, kernel tuning, tunnel operations) are tracked in ../docs/TODO.md.
+
 ## New services to add
 
 - [ ] Matrix server

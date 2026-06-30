@@ -5,7 +5,9 @@ This site is the published documentation view for the homelab repository.
 ## What lives here
 
 - Machine inventory and roles
+- Agent orientation and repository structure model
 - Core services hosted on pyrite
+- Pyrite platform runbooks (boot, Wayland, remote access, troubleshooting)
 - Network topology and tailnet notes
 - Operational runbooks for backups and secrets
 
