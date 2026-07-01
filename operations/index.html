@@ -13,8 +13,10 @@
         <link rel="canonical" href="https://gperdrizet.github.io/homelab/operations/">
       
       
-        <link rel="prev" href="../network/">
+        <link rel="prev" href="../network/tailnet/">
       
+      
+        <link rel="next" href="../backups/">
       
       
         
@@ -25,7 +27,7 @@
     
     
       
-        <title>Operations - homelab docs</title>
+        <title>Overview - homelab docs</title>
       
     
     
@@ -102,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Operations
+              Overview
             
           </span>
         </div>
@@ -716,9 +718,33 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
+    
+    
+      
         
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../network/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -732,13 +758,189 @@
   
   
 
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Network
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/lan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LAN and Bonding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/tailnet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tailnet and Headscale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
     
       
       
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../backups/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
     
@@ -760,7 +962,7 @@
   <span class="md-ellipsis">
     
   
-    Operations
+    Overview
   
 
     
@@ -778,7 +980,7 @@
   <span class="md-ellipsis">
     
   
-    Operations
+    Overview
   
 
     
@@ -826,6 +1028,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#build-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-inventory-on-gatekeeper" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -839,6 +1052,72 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secrets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Secrets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../docker-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -893,6 +1172,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#build-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-inventory-on-gatekeeper" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -926,17 +1216,21 @@
 <h1 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">&para;</a></h1>
 <h2 id="backup-and-recovery">Backup and recovery<a class="headerlink" href="#backup-and-recovery" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/gperdrizet/homelab/blob/main/backups/README.md">backups strategy</a></li>
-<li><a href="https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/backup-improvements.md">gatekeeper backup improvement notes</a></li>
+<li><a href="../backups/">backups strategy</a></li>
+<li><a href="../machines/gatekeeper/docs/backup-improvements/">gatekeeper backup improvement notes</a></li>
 </ul>
 <h2 id="secrets-handling">Secrets handling<a class="headerlink" href="#secrets-handling" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/gperdrizet/homelab/blob/main/secrets/README.md">secrets management</a></li>
+<li><a href="../secrets/">secrets management</a></li>
+</ul>
+<h2 id="build-images">Build images<a class="headerlink" href="#build-images" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../docker-images/">docker images</a></li>
 </ul>
 <h2 id="service-inventory-on-gatekeeper">Service inventory on gatekeeper<a class="headerlink" href="#service-inventory-on-gatekeeper" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/services.md">service and port inventory</a></li>
-<li><a href="https://github.com/gperdrizet/homelab/blob/main/machines/gatekeeper/docs/infrastructure-layout.md">infrastructure layout</a></li>
+<li><a href="../machines/gatekeeper/docs/services/">service and port inventory</a></li>
+<li><a href="../machines/gatekeeper/docs/infrastructure-layout/">infrastructure layout</a></li>
 </ul>
 
 
