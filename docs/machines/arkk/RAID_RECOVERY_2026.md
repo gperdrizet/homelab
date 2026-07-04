@@ -6,6 +6,24 @@
 
 ---
 
+## 2026 backup triage status (pre-resilver)
+
+Current rescue workflow for this incident:
+
+- Backup target host: pyrite
+- Temporary rescue capacity: 2.7T RAID0 on pyrite
+- Priority: copy selected high-value datasets before rebuilding parity
+
+Active working notes and copy lists are maintained in:
+
+- [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md)
+
+Use selective rsync workflow from [RAID_RECOVERY.md](RAID_RECOVERY.md) and
+`docs/machines/arkk/scripts/rsync_selected_from_arkk.sh` to prioritize transfer
+order and rerun copy passes for partials.
+
+---
+
 ## Current Situation
 
 The array is running in **degraded mode** with 4 working disks. One disk (sdd) has failed with I/O errors.

@@ -37,7 +37,7 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 
 ## Recovery Status
 
-- [ ] Replacement drive installed
+- [x] Replacement drive installed
 - [ ] RAID resilvering complete
 - [ ] Data restore complete
 - [ ] NFS shares re-exported to pyrite
@@ -75,9 +75,9 @@ Example excludes list: [scripts/excludes.example.txt](scripts/excludes.example.t
 Example:
 
 ```bash
-./machines/arkk/scripts/rsync_selected_from_arkk.sh \
-	-f ./machines/arkk/scripts/targets.example.txt \
-	-x ./machines/arkk/scripts/excludes.example.txt \
+./docs/machines/arkk/scripts/rsync_selected_from_arkk.sh \
+	-f ./docs/machines/arkk/scripts/targets.example.txt \
+	-x ./docs/machines/arkk/scripts/excludes.example.txt \
 	-d /srv/backups/arkk \
 	-s siderealyear@arkk:/mnt/arkk
 ```
@@ -91,6 +91,9 @@ See [RAID_RECOVERY.md](RAID_RECOVERY.md), especially:
 - Step 6a: stop inactive md device
 - Step 6b: assemble with `--readonly --force --run`
 - Step 6d: mount read-only for data extraction
+
+Incident backup triage notes:
+- [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md)
 
 ---
 
