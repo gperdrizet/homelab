@@ -1092,10 +1092,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#vps-infrastructure" class="md-nav__link">
+  <a href="#vps-infrastructure-consolidation-status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        VPS Infrastructure
+        VPS Infrastructure consolidation status
       
     </span>
   </a>
@@ -1103,10 +1103,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#repository-structure" class="md-nav__link">
+  <a href="#legacy-source-layout-vps-infrastructure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Repository structure
+        Legacy source layout (vps-infrastructure)
       
     </span>
   </a>
@@ -1523,9 +1523,22 @@
 <p>See <a href="docs/services/">docs/services.md</a> for full service/port/domain inventory and
 <a href="docs/infrastructure-layout/">docs/infrastructure-layout.md</a> for the directory layout.</p>
 <hr />
-<h2 id="vps-infrastructure">VPS Infrastructure<a class="headerlink" href="#vps-infrastructure" title="Permanent link">&para;</a></h2>
-<p>Infrastructure as code for VPS services, monitoring, and configuration management.</p>
-<h2 id="repository-structure">Repository structure<a class="headerlink" href="#repository-structure" title="Permanent link">&para;</a></h2>
+<h2 id="vps-infrastructure-consolidation-status">VPS Infrastructure consolidation status<a class="headerlink" href="#vps-infrastructure-consolidation-status" title="Permanent link">&para;</a></h2>
+<p>Homelab is the canonical source of truth for gatekeeper operations.</p>
+<p>The external <code>vps-infrastructure</code> repository is being folded into this repo and
+is treated as a migration source during consolidation.</p>
+<p>Primary gatekeeper assets in this repo:</p>
+<ul>
+<li>Compose and infra files: <code>docs/machines/gatekeeper/compose/</code>,
+  <code>docs/machines/gatekeeper/docker-compose.*.yml</code></li>
+<li>Configurations: <code>docs/machines/gatekeeper/configs/</code></li>
+<li>Scripts: <code>docs/machines/gatekeeper/scripts/</code></li>
+<li>Tailnet assets: <code>docs/machines/gatekeeper/tailnet/</code></li>
+<li>Operational docs: <code>docs/machines/gatekeeper/docs/</code></li>
+</ul>
+<p>Continue to update the homelab paths above first; mirror from external sources
+only while migration remains in progress.</p>
+<h2 id="legacy-source-layout-vps-infrastructure">Legacy source layout (vps-infrastructure)<a class="headerlink" href="#legacy-source-layout-vps-infrastructure" title="Permanent link">&para;</a></h2>
 <pre><code>vps-infrastructure/
 ├── compose/                                # Docker Compose files
 │   ├── logkeep-docker-compose.yml          # LogKeep base config
@@ -1603,8 +1616,8 @@ nano .env
 <li>headscale.perdrizet.org → :8090</li>
 <li>headplane.perdrizet.org → :3001</li>
 <li>grafana.perdrizet.org → :3000</li>
-<li>code.perdrizet.org → pyrite:47301 (via autossh tunnel)</li>
-<li>jupyter.perdrizet.org → pyrite:47302 (via autossh tunnel)</li>
+<li>code.perdrizet.org → pyrite:47301 (via Tailscale)</li>
+<li>jupyter.perdrizet.org → pyrite:47302 (via Tailscale)</li>
 <li>perdrizet.org → redirect to logkeep</li>
 <li>db.perdrizet.org:54321 → pyrite:5432 (TCP stream)</li>
 </ul>
@@ -1613,8 +1626,8 @@ nano .env
 <li>PostgreSQL 16 (containerized)</li>
 <li>llama.cpp (systemd service on :8502)</li>
 <li>postgres_exporter (metrics)</li>
-<li>OpenVSCode Server (systemd service on :47301, tunneled via autossh dev-tunnel.service)</li>
-<li>JupyterLab (systemd service on :47302, tunneled via autossh dev-tunnel.service)</li>
+<li>OpenVSCode Server (systemd service on :47301, proxied from gatekeeper over Tailscale)</li>
+<li>JupyterLab (systemd service on :47302, proxied from gatekeeper over Tailscale)</li>
 <li>VS Code Tunnel (systemd vscode-tunnel.service, outbound MS relay, accessible at vscode.dev/tunnel/pyrite, supports Copilot)</li>
 <li>RAID array with SSD cache</li>
 </ul>
@@ -1646,7 +1659,7 @@ ssh pyrite &quot;ls -lh /mnt/storage/backups/vps/&quot;
 <li><strong>Phase 3C: Nginx Configuration</strong> - conf.d structure, blue/green deploy via symlink, all SSL on Let's Encrypt</li>
 <li><strong>Network Consolidation</strong> - WireGuard decommissioned, all remote connectivity via Tailscale</li>
 <li><strong>Docker Project Cleanup</strong> - Proper compose project assignments (bench, logkeep, infra)</li>
-<li><strong>Remote Dev Environment</strong> - OpenVSCode Server + JupyterLab on pyrite, tunneled through VPS and served at code.perdrizet.org and jupyter.perdrizet.org; VS Code Tunnel at vscode.dev/tunnel/pyrite with full Microsoft marketplace and GitHub Copilot</li>
+<li><strong>Remote Dev Environment</strong> - OpenVSCode Server + JupyterLab on pyrite, reverse proxied by gatekeeper over Tailscale at code.perdrizet.org and jupyter.perdrizet.org; VS Code Tunnel at vscode.dev/tunnel/pyrite with full Microsoft marketplace and GitHub Copilot</li>
 </ul>
 <h3 id="next">⏳ Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h3>
 <ul>

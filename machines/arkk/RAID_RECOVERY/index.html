@@ -1577,7 +1577,17 @@ sudo mdadm --detail /dev/md0
 - <code>State : clean</code></p>
 <h3 id="step-12-persist-assembly-at-boot">Step 12: Persist Assembly at Boot<a class="headerlink" href="#step-12-persist-assembly-at-boot" title="Permanent link">&para;</a></h3>
 <pre><code class="language-bash">sudo cp /etc/mdadm/mdadm.conf /etc/mdadm/mdadm.conf.backup
-sudo mdadm --detail --scan | sudo tee /etc/mdadm/mdadm.conf
+
+# Check if md0 is already defined to avoid duplicate ARRAY lines.
+grep -E &quot;^ARRAY /dev/md0&quot; /etc/mdadm/mdadm.conf
+
+# If md0 is not present, append scan output.
+sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+
+# If md0 is already present, replace that ARRAY line manually with fresh scan output.
+# sudo mdadm --detail --scan
+# sudo editor /etc/mdadm/mdadm.conf
+
 sudo update-initramfs -u
 </code></pre>
 <hr />
@@ -1590,7 +1600,7 @@ sudo update-initramfs -u
 <li>Repeat rsync to catch partials.</li>
 </ol>
 <p>Selective-copy helper script in this repo:
-- <code>machines/arkk/scripts/rsync_selected_from_arkk.sh</code></p>
+- <code>docs/machines/arkk/scripts/rsync_selected_from_arkk.sh</code></p>
 <hr />
 <h2 id="troubleshooting-quick-reference">Troubleshooting Quick Reference<a class="headerlink" href="#troubleshooting-quick-reference" title="Permanent link">&para;</a></h2>
 <h3 id="new-disk-not-detected">New disk not detected<a class="headerlink" href="#new-disk-not-detected" title="Permanent link">&para;</a></h3>

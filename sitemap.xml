@@ -2,138 +2,142 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://gperdrizet.github.io/homelab/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/agents/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/network/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/operations/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/backups/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/docker-images/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/arkk/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/machines/arkk/BACKUP_TRIAGE_2026/</loc>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/arkk/RAID_RECOVERY/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/arkk/RAID_RECOVERY_2026/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/configs/nginx/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/backup-improvements/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/infrastructure-layout/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/phase3-summary/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/services/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/tailnet/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/tailnet/docs/manual-steps/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/TODO/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/boot-and-startup/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/change-log/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/platform-baseline/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/remote-access/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/troubleshooting/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/docs/wayland-and-av/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/guides/zed-install/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/services/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/pyrite/services/TODO/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/network/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/network/lan/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/network/tailnet/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/secrets/</loc>
-         <lastmod>2026-07-01</lastmod>
+         <lastmod>2026-07-04</lastmod>
     </url>
 </urlset>

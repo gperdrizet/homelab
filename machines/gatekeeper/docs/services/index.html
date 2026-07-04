@@ -1087,10 +1087,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001" class="md-nav__link">
+  <a href="#pyrite-service-backends-over-tailscale" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pyrite reverse tunnel endpoints (on VPS, bound to 127.0.0.1)
+        Pyrite service backends over Tailscale
       
     </span>
   </a>
@@ -1387,15 +1387,15 @@ All domains below are served over HTTPS on port 443.</p>
 </tr>
 <tr>
 <td>code.perdrizet.org</td>
-<td>http://127.0.0.1:47301</td>
+<td>http://100.64.0.2:47301</td>
 <td>Let's Encrypt (certbot)</td>
-<td>OpenVSCode Server on pyrite (via autossh tunnel); nginx basic auth</td>
+<td>OpenVSCode Server on pyrite over Tailscale; nginx basic auth</td>
 </tr>
 <tr>
 <td>jupyter.perdrizet.org</td>
-<td>http://127.0.0.1:47302</td>
+<td>http://100.64.0.2:47302</td>
 <td>Let's Encrypt (certbot)</td>
-<td>JupyterLab on pyrite (via autossh tunnel); JupyterLab built-in auth</td>
+<td>JupyterLab on pyrite over Tailscale; JupyterLab built-in auth</td>
 </tr>
 <tr>
 <td>bug-hunter.perdrizet.org</td>
@@ -1415,9 +1415,7 @@ All domains below are served over HTTPS on port 443.</p>
 /etc/nginx/nginx.conf (not in a vhost file) and provides public internet
 access to a remote PostgreSQL server at 100.64.0.2:5432 via Tailscale.</p>
 <p>The reverse proxies for code.perdrizet.org and jupyter.perdrizet.org forward
-to localhost ports that are kept open by an autossh reverse tunnel from pyrite
-(<code>dev-tunnel.service</code> on pyrite). See <code>tailnet/scripts/setup-dev-server.sh</code>
-for service definitions.</p>
+directly to pyrite over Tailscale at 100.64.0.2:47301 and 100.64.0.2:47302.</p>
 <p><code>vscode.dev/tunnel/pyrite</code> provides an alternative browser-based VS Code
 access path via the Microsoft relay service (<code>vscode-tunnel.service</code> on
 pyrite). This route supports the full Microsoft Extension Marketplace,
@@ -1429,26 +1427,23 @@ including GitHub Copilot, which is unavailable on code.perdrizet.org
 <h2 id="localhost-only-ports">Localhost-only ports<a class="headerlink" href="#localhost-only-ports" title="Permanent link">&para;</a></h2>
 <p>These ports are bound to 127.0.0.1 or a container network and are not
 directly reachable from the internet.</p>
-<h3 id="pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001">Pyrite reverse tunnel endpoints (on VPS, bound to 127.0.0.1)<a class="headerlink" href="#pyrite-reverse-tunnel-endpoints-on-vps-bound-to-127001" title="Permanent link">&para;</a></h3>
-<p>These ports are created by the autossh reverse tunnel (<code>dev-tunnel.service</code>
-running on pyrite). They are only reachable via nginx on the VPS.</p>
+<h3 id="pyrite-service-backends-over-tailscale">Pyrite service backends over Tailscale<a class="headerlink" href="#pyrite-service-backends-over-tailscale" title="Permanent link">&para;</a></h3>
+<p>The following pyrite services are reverse proxied directly by nginx over the
+tailnet and are not hosted as localhost tunnel endpoints on gatekeeper:</p>
 <table>
 <thead>
 <tr>
-<th>Port</th>
-<th>Forwards to</th>
+<th>Backend</th>
 <th>Service</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>47301</td>
-<td>pyrite:47301</td>
+<td>100.64.0.2:47301</td>
 <td>OpenVSCode Server</td>
 </tr>
 <tr>
-<td>47302</td>
-<td>pyrite:47302</td>
+<td>100.64.0.2:47302</td>
 <td>JupyterLab</td>
 </tr>
 </tbody>
@@ -1828,8 +1823,8 @@ SSH between Linux devices uses Tailscale IPs or MagicDNS hostnames (e.g., gateke
 <p>The peer at 100.64.0.2 (pyrite) hosts:
 - llama.cpp server (port 8502) - backend for model-gateway (accessed from gatekeeper over Tailscale)
 - PostgreSQL server (port 5432) - accessible via nginx TCP proxy on port 54321
-- OpenVSCode Server (port 47301) - tunneled to VPS via autossh, proxied via code.perdrizet.org
-- JupyterLab (port 47302) - tunneled to VPS via autossh, proxied via jupyter.perdrizet.org
+- OpenVSCode Server (port 47301) - proxied from gatekeeper to pyrite over Tailscale via code.perdrizet.org
+- JupyterLab (port 47302) - proxied from gatekeeper to pyrite over Tailscale via jupyter.perdrizet.org
 - VS Code Tunnel - outbound Microsoft relay connection, accessible at vscode.dev/tunnel/pyrite (full marketplace + Copilot)</p>
 <p><strong>Note:</strong> WireGuard (wg0) has been decommissioned. All remote connectivity
 now uses Tailscale.</p>

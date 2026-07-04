@@ -1053,6 +1053,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026-backup-triage-status-pre-resilver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026 backup triage status (pre-resilver)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#current-situation" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1380,6 +1391,21 @@
 <p><strong>Date</strong>: February 11, 2026<br />
 <strong>Array</strong>: /dev/md0 (RAID5, 5 disks, ~15TB usable)<br />
 <strong>Status</strong>: Degraded but operational (4/5 disks active)</p>
+<hr />
+<h2 id="2026-backup-triage-status-pre-resilver">2026 backup triage status (pre-resilver)<a class="headerlink" href="#2026-backup-triage-status-pre-resilver" title="Permanent link">&para;</a></h2>
+<p>Current rescue workflow for this incident:</p>
+<ul>
+<li>Backup target host: pyrite</li>
+<li>Temporary rescue capacity: 2.7T RAID0 on pyrite</li>
+<li>Priority: copy selected high-value datasets before rebuilding parity</li>
+</ul>
+<p>Active working notes and copy lists are maintained in:</p>
+<ul>
+<li><a href="../BACKUP_TRIAGE_2026/">BACKUP_TRIAGE_2026.md</a></li>
+</ul>
+<p>Use selective rsync workflow from <a href="../RAID_RECOVERY/">RAID_RECOVERY.md</a> and
+<code>docs/machines/arkk/scripts/rsync_selected_from_arkk.sh</code> to prioritize transfer
+order and rerun copy passes for partials.</p>
 <hr />
 <h2 id="current-situation">Current Situation<a class="headerlink" href="#current-situation" title="Permanent link">&para;</a></h2>
 <p>The array is running in <strong>degraded mode</strong> with 4 working disks. One disk (sdd) has failed with I/O errors.</p>

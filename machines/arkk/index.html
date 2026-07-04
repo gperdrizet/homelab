@@ -1365,7 +1365,7 @@
 <hr />
 <h2 id="recovery-status">Recovery Status<a class="headerlink" href="#recovery-status" title="Permanent link">&para;</a></h2>
 <ul>
-<li>[ ] Replacement drive installed</li>
+<li>[x] Replacement drive installed</li>
 <li>[ ] RAID resilvering complete</li>
 <li>[ ] Data restore complete</li>
 <li>[ ] NFS shares re-exported to pyrite</li>
@@ -1412,9 +1412,9 @@
 Example targets list: <a href="scripts/targets.example.txt">scripts/targets.example.txt</a>
 Example excludes list: <a href="scripts/excludes.example.txt">scripts/excludes.example.txt</a></p>
 <p>Example:</p>
-<pre><code class="language-bash">./machines/arkk/scripts/rsync_selected_from_arkk.sh \
-    -f ./machines/arkk/scripts/targets.example.txt \
-    -x ./machines/arkk/scripts/excludes.example.txt \
+<pre><code class="language-bash">./docs/machines/arkk/scripts/rsync_selected_from_arkk.sh \
+    -f ./docs/machines/arkk/scripts/targets.example.txt \
+    -x ./docs/machines/arkk/scripts/excludes.example.txt \
     -d /srv/backups/arkk \
     -s siderealyear@arkk:/mnt/arkk
 </code></pre>
@@ -1425,6 +1425,8 @@ like <code>logs/</code> or <code>data/tmp/</code>.</p>
 - Step 6a: stop inactive md device
 - Step 6b: assemble with <code>--readonly --force --run</code>
 - Step 6d: mount read-only for data extraction</p>
+<p>Incident backup triage notes:
+- <a href="BACKUP_TRIAGE_2026/">BACKUP_TRIAGE_2026.md</a></p>
 <hr />
 <h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
 <ul>
