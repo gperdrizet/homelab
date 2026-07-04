@@ -44,8 +44,8 @@ All domains below are served over HTTPS on port 443.
 | headscale.perdrizet.org      | http://127.0.0.1:8090      | Let's Encrypt (certbot) | Tailscale control server (Headscale)  |
 | headplane.perdrizet.org      | http://127.0.0.1:3001      | Let's Encrypt (certbot) | Headscale web UI                      |
 | grafana.perdrizet.org        | http://127.0.0.1:3000      | Let's Encrypt (certbot) | Grafana monitoring dashboard          |
-| code.perdrizet.org           | http://127.0.0.1:47301     | Let's Encrypt (certbot) | OpenVSCode Server on pyrite (via autossh tunnel); nginx basic auth |
-| jupyter.perdrizet.org        | http://127.0.0.1:47302     | Let's Encrypt (certbot) | JupyterLab on pyrite (via autossh tunnel); JupyterLab built-in auth |
+| code.perdrizet.org           | http://100.64.0.2:47301    | Let's Encrypt (certbot) | OpenVSCode Server on pyrite over Tailscale; nginx basic auth |
+| jupyter.perdrizet.org        | http://100.64.0.2:47302    | Let's Encrypt (certbot) | JupyterLab on pyrite over Tailscale; JupyterLab built-in auth |
 | bug-hunter.perdrizet.org     | http://127.0.0.1:8509      | Let's Encrypt (certbot) | Bug Hunter web app (production)       |
 | promptlyapi.com              | http://127.0.0.1:8503      | Let's Encrypt (certbot) | model-gateway primary public domain (authenticated API gateway; proxies to llama.cpp on pyrite) |
 
@@ -54,9 +54,7 @@ The nginx TCP stream proxy for port 54321 is configured directly in
 access to a remote PostgreSQL server at 100.64.0.2:5432 via Tailscale.
 
 The reverse proxies for code.perdrizet.org and jupyter.perdrizet.org forward
-to localhost ports that are kept open by an autossh reverse tunnel from pyrite
-(`dev-tunnel.service` on pyrite). See `tailnet/scripts/setup-dev-server.sh`
-for service definitions.
+directly to pyrite over Tailscale at 100.64.0.2:47301 and 100.64.0.2:47302.
 
 `vscode.dev/tunnel/pyrite` provides an alternative browser-based VS Code
 access path via the Microsoft relay service (`vscode-tunnel.service` on
@@ -75,15 +73,15 @@ Blue/green deployment for LogKeep uses a symlink at
 These ports are bound to 127.0.0.1 or a container network and are not
 directly reachable from the internet.
 
-### Pyrite reverse tunnel endpoints (on VPS, bound to 127.0.0.1)
+### Pyrite service backends over Tailscale
 
-These ports are created by the autossh reverse tunnel (`dev-tunnel.service`
-running on pyrite). They are only reachable via nginx on the VPS.
+The following pyrite services are reverse proxied directly by nginx over the
+tailnet and are not hosted as localhost tunnel endpoints on gatekeeper:
 
-| Port  | Forwards to          | Service               |
-|-------|----------------------|-----------------------|
-| 47301 | pyrite:47301         | OpenVSCode Server     |
-| 47302 | pyrite:47302         | JupyterLab            |
+| Backend               | Service               |
+|-----------------------|-----------------------|
+| 100.64.0.2:47301      | OpenVSCode Server     |
+| 100.64.0.2:47302      | JupyterLab            |
 
 **VS Code Tunnel** (`vscode-tunnel.service` on pyrite) connects outbound to
 the Microsoft relay; no VPS port is involved. Accessible at
@@ -244,8 +242,8 @@ SSH between Linux devices uses Tailscale IPs or MagicDNS hostnames (e.g., gateke
 The peer at 100.64.0.2 (pyrite) hosts:
 - llama.cpp server (port 8502) - backend for model-gateway (accessed from gatekeeper over Tailscale)
 - PostgreSQL server (port 5432) - accessible via nginx TCP proxy on port 54321
-- OpenVSCode Server (port 47301) - tunneled to VPS via autossh, proxied via code.perdrizet.org
-- JupyterLab (port 47302) - tunneled to VPS via autossh, proxied via jupyter.perdrizet.org
+- OpenVSCode Server (port 47301) - proxied from gatekeeper to pyrite over Tailscale via code.perdrizet.org
+- JupyterLab (port 47302) - proxied from gatekeeper to pyrite over Tailscale via jupyter.perdrizet.org
 - VS Code Tunnel - outbound Microsoft relay connection, accessible at vscode.dev/tunnel/pyrite (full marketplace + Copilot)
 
 **Note:** WireGuard (wg0) has been decommissioned. All remote connectivity

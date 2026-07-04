@@ -32,11 +32,26 @@ See [docs/services.md](docs/services.md) for full service/port/domain inventory 
 
 ---
 
-## VPS Infrastructure
+## VPS Infrastructure consolidation status
 
-Infrastructure as code for VPS services, monitoring, and configuration management.
+Homelab is the canonical source of truth for gatekeeper operations.
 
-## Repository structure
+The external `vps-infrastructure` repository is being folded into this repo and
+is treated as a migration source during consolidation.
+
+Primary gatekeeper assets in this repo:
+
+- Compose and infra files: `docs/machines/gatekeeper/compose/`,
+  `docs/machines/gatekeeper/docker-compose.*.yml`
+- Configurations: `docs/machines/gatekeeper/configs/`
+- Scripts: `docs/machines/gatekeeper/scripts/`
+- Tailnet assets: `docs/machines/gatekeeper/tailnet/`
+- Operational docs: `docs/machines/gatekeeper/docs/`
+
+Continue to update the homelab paths above first; mirror from external sources
+only while migration remains in progress.
+
+## Legacy source layout (vps-infrastructure)
 
 ```
 vps-infrastructure/
@@ -125,8 +140,8 @@ nano .env
   - headscale.perdrizet.org → :8090
   - headplane.perdrizet.org → :3001
   - grafana.perdrizet.org → :3000
-  - code.perdrizet.org → pyrite:47301 (via autossh tunnel)
-  - jupyter.perdrizet.org → pyrite:47302 (via autossh tunnel)
+  - code.perdrizet.org → pyrite:47301 (via Tailscale)
+  - jupyter.perdrizet.org → pyrite:47302 (via Tailscale)
   - perdrizet.org → redirect to logkeep
   - db.perdrizet.org:54321 → pyrite:5432 (TCP stream)
 
@@ -135,8 +150,8 @@ nano .env
 - PostgreSQL 16 (containerized)
 - llama.cpp (systemd service on :8502)
 - postgres_exporter (metrics)
-- OpenVSCode Server (systemd service on :47301, tunneled via autossh dev-tunnel.service)
-- JupyterLab (systemd service on :47302, tunneled via autossh dev-tunnel.service)
+- OpenVSCode Server (systemd service on :47301, proxied from gatekeeper over Tailscale)
+- JupyterLab (systemd service on :47302, proxied from gatekeeper over Tailscale)
 - VS Code Tunnel (systemd vscode-tunnel.service, outbound MS relay, accessible at vscode.dev/tunnel/pyrite, supports Copilot)
 - RAID array with SSD cache
 
@@ -173,7 +188,7 @@ ssh pyrite "ls -lh /mnt/storage/backups/vps/"
 - **Phase 3C: Nginx Configuration** - conf.d structure, blue/green deploy via symlink, all SSL on Let's Encrypt
 - **Network Consolidation** - WireGuard decommissioned, all remote connectivity via Tailscale
 - **Docker Project Cleanup** - Proper compose project assignments (bench, logkeep, infra)
-- **Remote Dev Environment** - OpenVSCode Server + JupyterLab on pyrite, tunneled through VPS and served at code.perdrizet.org and jupyter.perdrizet.org; VS Code Tunnel at vscode.dev/tunnel/pyrite with full Microsoft marketplace and GitHub Copilot
+- **Remote Dev Environment** - OpenVSCode Server + JupyterLab on pyrite, reverse proxied by gatekeeper over Tailscale at code.perdrizet.org and jupyter.perdrizet.org; VS Code Tunnel at vscode.dev/tunnel/pyrite with full Microsoft marketplace and GitHub Copilot
 
 ### ⏳ Next
 

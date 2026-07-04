@@ -7,7 +7,19 @@ Planned additions and infrastructure follow-up tasks are tracked in
 [TODO.md](TODO.md).
 
 Platform-level workstation setup and tuning notes are tracked in
-https://github.com/gperdrizet/homelab/tree/main/machines/pyrite/docs.
+https://github.com/gperdrizet/homelab/tree/main/docs/machines/pyrite/docs.
+
+## Documentation boundary
+
+- Homelab docs are the infrastructure source of truth: host placement, bind
+	addresses, ingress paths, backup expectations, dependencies, and incident
+	operations.
+- Service repos are the application source of truth: implementation details,
+	API behavior, migrations, and release/version specifics.
+
+For services that remain independent repos (including llama.cpp and
+postgreSQL-server), this page and related machine docs must always document the
+current homelab deployment path and operational dependencies.
 
 ---
 

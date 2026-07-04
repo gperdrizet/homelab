@@ -237,7 +237,17 @@ Target state:
 
 ```bash
 sudo cp /etc/mdadm/mdadm.conf /etc/mdadm/mdadm.conf.backup
-sudo mdadm --detail --scan | sudo tee /etc/mdadm/mdadm.conf
+
+# Check if md0 is already defined to avoid duplicate ARRAY lines.
+grep -E "^ARRAY /dev/md0" /etc/mdadm/mdadm.conf
+
+# If md0 is not present, append scan output.
+sudo mdadm --detail --scan | sudo tee -a /etc/mdadm/mdadm.conf
+
+# If md0 is already present, replace that ARRAY line manually with fresh scan output.
+# sudo mdadm --detail --scan
+# sudo editor /etc/mdadm/mdadm.conf
+
 sudo update-initramfs -u
 ```
 
@@ -253,7 +263,7 @@ When the array is degraded, prioritize extraction first.
 4. Repeat rsync to catch partials.
 
 Selective-copy helper script in this repo:
-- `machines/arkk/scripts/rsync_selected_from_arkk.sh`
+- `docs/machines/arkk/scripts/rsync_selected_from_arkk.sh`
 
 ---
 
