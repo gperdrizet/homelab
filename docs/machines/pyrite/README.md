@@ -66,3 +66,7 @@ Service repo references:
 
 - [services/](services/): pyrite service inventory and service roadmap
 - [guides/](guides/): app and tooling setup guides
+- [guides/obs-audio.md](guides/obs-audio.md): OBS virtual microphone, audio routing, and filter chain
+- [guides/obs-video.md](guides/obs-video.md): OBS video capture, NVENC tuning, and plugin notes
+- [guides/ml-workstation-build-plan.md](guides/ml-workstation-build-plan.md): future workstation hardware planning reference
+- [guides/google-cloud-remote-dev.md](guides/google-cloud-remote-dev.md): optional VS Code remote workflow for Google Cloud VMs

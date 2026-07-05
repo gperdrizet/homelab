@@ -1,0 +1,80 @@
+# Backup targets — one path per line, relative to source root /mnt/arkk.
+# Consumed by rsync_selected_from_arkk.sh (rsync -R preserves these paths under DEST).
+# Blank lines and lines starting with # are ignored.
+# Per-target and rpm/global exclusions live in excludes.txt.
+
+# --- Direct copy (whole directories) ---
+2023_jobsearch
+2024_jobsearch
+2025_jobsearch
+ask_agatha
+attack
+bartleby_launch_video
+Binoculars
+crypto
+disk_use.sh
+DMZ
+dynamical_systems
+ensembleset
+firecast.ai
+GCSB_MLE
+input_dropout
+LLaMA3-binoculars_score
+LMC-enrollment-forecast
+linkedin_regression
+longer-limbs
+matrix-llama_cpp_wargames
+matrix-nio
+MCP_hackathon
+meteorite
+pshitt
+resumate
+RhT_monitor
+PyPI_recovery_codes.txt
+testPyPI_recovery_codes.txt
+TTS
+user_authentication
+wargames
+DS-ML_course_materials
+ensembleswarm
+fullstack
+hf-agents-course
+hill_climber
+picam
+seedscan
+
+# --- Copy with exclusions (see excludes.txt) ---
+4geeks_repos
+alpaca.ai.v2
+bartleby
+binance.ai
+kaggle
+llm_detector
+matrix-gpt4all_chatbot
+matrix-llama_cpp_chatbot
+opensearch
+postit
+pubsum
+
+# --- rpm ---
+# Bulk copy of rpm (datasets, source, gan_output/gan_images). All
+# training_checkpoints/ dirs are excluded here (see excludes.txt) and handled
+# separately by thin_checkpoints_from_arkk.sh, which keeps a sparse ladder.
+# Split into top-level subdirs so parallel streams (-j) can copy rpm concurrently.
+rpm/avopix
+rpm/birds
+rpm/clustered_datasets
+rpm/degrees_of_freedom
+rpm/experimental
+rpm/flowers
+rpm/fruit
+rpm/hands
+rpm/image_cluster
+rpm/image_getter
+rpm/image_scaler
+rpm/median_meme
+rpm/NASA_nebulae
+rpm/NYPL
+rpm/single_image_gan
+rpm/skylines
+rpm/welcome_library

@@ -1,0 +1,107 @@
+# rsync exclude patterns for the arkk rescue backup.
+# Applied to every target by rsync_selected_from_arkk.sh via --exclude-from.
+#
+# With rsync -R and the /./ source-root pivot, anchored paths below are matched
+# relative to the source root /mnt/arkk (e.g. "alpaca.ai.v2/data").
+# Patterns without a leading path segment (e.g. "__pycache__/") match at any depth.
+
+# --- General: boilerplate / regenerable, safe to drop at any depth ---
+# NOTE: .git/ is intentionally NOT excluded — git history is preserved.
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.venv-GPU/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.ipynb_checkpoints/
+# JS / Node
+node_modules/
+# Editor / IDE
+.vscode/
+.idea/
+# OS cruft
+.DS_Store
+Thumbs.db
+# Misc temp
+*.log
+*.tmp
+
+# --- 4geeks_repos ---
+4geeks_repos/archived
+
+# --- alpaca.ai.v2 ---
+alpaca.ai.v2/data
+alpaca.ai.v2/logs
+
+# --- bartleby ---
+bartleby/bitsandbytes-0.42.0
+
+# --- binance.ai ---
+binance.ai/data
+binance.ai/logs
+
+# --- kaggle ---
+kaggle/data
+kaggle/calorie-expenditure/notebooks/ensembleset_data
+kaggle/microbusiness-density-forecast/data
+kaggle/microbusiness-density-forecast/logs
+
+# --- llm_detector ---
+llm_detector/api/models--meta-llama--Meta-Llama-3-8B
+llm_detector/api/models--meta-llama--Meta-Llama-3-8B-instruct
+llm_detector/classifier/data
+llm_detector/perplexity_ratio_score/data
+
+# --- matrix chatbots ---
+matrix-gpt4all_chatbot/models
+matrix-llama_cpp_chatbot/models_fast_scratch
+matrix-llama_cpp_chatbot/models
+
+# --- opensearch (huge PMC / wikipedia corpora) ---
+opensearch/semantic_search/nfs_raid_data/PMC000xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC001xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC002xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC003xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC004xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC005xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC006xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC007xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC008xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC009xxxxxx
+opensearch/semantic_search/nfs_raid_data/PMC010xxxxxx
+opensearch/semantic_search/nfs_raid_data/pubmed
+opensearch/semantic_search/nfs_raid_data/tarballs
+opensearch/semantic_search/nfs_raid_data/wikipedia/3.1-extraction_summary.json
+opensearch/semantic_search/nfs_raid_data/wikipedia/3.2-extracted_text.h5
+opensearch/semantic_search/nfs_raid_data/wikipedia/4.1-parse_summary.json
+opensearch/semantic_search/nfs_raid_data/wikipedia/4.2-parsed_text.h5
+opensearch/semantic_search/nfs_raid_data/wikipedia/5.1-embedding_summary.json
+opensearch/semantic_search/nfs_raid_data/wikipedia/5.2-embedded_data.h5
+opensearch/semantic_search/nfs_raid_data/wikipedia/6.1-load_summary.json
+opensearch/semantic_search/nfs_raid_data/wikipedia/enwiki-*
+
+# --- postit ---
+postit/model
+
+# --- pubsum (PMC open-access corpus + tarballs) ---
+pubsum/pubsum/PMC_OA_comm_data/PMC000xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC001xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC002xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC003xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC004xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC005xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC006xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC007xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC008xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC009xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC010xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/tarballs
+
+# --- rpm: skip ALL periodic checkpoint churn here; thinned copy is handled by
+#     thin_checkpoints_from_arkk.sh (keeps ~35 evenly-spaced + final per run) ---
+training_checkpoints/

@@ -257,13 +257,26 @@ sudo update-initramfs -u
 
 When the array is degraded, prioritize extraction first.
 
-1. Keep array read-only.
-2. Mount read-only on arkk.
-3. Pull data from backup host using rsync over SSH.
-4. Repeat rsync to catch partials.
+1. Keep the array **read-only** for the entire backup (assemble/mount `ro`).
+2. Mount the array read-only on arkk and export it to the backup host.
+3. Pull data to the backup host. Two transports are supported:
+   - **NFS over a direct link (preferred here):** mount the array on the backup
+     host over a dedicated/bonded Ethernet link and rsync from the local
+     mountpoint (no ssh overhead). This is how the 2026 incident backup runs.
+   - **rsync over SSH:** when no direct mount is available.
+4. Copy **selectively** — skip regenerable/redownloadable data and thin periodic
+   training checkpoints, so only irreplaceable data consumes rescue capacity.
+5. Re-run the copy to catch partials (rsync skips already-complete files).
+6. Verify the copy, **then** rebuild parity (never rebuild before the backup is
+   verified — a resilver runs with zero redundancy).
 
-Selective-copy helper script in this repo:
-- `docs/machines/arkk/scripts/rsync_selected_from_arkk.sh`
+Selective-copy helper scripts in this repo (`docs/machines/arkk/scripts/`):
+- `run_backup.sh` — runs both passes in order with logging and preflight checks
+- `rsync_selected_from_arkk.sh` + `targets.txt` / `excludes.txt` — bulk selective copy
+- `thin_checkpoints_from_arkk.sh` + `checkpoint_dirs.txt` — thinned checkpoint ladder
+
+For the incident-specific keep/drop plan and run procedure, see
+[BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md).
 
 ---
 
