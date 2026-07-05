@@ -1053,6 +1053,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#summary-what-is-copied-and-what-is-not" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: what is copied and what is not
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary: what is copied and what is not">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copied-kept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copied (kept)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-copied-dropped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not copied (dropped)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transfer-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Transfer method
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#arkk-contents" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1102,6 +1152,139 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#rpm-49t-12t-target" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        rpm (4.9T → ~1.2T target)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="rpm (4.9T → ~1.2T target)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checkpoint-thinning-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checkpoint thinning policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#training_checkpoints-to-thin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        training_checkpoints to THIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-whole-irreplaceable-datasets-source-generated-art" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep whole (irreplaceable — datasets, source, generated art)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#general-exclusions-rpm-wide" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        General exclusions (rpm-wide)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run procedure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Run procedure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-wire-and-mount-the-transport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Wire and mount the transport
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-make-the-rescue-target-writable-one-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Make the rescue target writable (one-time)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dry-run-first-get-the-real-size-inside-tmux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Dry run first (get the real size), inside tmux
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-real-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Real run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-verify-then-rebuild-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verify, then rebuild parity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1124,6 +1307,43 @@
 
 <h1 id="arkk-backup-triage-2026-incident">Arkk backup triage (2026 incident)<a class="headerlink" href="#arkk-backup-triage-2026-incident" title="Permanent link">&para;</a></h1>
 <p>Temporary rescue target is 2.7T RAID0 on <code>pyrite</code>. Plan is to fill it to the gills and see were we are. Good news is most of the stuff on <code>arkk</code> is code repos that are on GitHub.</p>
+<hr />
+<h2 id="summary-what-is-copied-and-what-is-not">Summary: what is copied and what is not<a class="headerlink" href="#summary-what-is-copied-and-what-is-not" title="Permanent link">&para;</a></h2>
+<p><strong>Estimated footprint:</strong> ~1.8T of the 2.7T budget (≈0.9T headroom), after
+exclusions and checkpoint thinning.</p>
+<h3 id="copied-kept">Copied (kept)<a class="headerlink" href="#copied-kept" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Whole project directories</strong> — see "Direct copy whole directories" below.</li>
+<li><strong>Project directories minus their bulk data/model dirs</strong> — see "Copy with
+  exclusion". The code, configs, and small artifacts are kept; large
+  regenerable/redownloadable data is dropped.</li>
+<li><strong><code>rpm</code> GAN projects</strong> — source, <code>image_datasets/</code>, curated <code>specimens/</code>, and
+  generated art (<code>gan_output/</code> / <code>gan_images/</code>) are kept whole. Training
+  checkpoints are <strong>thinned</strong> to ~35 evenly-spaced per run + the final one.</li>
+<li><strong>Git history is preserved</strong> (<code>.git/</code> is not excluded).</li>
+</ul>
+<h3 id="not-copied-dropped">Not copied (dropped)<a class="headerlink" href="#not-copied-dropped" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Regenerable boilerplate</strong> at any depth: <code>__pycache__</code>, <code>*.pyc/*.pyo</code>,
+  <code>.venv*</code>, <code>venv</code>, <code>.pytest_cache</code>, <code>.mypy_cache</code>, <code>.ruff_cache</code>, <code>.tox</code>,
+  <code>.ipynb_checkpoints</code>, <code>node_modules</code>, <code>.vscode</code>, <code>.idea</code>, <code>.DS_Store</code>,
+  <code>Thumbs.db</code>, <code>*.log</code>, <code>*.tmp</code>.</li>
+<li><strong>Large redownloadable/regenerable data</strong> carved out per project (examples):</li>
+<li><code>alpaca.ai.v2/data</code> (914G — the whole dataset), <code>binance.ai/data</code> (874G)</li>
+<li><code>matrix-llama_cpp_chatbot/models_fast_scratch</code> (517G), other <code>models/</code> dirs</li>
+<li><code>opensearch</code> PMC/pubmed/wikipedia corpora, <code>pubsum</code> PMC + tarballs (~434G)</li>
+<li><code>llm_detector</code> model + data dirs, <code>kaggle</code> data dirs</li>
+<li><strong>All periodic training-checkpoint churn</strong> beyond the thinned ladder
+  (~3.8T of <code>rpm</code> collapses to ~110G).</li>
+<li><strong>Top-level dirs not on either list are intentionally skipped</strong> (e.g. <code>steam</code>,
+  <code>nvidia</code>, <code>stable_diffusion</code>, <code>redis-stable</code>, OS/tool caches).</li>
+</ul>
+<h3 id="transfer-method">Transfer method<a class="headerlink" href="#transfer-method" title="Permanent link">&para;</a></h3>
+<p>Source is copied over an <strong>NFS mount on a pair of bonded gigabit Ethernet links
+wired directly between the two machines</strong> (arkk exports the read-only array;
+pyrite mounts it locally, e.g. at <code>/mnt/arkk</code>). rsync therefore runs against a
+local path — no ssh transport. See "Run procedure" at the end of this document.</p>
+<hr />
 <h2 id="arkk-contents">Arkk contents<a class="headerlink" href="#arkk-contents" title="Permanent link">&para;</a></h2>
 <p>Approximately 9.6T of 15.0T full:</p>
 <pre><code>104K    ./2023_jobsearch
@@ -1198,13 +1418,8 @@ du: cannot read directory './postgresql/16': Permission denied
 12K     ./wargames
 </code></pre>
 <h2 id="copy-targets">Copy targets:<a class="headerlink" href="#copy-targets" title="Permanent link">&para;</a></h2>
-<pre><code>564G    ./opensearch
-4.1G    ./postit
-438G    ./pubsum
-4.9T    ./rpm
-</code></pre>
 <h3 id="direct-copy-whole-directories">Direct copy whole directories<a class="headerlink" href="#direct-copy-whole-directories" title="Permanent link">&para;</a></h3>
-<p><strong>Small</strong></p>
+<p>These should be copied as complete directories (except for our general exclusions like <code>.venv</code> directories)</p>
 <pre><code>2023_jobsearch
 2024_jobsearch
 2025_jobsearch
@@ -1236,9 +1451,7 @@ testPyPI_recovery_codes.txt
 TTS
 user_authentication
 wargames
-</code></pre>
-<p><strong>Large</strong></p>
-<pre><code>DS-ML_course_materials
+DS-ML_course_materials
 ensembleswarm
 fullstack
 hf-agents-course
@@ -1257,6 +1470,8 @@ llm_detector
 matrix-gpt4all_chatbot
 matrix-llama_cpp_chatbot
 opensearch
+postit
+pubsum
 </code></pre>
 <p><strong>Exclude</strong></p>
 <pre><code>4geeks_repos/archived
@@ -1299,12 +1514,154 @@ opensearch/semantic_search/nfs_raid_data/wikipedia/6.1-load_summary.json
 opensearch/semantic_search/nfs_raid_data/wikipedia/enwiki-20240930-cirrussearch-content.json.gz
 opensearch/semantic_search/nfs_raid_data/wikipedia/enwiki-20240930-cirrussearch-content.json.gz.bak
 opensearch/semantic_search/nfs_raid_data/wikipedia/enwiki-20240930-cirrussearch-general.json.gz
+postit/model/*
+pubsum/pubsum/PMC_OA_comm_data/PMC000xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC001xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC002xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC003xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC004xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC005xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC006xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC007xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC008xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC009xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/PMC010xxxxxx
+pubsum/pubsum/PMC_OA_comm_data/tarballs/*
 </code></pre>
 <p><strong>General exclusions</strong></p>
 <pre><code>__pycache__
 .venv
 .venv-GPU
 </code></pre>
+<hr />
+<h2 id="rpm-49t-12t-target">rpm (4.9T → ~1.2T target)<a class="headerlink" href="#rpm-49t-12t-target" title="Permanent link">&para;</a></h2>
+<p><code>rpm</code> is a collection of de-novo GAN training projects. They all share the same
+layout: tiny source (<code>*.py</code>, <code>train.sh</code>, <code>functions/</code>), an irreplaceable
+<code>image_datasets/</code>, generated art in <code>gan_output/</code> (a.k.a. <code>gan_images/</code>), and a
+massive <code>training_checkpoints/</code> directory that is periodic-save churn. <strong>~3.8T of
+the 4.9T is checkpoint churn.</strong> Strategy: keep code + datasets + generated art,
+and thin the checkpoints to a sparse progression ladder.</p>
+<h3 id="checkpoint-thinning-policy">Checkpoint thinning policy<a class="headerlink" href="#checkpoint-thinning-policy" title="Permanent link">&para;</a></h3>
+<p>Applies to every <code>training_checkpoints/</code> directory below.</p>
+<ul>
+<li>Keep an <strong>evenly-spaced ladder of ~35 checkpoints</strong> across the run (enough to
+  reconstruct the training trajectory / render a progression video).</li>
+<li><strong>Always keep the final complete checkpoint</strong> (the usable trained model).</li>
+<li>If a run has ≤ 35 checkpoints already, keep them all.</li>
+<li>Keep both <code>generator_model_f*</code> and <code>discriminator_model_f*</code> where both exist.
+  Note: the <code>.h5</code> runs saved <strong>generator only</strong>; the main skylines run saved
+  generator + discriminator as SavedModel directories.</li>
+<li>Naming is uniform: <code>generator_model_f&lt;7-digit-frame&gt;</code> (either an <code>.h5</code> file or
+  a SavedModel dir). The helper script computes a per-directory stride so exactly
+  ~35 evenly-spaced checkpoints + the final one survive.</li>
+</ul>
+<h3 id="training_checkpoints-to-thin">training_checkpoints to THIN<a class="headerlink" href="#training_checkpoints-to-thin" title="Permanent link">&para;</a></h3>
+<pre><code>3.2T  skylines/skylines/skylines/data/2024-02-17/training_checkpoints   (SavedModel dirs, gen+disc)
+185G  NASA_nebulae/NASA_training/training_checkpoints
+119G  birds/birds.3/training_checkpoints
+104G  skylines/skylines.2/training_checkpoints
+100G  birds/birds.4/training_checkpoints
+31G   skylines/skylines.1/training_checkpoints
+21G   flowers/flowraxx.1/1024x1024.2/training_checkpoints
+1.6G  median_meme/32x32_latent_dim_1000/training_checkpoints
+929M  median_meme/64x64_latent_dim_100/training_checkpoints
+896M  single_image_gan/training_checkpoints
+841M  median_meme/128x128_latent_dim_100/training_checkpoints
+563M  median_meme/32x32_latent_dim_100/training_checkpoints
+174M  median_meme/example_notebooks/training_checkpoints
+</code></pre>
+<p>Expected post-thin footprint: ~35 checkpoints per run ≈ <strong>~100–130G total</strong>
+(down from ~3.8T).</p>
+<h3 id="keep-whole-irreplaceable-datasets-source-generated-art">Keep whole (irreplaceable — datasets, source, generated art)<a class="headerlink" href="#keep-whole-irreplaceable-datasets-source-generated-art" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All <code>image_datasets/</code>, <code>specimens/</code>, <code>*_dataset/</code>, <code>orignal_dataset/</code></li>
+<li>All <code>gan_output/</code> and <code>gan_images/</code> (generated art — the actual product)</li>
+<li>Large ones to be aware of: <code>flowers/flowraxx.1/1024x1024.2/gan_images</code> 178G,
+    <code>skylines/skylines.1/gan_output</code> 91G, <code>NASA_nebulae/NASA_training/gan_output</code>
+    89G, <code>skylines/skylines.2/gan_output</code> 28G, skylines main <code>gan_output</code> 26G.
+    If space runs short, these are the next thinning candidates after checkpoints.</li>
+<li>All source: <code>*.py</code>, <code>*.sh</code>, <code>*.md</code>, <code>functions/</code>, <code>README</code>, <code>LICENSE</code>, notes</li>
+<li><code>clustered_datasets/*</code> (assembled feature sets — 141G, keep)</li>
+<li>Training/preview videos: <code>training-*.mp4</code>, <code>NASA_training/*.mp4</code>, etc.</li>
+<li>Small subprojects whole (minus general exclusions): <code>fruit</code>, <code>hands</code>, <code>avopix</code>,
+  <code>image_getter</code>, <code>image_cluster</code>, <code>image_scaler</code>, <code>degrees_of_freedom</code>,
+  <code>single_image_gan</code> (source + output), <code>welcome_library</code>, <code>experimental</code></li>
+</ul>
+<h3 id="general-exclusions-rpm-wide">General exclusions (rpm-wide)<a class="headerlink" href="#general-exclusions-rpm-wide" title="Permanent link">&para;</a></h3>
+<pre><code>__pycache__
+.venv
+.venv-GPU
+*/training_checkpoints  (except the ~35 kept per policy above)
+</code></pre>
+<p>Note: <code>.git</code> is <strong>not</strong> excluded — git history is preserved. The full
+boilerplate exclusion list (editor/IDE, node_modules, Python caches, OS cruft)
+lives in <code>scripts/excludes.txt</code>.</p>
+<hr />
+<h2 id="run-procedure">Run procedure<a class="headerlink" href="#run-procedure" title="Permanent link">&para;</a></h2>
+<p>Helper scripts live in <code>scripts/</code> next to this document:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>targets.txt</code></td>
+<td>Top-level paths to copy (relative to source root)</td>
+</tr>
+<tr>
+<td><code>excludes.txt</code></td>
+<td>Per-project + boilerplate rsync excludes</td>
+</tr>
+<tr>
+<td><code>checkpoint_dirs.txt</code></td>
+<td><code>training_checkpoints</code> dirs to thin</td>
+</tr>
+<tr>
+<td><code>rsync_selected_from_arkk.sh</code></td>
+<td>Bulk selective copy (rsync <code>-R</code>, applies excludes)</td>
+</tr>
+<tr>
+<td><code>thin_checkpoints_from_arkk.sh</code></td>
+<td>Copies the thinned checkpoint ladder</td>
+</tr>
+<tr>
+<td><code>run_backup.sh</code></td>
+<td>Runs both passes in order, with logging + preflight</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-wire-and-mount-the-transport">1. Wire and mount the transport<a class="headerlink" href="#1-wire-and-mount-the-transport" title="Permanent link">&para;</a></h3>
+<p>Connect the bonded direct GbE link, then NFS-mount the read-only arkk array on
+pyrite (arkk exports it; pyrite mounts it locally, e.g. <code>/mnt/arkk</code>):</p>
+<pre><code class="language-bash">sudo mount -t nfs4 -o ro,hard,noatime,nosuid,nodev,noexec \
+  192.168.2.1:/mnt/arkk /mnt/arkk
+findmnt /mnt/arkk        # confirm it is mounted and non-empty
+</code></pre>
+<h3 id="2-make-the-rescue-target-writable-one-time">2. Make the rescue target writable (one-time)<a class="headerlink" href="#2-make-the-rescue-target-writable-one-time" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">sudo chown &quot;$USER&quot; /mnt/glass
+</code></pre>
+<h3 id="3-dry-run-first-get-the-real-size-inside-tmux">3. Dry run first (get the real size), inside tmux<a class="headerlink" href="#3-dry-run-first-get-the-real-size-inside-tmux" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">tmux new -s backup
+cd ~/homelab/docs/machines/arkk/scripts
+./run_backup.sh -s /mnt/arkk -d /mnt/glass/arkk -n   # rsync --stats reports totals
+</code></pre>
+<h3 id="4-real-run">4. Real run<a class="headerlink" href="#4-real-run" title="Permanent link">&para;</a></h3>
+<pre><code class="language-bash">./run_backup.sh -s /mnt/arkk -d /mnt/glass/arkk
+</code></pre>
+<p>The bulk pass runs <strong>parallel rsync streams</strong> (default 4, <code>-j N</code> to change) — one
+per top-level target — which avoids the single-TCP-stream ceiling on the bonded
+link. <code>rpm</code> is split into its 17 subdirectories in <code>targets.txt</code> so it
+parallelizes too. Tune with e.g. <code>-j 6</code> if the link/disks have headroom.</p>
+<p>Re-run the same command to catch partials (rsync skips already-complete files).
+Logs are written to <code>/mnt/glass/arkk/_backup_logs/</code>.</p>
+<h3 id="5-verify-then-rebuild-parity">5. Verify, then rebuild parity<a class="headerlink" href="#5-verify-then-rebuild-parity" title="Permanent link">&para;</a></h3>
+<p>Spot-check the irreplaceable <code>rpm</code> datasets (sizes/counts). Only <strong>after</strong> the
+backup is verified, re-add the spare and rebuild the degraded array — see
+<a href="../RAID_RECOVERY_2026/">RAID_RECOVERY_2026.md</a>. Keep the array read-only until
+the backup is done.</p>
 
 
 

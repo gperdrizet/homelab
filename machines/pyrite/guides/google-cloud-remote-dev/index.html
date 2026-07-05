@@ -10,13 +10,9 @@
       
       
       
-        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/pyrite/docs/TODO/">
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/pyrite/guides/google-cloud-remote-dev/">
       
       
-        <link rel="prev" href="../change-log/">
-      
-      
-        <link rel="next" href="../../services/">
       
       
         
@@ -27,7 +23,7 @@
     
     
       
-        <title>Platform TODO - homelab docs</title>
+        <title>VS Code and Google Cloud Remote Development - homelab docs</title>
       
     
     
@@ -68,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pyrite-platform-todo" class="md-skip">
+        <a href="#vs-code-and-google-cloud-remote-development" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Platform TODO
+              VS Code and Google Cloud Remote Development
             
           </span>
         </div>
@@ -275,8 +271,6 @@
       
   
   
-    
-  
   
   
     
@@ -296,11 +290,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -328,7 +322,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -373,8 +367,6 @@
                 
   
   
-    
-  
   
   
     
@@ -404,11 +396,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -436,7 +428,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -456,7 +448,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform-baseline/" class="md-nav__link">
+      <a href="../../docs/platform-baseline/" class="md-nav__link">
         
   
   
@@ -484,7 +476,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../boot-and-startup/" class="md-nav__link">
+      <a href="../../docs/boot-and-startup/" class="md-nav__link">
         
   
   
@@ -512,7 +504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../wayland-and-av/" class="md-nav__link">
+      <a href="../../docs/wayland-and-av/" class="md-nav__link">
         
   
   
@@ -540,7 +532,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../remote-access/" class="md-nav__link">
+      <a href="../../docs/remote-access/" class="md-nav__link">
         
   
   
@@ -568,7 +560,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
+      <a href="../../docs/troubleshooting/" class="md-nav__link">
         
   
   
@@ -596,7 +588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../change-log/" class="md-nav__link">
+      <a href="../../docs/change-log/" class="md-nav__link">
         
   
   
@@ -621,37 +613,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Platform TODO
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../docs/TODO/" class="md-nav__link">
         
   
   
@@ -667,81 +632,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#wayland-app-verification" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Wayland app verification
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#networking-and-cleanup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Networking and cleanup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardware-and-observability" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hardware and observability
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#startup-optimization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Startup optimization
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardware-wishlist" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hardware wishlist
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1163,10 +1053,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#wayland-app-verification" class="md-nav__link">
+  <a href="#scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Wayland app verification
+        Scope
       
     </span>
   </a>
@@ -1174,10 +1064,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#networking-and-cleanup" class="md-nav__link">
+  <a href="#1-google-cloud-cli" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Networking and cleanup
+        1. Google Cloud CLI
       
     </span>
   </a>
@@ -1185,10 +1075,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardware-and-observability" class="md-nav__link">
+  <a href="#2-ssh-access-to-compute-engine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hardware and observability
+        2. SSH access to Compute Engine
       
     </span>
   </a>
@@ -1196,10 +1086,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#startup-optimization" class="md-nav__link">
+  <a href="#3-vs-code-remote-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Startup optimization
+        3. VS Code remote workflow
       
     </span>
   </a>
@@ -1207,10 +1097,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardware-wishlist" class="md-nav__link">
+  <a href="#4-optional-vm-lifecycle-commands" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hardware wishlist
+        4. Optional VM lifecycle commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-environment-bootstrap-on-vm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Environment bootstrap on VM
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-operational-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Operational notes
       
     </span>
   </a>
@@ -1237,33 +1149,62 @@
   
 
 
-<h1 id="pyrite-platform-todo">Pyrite platform TODO<a class="headerlink" href="#pyrite-platform-todo" title="Permanent link">&para;</a></h1>
-<p>Open platform-level tasks after consolidation.</p>
-<h2 id="wayland-app-verification">Wayland app verification<a class="headerlink" href="#wayland-app-verification" title="Permanent link">&para;</a></h2>
+<h1 id="vs-code-and-google-cloud-remote-development">VS Code and Google Cloud Remote Development<a class="headerlink" href="#vs-code-and-google-cloud-remote-development" title="Permanent link">&para;</a></h1>
+<p>Reference workflow for using VS Code remote SSH development against a Google
+Cloud Compute Engine VM from pyrite.</p>
+<h2 id="scope">Scope<a class="headerlink" href="#scope" title="Permanent link">&para;</a></h2>
+<p>This guide is for optional cloud development workflows. It is not required for
+homelab core operations.</p>
+<h2 id="1-google-cloud-cli">1. Google Cloud CLI<a class="headerlink" href="#1-google-cloud-cli" title="Permanent link">&para;</a></h2>
+<p>Install dependencies:</p>
+<pre><code class="language-bash">sudo apt install apt-transport-https ca-certificates gnupg curl
+</code></pre>
+<p>Add Google Cloud apt key and repository:</p>
+<pre><code class="language-bash">curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+
+echo &quot;deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main&quot; | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+</code></pre>
+<p>Install CLI:</p>
+<pre><code class="language-bash">sudo apt update
+sudo apt install google-cloud-cli
+</code></pre>
+<p>Initialize:</p>
+<pre><code class="language-bash">gcloud init
+gcloud auth login
+</code></pre>
+<h2 id="2-ssh-access-to-compute-engine">2. SSH access to Compute Engine<a class="headerlink" href="#2-ssh-access-to-compute-engine" title="Permanent link">&para;</a></h2>
+<p>Connect once with gcloud:</p>
+<pre><code class="language-bash">gcloud compute ssh --zone &quot;us-central1-c&quot; &quot;vostok&quot; --project &quot;ask-agatha&quot;
+</code></pre>
+<p>Generate SSH config entries:</p>
+<pre><code class="language-bash">gcloud compute config-ssh
+</code></pre>
+<p>Then connect directly:</p>
+<pre><code class="language-bash">ssh vostok.us-central1-c.ask-agatha
+</code></pre>
+<h2 id="3-vs-code-remote-workflow">3. VS Code remote workflow<a class="headerlink" href="#3-vs-code-remote-workflow" title="Permanent link">&para;</a></h2>
 <ul>
-<li>[ ] Firefox: confirm account sync restored after migration.</li>
-<li>[ ] Thunderbird: finish account setup and connectivity test.</li>
-<li>[ ] Steam: complete first-run validation and render test.</li>
-<li>[ ] Zoom: verify repeated stop/start share stability in current launch mode.</li>
+<li>Open VS Code.</li>
+<li>Use Remote Explorer -&gt; Remotes (Tunnels/SSH).</li>
+<li>Connect to the generated host from <code>~/.ssh/config</code>.</li>
+<li>Open project folder on the remote VM.</li>
 </ul>
-<h2 id="networking-and-cleanup">Networking and cleanup<a class="headerlink" href="#networking-and-cleanup" title="Permanent link">&para;</a></h2>
+<h2 id="4-optional-vm-lifecycle-commands">4. Optional VM lifecycle commands<a class="headerlink" href="#4-optional-vm-lifecycle-commands" title="Permanent link">&para;</a></h2>
+<pre><code class="language-bash">gcloud compute instances start &quot;vostok&quot; --zone=&quot;us-central1-c&quot;
+gcloud compute instances stop &quot;vostok&quot; --zone=&quot;us-central1-c&quot;
+</code></pre>
+<h2 id="5-environment-bootstrap-on-vm">5. Environment bootstrap on VM<a class="headerlink" href="#5-environment-bootstrap-on-vm" title="Permanent link">&para;</a></h2>
+<p>Typical baseline setup:</p>
+<pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt upgrade
+sudo apt install git
+</code></pre>
+<p>Docker Engine can be installed from Docker's apt repository if needed for the
+project workload.</p>
+<h2 id="6-operational-notes">6. Operational notes<a class="headerlink" href="#6-operational-notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li>[ ] Remove stale archived WireGuard config notes where no longer needed.</li>
-<li>[ ] Remove stale gatekeeper nginx comment referring to WireGuard tunnel path.</li>
-<li>[ ] Remove one-off helper scripts no longer used after tailnet migration.</li>
-</ul>
-<h2 id="hardware-and-observability">Hardware and observability<a class="headerlink" href="#hardware-and-observability" title="Permanent link">&para;</a></h2>
-<ul>
-<li>[ ] Install rasdaemon and enable persistent MCE capture.</li>
-<li>[ ] Check Supermicro X9SRA-3 BIOS updates and compatibility notes.</li>
-</ul>
-<h2 id="startup-optimization">Startup optimization<a class="headerlink" href="#startup-optimization" title="Permanent link">&para;</a></h2>
-<ul>
-<li>[ ] Decide on nvidia-cdi-refresh.service disablement based on current container GPU passthrough needs.</li>
-</ul>
-<h2 id="hardware-wishlist">Hardware wishlist<a class="headerlink" href="#hardware-wishlist" title="Permanent link">&para;</a></h2>
-<ul>
-<li>[ ] Evaluate Bluetooth adapter upgrade for dual A2DP reliability (prefer Linux-friendly chipset and USB 2.0 placement).</li>
+<li>Stop cloud instances when idle to control cost.</li>
+<li>Treat VM-local files as ephemeral unless committed/pushed elsewhere.</li>
+<li>Keep secrets and keys out of project repositories.</li>
 </ul>
 
 

@@ -1282,11 +1282,31 @@ current homelab deployment path and operational dependencies.</p>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/llama.cpp">gperdrizet/llama.cpp</a><br />
 <strong>Port:</strong> 8502 (tailnet path from gatekeeper to 100.64.0.2)<br />
 <strong>Backend for:</strong> model-gateway on gatekeeper (promptlyapi.com, model.perdrizet.org)</p>
+<p>Operational references for homelab:
+- Service health endpoint: <code>http://100.64.0.2:8502/health</code>
+- systemd unit: <code>llamacpp.service</code>
+- Service deployment source: <code>utils/llamacpp.service</code> and <code>utils/deploy_service.sh</code> in the llama.cpp repo
+- Logs: <code>journalctl -u llamacpp.service -f</code></p>
+<p>Operational boundary in homelab:
+- Public access is mediated by gatekeeper/model-gateway, not direct public exposure on pyrite.
+- Route and domain posture are documented in
+    <code>docs/machines/gatekeeper/docs/services.md</code>.</p>
 <hr />
 <h2 id="postgresql-server">PostgreSQL server<a class="headerlink" href="#postgresql-server" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a><br />
 <strong>Port:</strong> 5432 (local) → 54321 (public via gatekeeper TCP stream proxy)<br />
 <strong>Used by:</strong> external clients connecting to pyrite's database over the internet</p>
+<p>Operational references for homelab:
+- Local database listener on pyrite: <code>5432</code>
+- Public entrypoint via gatekeeper nginx stream proxy: <code>:54321</code>
+- Compose source: <code>docker-compose.yml</code> in the postgreSQL-server repo
+- Host auth and TLS config sources: <code>config/pg_hba.conf</code>, <code>config/postgresql.conf</code>
+- Admin command surface: <code>make help</code> in the postgreSQL-server repo</p>
+<p>Operational boundary in homelab:
+- Gatekeeper owns public ingress and stream proxy behavior.
+- pyrite hosts the database stack and monitoring exporter components.
+- Backup/recovery strategy references should remain aligned with
+    <code>docs/backups/README.md</code> and arkk recovery posture while RAID work is active.</p>
 <hr />
 <h2 id="nixx-server">nixx server<a class="headerlink" href="#nixx-server" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/nixx">gperdrizet/nixx</a><br />

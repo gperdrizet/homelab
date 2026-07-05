@@ -1,0 +1,17 @@
+# Training-checkpoint directories to thin, relative to source root /mnt/arkk.
+# Consumed by thin_checkpoints_from_arkk.sh. Sizes noted for reference.
+# These are fully excluded from the main rsync pass (excludes.txt: training_checkpoints/).
+
+rpm/skylines/skylines/skylines/data/2024-02-17/training_checkpoints   # 3.2T, SavedModel dirs (gen+disc)
+rpm/NASA_nebulae/NASA_training/training_checkpoints                   # 185G, .h5 (gen only)
+rpm/birds/birds.3/training_checkpoints                                # 119G, .h5 (gen only)
+rpm/skylines/skylines.2/training_checkpoints                          # 104G, .h5 (gen only)
+rpm/birds/birds.4/training_checkpoints                                # 100G, .h5 (gen only)
+rpm/skylines/skylines.1/training_checkpoints                          # 31G,  .h5 (gen only)
+rpm/flowers/flowraxx.1/1024x1024.2/training_checkpoints               # 21G,  .h5 (gen only)
+rpm/median_meme/32x32_latent_dim_1000/training_checkpoints            # 1.6G
+rpm/median_meme/64x64_latent_dim_100/training_checkpoints             # 929M
+rpm/single_image_gan/training_checkpoints                             # 896M
+rpm/median_meme/128x128_latent_dim_100/training_checkpoints           # 841M
+rpm/median_meme/32x32_latent_dim_100/training_checkpoints             # 563M
+rpm/median_meme/example_notebooks/training_checkpoints                # 174M
