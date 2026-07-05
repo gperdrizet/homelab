@@ -23,3 +23,7 @@ Open platform-level tasks after consolidation.
 ## Startup optimization
 
 - [ ] Decide on nvidia-cdi-refresh.service disablement based on current container GPU passthrough needs.
+
+## Hardware wishlist
+
+- [ ] Evaluate Bluetooth adapter upgrade for dual A2DP reliability (prefer Linux-friendly chipset and USB 2.0 placement).

@@ -11,16 +11,35 @@
 Current rescue workflow for this incident:
 
 - Backup target host: pyrite
-- Temporary rescue capacity: 2.7T RAID0 on pyrite
-- Priority: copy selected high-value datasets before rebuilding parity
+- Temporary rescue capacity: 2.7T RAID0 on pyrite (`/mnt/glass`)
+- Transport: **NFS mount over a pair of bonded gigabit Ethernet links wired
+  directly between arkk and pyrite.** arkk exports the read-only array; pyrite
+  mounts it locally (e.g. `/mnt/arkk`) and rsync runs against that local path.
+- Estimated footprint: ~1.8T of the 2.7T budget after exclusions + checkpoint
+  thinning (≈0.9T headroom).
+- Priority: copy selected high-value data before rebuilding parity.
 
-Active working notes and copy lists are maintained in:
+Strategy in brief:
+
+- Copy code/configs and irreplaceable datasets + generated art; **drop**
+  regenerable/redownloadable data (model caches, downloaded corpora) and
+  boilerplate (`.venv`, `__pycache__`, `node_modules`, editor dirs, ...).
+- **Thin** periodic GAN training checkpoints to ~35 evenly-spaced per run + the
+  final one (~3.8T of churn collapses to ~110G).
+- Git history is preserved.
+
+Order of operations: assemble/mount **read-only** → back up → verify →
+**then** re-add the spare and resilver (Step 9 onward).
+
+Active working notes, the full keep/drop lists, and the exact run procedure are
+maintained in:
 
 - [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md)
 
-Use selective rsync workflow from [RAID_RECOVERY.md](RAID_RECOVERY.md) and
-`docs/machines/arkk/scripts/rsync_selected_from_arkk.sh` to prioritize transfer
-order and rerun copy passes for partials.
+Helper scripts: `docs/machines/arkk/scripts/run_backup.sh` (orchestrator),
+`rsync_selected_from_arkk.sh`, and `thin_checkpoints_from_arkk.sh`. See the
+selective rsync workflow in [RAID_RECOVERY.md](RAID_RECOVERY.md) to prioritize
+transfer order and rerun copy passes for partials.
 
 ---
 
@@ -169,6 +188,94 @@ sudo mount /dev/md0 /mnt/arkk
 # Verify data
 ls -la /mnt/arkk
 ```
+
+#### Step 6a: If the array assembles but stays `inactive` with all disks `(S)` spare
+
+After an unclean shutdown (e.g. power loss), `--assemble --scan` can leave the
+array in this state:
+
+```
+md0 : inactive sda1[6](S) sdb1[0](S) sdf1[1](S) sdc1[2](S) sde1[5](S)
+      19534427237 blocks super 1.2
+```
+
+All members show `(S)` (spare) and the array will not run. This is a stalled
+assembly, **not** data loss. Recover it by reading the superblocks and
+force-assembling only the real data members.
+
+**1. Read every member's superblock and record its role + event count:**
+
+```bash
+for d in sda1 sdb1 sdc1 sde1 sdf1; do
+  echo "=== /dev/$d ==="
+  sudo mdadm --examine /dev/$d | grep -E 'Events|Device Role|Array State|State '
+done
+```
+
+Interpreting the output:
+
+- **Events** should be identical (or nearly identical) across the good members.
+  Matching event counts mean the array froze cleanly and `--force` is safe.
+- **Device Role** tells you each disk's slot:
+  `Active device 0`, `Active device 1`, etc., or `spare`.
+- A disk marked `spare` was mid-rebuild when power was lost. **Do not include it
+  in the degraded assemble** — it holds no committed data yet, and including it
+  triggers an immediate parity rebuild.
+
+Example from the 2026-07-04 recovery (all events = 314466):
+
+| Partition | Device Role       | Include in assemble? |
+|-----------|-------------------|----------------------|
+| sdb1      | Active device 0   | yes                  |
+| sdf1      | Active device 1   | yes                  |
+| sdc1      | Active device 2   | yes                  |
+| (missing) | device 3 (dead)   | n/a — the failed disk|
+| sde1      | Active device 4   | yes                  |
+| sda1      | **spare**         | **no** — mid-rebuild |
+
+**2. Stop the stalled array:**
+
+```bash
+sudo mdadm --stop /dev/md0
+```
+
+**3. Force-assemble ONLY the active data members (omit any `spare`):**
+
+```bash
+# List the real data-role partitions. For a 5-disk RAID5 you need at least
+# 4 of the 5 data slots present to start degraded.
+sudo mdadm --assemble --force --run /dev/md0 \
+  /dev/sdb1 /dev/sdf1 /dev/sdc1 /dev/sde1
+```
+
+> **WARNING**: Include every `Active device N` partition you have, especially
+> ones whose `Array State` line disagrees with the others. As long as the
+> **event counts match**, `--force` reconciles the disagreement safely.
+> A common mistake is assembling with the `spare` and dropping a real data
+> member — that leaves too few devices and fails with
+> `failed to RUN_ARRAY: Input/output error` / `Not enough devices to start`.
+
+**4. Confirm it started degraded (4/5 devices):**
+
+```bash
+cat /proc/mdstat
+# Expect an ACTIVE array, e.g.:
+# md0 : active raid5 sdb1[0] sdf1[1] sdc1[2] sde1[4]
+#       15627540480 blocks super 1.2 level 5, 512k chunk, algorithm 2 [5/4] [UUUU_]
+```
+
+**5. Mount READ-ONLY and verify data before doing anything else:**
+
+```bash
+sudo mount -o ro /dev/md0 /mnt/arkk
+ls /mnt/arkk
+du -sh /mnt/arkk/rpm
+```
+
+> **Do the backup while degraded and read-only.** Only re-add the spare and
+> start the parity rebuild (Step 9) **after** the priority data is copied off.
+> A rebuild stresses every disk with zero redundancy — the most likely moment
+> for a second failure.
 
 ### Step 7: Clean the Replacement Drive (if needed)
 
@@ -338,15 +445,33 @@ sudo mdadm --manage /dev/md0 --add /dev/sdf1
 
 ### If array won't start
 
-```bash
-# Force assembly
-sudo mdadm --assemble --force /dev/md0 /dev/sda1 /dev/sdb1 /dev/sdc1 /dev/sde1
+If `/proc/mdstat` shows the array as `inactive` with every member flagged `(S)`
+(spare), follow the full recovery in **Step 6a** above. Short version:
 
-# Check for issues
-sudo mdadm --examine /dev/sda1 | grep Events
-sudo mdadm --examine /dev/sdb1 | grep Events
-# All event counts should be the same or very close
+```bash
+# 1. Read roles + event counts; note which disk is a `spare` (exclude it)
+for d in sda1 sdb1 sdc1 sde1 sdf1; do
+  echo "=== /dev/$d ==="
+  sudo mdadm --examine /dev/$d | grep -E 'Events|Device Role|Array State'
+done
+
+# 2. Stop the stalled array
+sudo mdadm --stop /dev/md0
+
+# 3. Force-assemble ONLY the real data members (omit the spare)
+sudo mdadm --assemble --force --run /dev/md0 /dev/sdb1 /dev/sdf1 /dev/sdc1 /dev/sde1
+
+# 4. Confirm ACTIVE + degraded, then mount read-only
+cat /proc/mdstat
+sudo mount -o ro /dev/md0 /mnt/arkk
 ```
+
+> **Key lesson (2026-07-04):** the `RUN_ARRAY: Input/output error` /
+> `Not enough devices to start the array` failure was caused by assembling with
+> the `spare` (sda1) while omitting a real data member (sdf1 = Active device 1).
+> Always assemble the `Active device N` partitions and leave any `spare` out
+> until after the backup.
+
 
 ---
 
