@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/">
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/gatekeeper/docs/incidents/">
       
       
-        <link rel="prev" href="../../../../history/consolidation-2026/">
+        <link rel="prev" href="../backup-improvements/">
       
       
-        <link rel="next" href="../phase3-summary/">
+        <link rel="next" href="../../tailnet/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>VPS Reorganization Guide - homelab docs</title>
+        <title>Incidents and Resilience - homelab docs</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vps-infrastructure-reorganization-implementation-guide" class="md-skip">
+        <a href="#incidents-and-resilience" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              VPS Reorganization Guide
+              Incidents and Resilience
             
           </span>
         </div>
@@ -248,8 +248,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -265,11 +267,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -290,7 +292,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -333,6 +335,8 @@
                 
   
   
+    
+  
   
   
     
@@ -360,11 +364,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -392,7 +396,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -493,10 +497,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../incidents/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Incidents and Resilience
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -512,6 +543,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2026-07-01-07-05-total-public-ingress-outage-nginx-tailnet-deadlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-07-01 → 07-05: total public ingress outage (nginx ↔ tailnet deadlock)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2026-07-headplane-cant-reach-headscale-ufw-subnet-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026-07: headplane can't reach headscale (ufw subnet drift)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-offsite-uptime-monitoring-alerting-highest-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Offsite uptime monitoring + alerting (highest priority)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pin-docker-network-subnets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pin Docker network subnets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-decouple-nginx-from-the-tailnet-ip-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decouple nginx from the tailnet IP at startup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-headscale-api-key-hygiene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. headscale API key hygiene
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tailscale-auto-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tailscale auto-recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1617,10 +1762,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -1634,11 +1777,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -1659,7 +1802,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1702,37 +1845,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../IMPLEMENTATION-GUIDE/" class="md-nav__link">
         
   
   
@@ -1748,254 +1864,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#pre-implementation-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pre-Implementation Summary
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pre-Implementation Summary">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confirmed-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Confirmed Details
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#phase-3c-completion-summary-april-20-2026" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-project-cleanup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker Project Cleanup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Docker Project Cleanup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#changes-made" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changes Made
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#databases-to-create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Databases to Create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#users-to-create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Users to Create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#connection-strings-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Connection Strings Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#revised-execution-order" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        REVISED EXECUTION ORDER
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="REVISED EXECUTION ORDER">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-1-quick-wins-week-1-8-12-hours-ready-to-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 1: Quick Wins (Week 1, 8-12 hours) READY TO START
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-2-foundation-week-2-3-14-18-hours" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 2: Foundation (Week 2-3, 14-18 hours)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-3-migration-week-3-4-26-38-hours-revised-order" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#part-a-infrastructure-migration-no-database-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part A: Infrastructure Migration (No database dependencies)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-b-database-application-migration-requires-pyrite-databases-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part B: Database &amp; Application Migration (Requires pyrite databases ready)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-4-polish-optional-week-5-6-6-10-hours" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 4: Polish (Optional, Week 5-6, 6-10 hours)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#current-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CURRENT STATUS
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        NOTES
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2090,216 +1958,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pre-implementation-summary" class="md-nav__link">
+  <a href="#2026-07-01-07-05-total-public-ingress-outage-nginx-tailnet-deadlock" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pre-Implementation Summary
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pre-Implementation Summary">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confirmed-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Confirmed Details
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#phase-3c-completion-summary-april-20-2026" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#docker-project-cleanup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Docker Project Cleanup
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Docker Project Cleanup">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#changes-made" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Changes Made
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#databases-to-create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Databases to Create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#users-to-create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Users to Create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#connection-strings-format" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Connection Strings Format
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#revised-execution-order" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        REVISED EXECUTION ORDER
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="REVISED EXECUTION ORDER">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Prerequisites
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-1-quick-wins-week-1-8-12-hours-ready-to-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 1: Quick Wins (Week 1, 8-12 hours) READY TO START
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-2-foundation-week-2-3-14-18-hours" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 2: Foundation (Week 2-3, 14-18 hours)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-3-migration-week-3-4-26-38-hours-revised-order" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#part-a-infrastructure-migration-no-database-dependencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part A: Infrastructure Migration (No database dependencies)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-b-database-application-migration-requires-pyrite-databases-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part B: Database &amp; Application Migration (Requires pyrite databases ready)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#phase-4-polish-optional-week-5-6-6-10-hours" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Phase 4: Polish (Optional, Week 5-6, 6-10 hours)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#current-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CURRENT STATUS
+        2026-07-01 → 07-05: total public ingress outage (nginx ↔ tailnet deadlock)
       
     </span>
   </a>
@@ -2307,13 +1969,85 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#2026-07-headplane-cant-reach-headscale-ufw-subnet-drift" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NOTES
+        2026-07: headplane can't reach headscale (ufw subnet drift)
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-offsite-uptime-monitoring-alerting-highest-priority" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Offsite uptime monitoring + alerting (highest priority)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-pin-docker-network-subnets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Pin Docker network subnets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-decouple-nginx-from-the-tailnet-ip-at-startup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Decouple nginx from the tailnet IP at startup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-headscale-api-key-hygiene" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. headscale API key hygiene
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tailscale-auto-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Tailscale auto-recovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2337,387 +2071,93 @@
   
 
 
-<h1 id="vps-infrastructure-reorganization-implementation-guide">VPS Infrastructure Reorganization - Implementation Guide<a class="headerlink" href="#vps-infrastructure-reorganization-implementation-guide" title="Permanent link">&para;</a></h1>
-<p><strong>Created:</strong> April 7, 2026<br />
-<strong>Last Updated:</strong> April 20, 2026<br />
-<strong>Status:</strong> Phase 3C complete, Phase 3D (database migration) pending</p>
+<h1 id="incidents-and-resilience">Incidents and resilience<a class="headerlink" href="#incidents-and-resilience" title="Permanent link">&para;</a></h1>
+<p>Operational incident records for gatekeeper, with the fixes applied and the
+hardening still recommended. Kept short and action-oriented.</p>
 <hr />
-<h2 id="pre-implementation-summary">Pre-Implementation Summary<a class="headerlink" href="#pre-implementation-summary" title="Permanent link">&para;</a></h2>
-<h3 id="confirmed-details">Confirmed Details<a class="headerlink" href="#confirmed-details" title="Permanent link">&para;</a></h3>
-<p><strong>Infrastructure:</strong>
-- VPS: gatekeeper (74.208.107.78), Ubuntu, 19 containers
-- Remote: pyrite (100.64.0.2), Ubuntu 24.04, Tailscale peer
-- Services: Dev/testing only, downtime acceptable
-- No existing backups (code on GitHub only)</p>
-<p><strong>Current State:</strong>
-- LogKeep: <code>/opt/logkeep/docker/</code> - has blue (8001), green (8002), staging (8003)
-  - DB: <code>logkeep-postgres</code> (local container) with databases: <code>logkeep</code>, <code>logkeep_staging</code>
-  - User: <code>logkeep_admin</code>
-- Bench: <code>/opt/bench/docker/</code> - single deployment (8010, under 'bench' project)
-   - DB: <code>bench-postgres</code> (local container) with database: <code>bench</code>
-  - User: <code>bench</code>
-  - No staging environment yet</p>
-<p><strong>Pyrite (100.64.0.2):</strong>
-- PostgreSQL 16 in container
-- llama.cpp as systemd service
-- postgres_exporter container running
-- Large RAID array with SSD cache
-- Always-on
-- SSH: Port 4444 (non-standard)</p>
-<p><strong>Decisions:</strong>
-- New GitHub repo: <code>vps-infrastructure</code>
-- DNS: Manual via Ionos dashboard (user will create records when ready)
-- Ionos wildcard cert: User will research details later
-- Phase 4 (Polish): Optional
-- Timeline: Natural pace, pause after Phase 1</p>
-<hr />
-<h2 id="phase-3c-completion-summary-april-20-2026">✅ PHASE 3C COMPLETION SUMMARY (April 20, 2026)<a class="headerlink" href="#phase-3c-completion-summary-april-20-2026" title="Permanent link">&para;</a></h2>
-<h3 id="docker-project-cleanup">Docker Project Cleanup<a class="headerlink" href="#docker-project-cleanup" title="Permanent link">&para;</a></h3>
-<p>The stale 'docker' compose project has been eliminated. All containers now use proper project names:</p>
-<table>
-<thead>
-<tr>
-<th>Project</th>
-<th>Containers</th>
-<th>Files</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>bench</strong></td>
-<td>5</td>
-<td><code>/opt/bench/docker/docker-compose.prod.yml</code></td>
-</tr>
-<tr>
-<td><strong>logkeep</strong></td>
-<td>6</td>
-<td><code>/opt/logkeep/docker/docker-compose.{prod,staging}.yml</code></td>
-</tr>
-<tr>
-<td><strong>infra</strong></td>
-<td>8</td>
-<td><code>/srv/infra/docker-compose.monitoring.yml</code></td>
-</tr>
-</tbody>
-</table>
-<h4 id="changes-made">Changes Made<a class="headerlink" href="#changes-made" title="Permanent link">&para;</a></h4>
+<h2 id="2026-07-01-07-05-total-public-ingress-outage-nginx-tailnet-deadlock">2026-07-01 → 07-05: total public ingress outage (nginx ↔ tailnet deadlock)<a class="headerlink" href="#2026-07-01-07-05-total-public-ingress-outage-nginx-tailnet-deadlock" title="Permanent link">&para;</a></h2>
+<p><strong>Impact:</strong> every public site down for ~3 days — perdrizet.org, logkeep, bench,
+bug-hunter, feedback, model-gateway/promptlyapi, grafana, code, jupyter, plus the
+tailnet itself. All containers stayed healthy; only ingress was broken. The
+outage went unnoticed because alerting also runs behind the failed ingress.</p>
+<p><strong>Root cause — a bootstrap deadlock:</strong></p>
 <ol>
-<li><strong>Bench Project Rename</strong></li>
-<li>Moved containers from 'docker' to 'bench' project: <code>docker-bench-*</code> → explicit <code>bench-*</code> names</li>
-<li>Modified compose file to use external volume <code>docker_bench-postgres-data</code> to preserve data</li>
-<li>
-<p>All 5 containers (web, postgres, redis, celery, celery-beat) now running under 'bench' project</p>
-</li>
-<li>
-<p><strong>LogKeep Project Consolidation</strong></p>
-</li>
-<li>Moved staging container from 'docker' to 'logkeep' project</li>
-<li>Staging compose now part of unified logkeep project with production</li>
-<li>Removed 8 stale monitoring services from logkeep-docker-compose.prod.yml</li>
-<li>
-<p>Removed obsolete <code>version</code> keys from compose files</p>
-</li>
-<li>
-<p><strong>Network Cleanup</strong></p>
-</li>
-<li>Orphaned <code>docker_logkeep-network</code> removed</li>
-<li>Clean network structure: <code>bench_bench-network</code>, <code>logkeep_logkeep-network</code>, <code>monitoring-network</code></li>
-<li>
-<p>Prometheus scrapes targets on monitoring-network and logkeep_logkeep-network</p>
-</li>
-<li>
-<p><strong>Nginx &amp; Configuration Sync</strong></p>
-</li>
-<li>model.conf: Comments updated (WireGuard → Tailscale)</li>
-<li>logkeep.conf: Removed OCSP stapling block to match live</li>
-<li>
-<p>All configs synced to repo</p>
-</li>
-<li>
-<p><strong>Git Commit</strong></p>
-</li>
-<li>All changes committed: <code>f52f7ef - Sync repo with live infrastructure</code></li>
-<li>11 files updated, 277 insertions, 351 deletions</li>
+<li>An nginx listener binds directly to the Tailscale IP <code>100.64.0.1:8012</code>.</li>
+<li>Tailscale/headscale dropped, so <code>100.64.0.1</code> disappeared from <code>tailscale0</code>.</li>
+<li><code>nginx -t</code> then fails with <code>bind() to 100.64.0.1:8012 failed</code> → the <strong>entire</strong>
+   nginx service fails to start (systemd shows <code>failed</code>).</li>
+<li>With nginx down, <code>headscale.perdrizet.org</code> (TLS-terminated by nginx →
+   <code>127.0.0.1:8090</code>) is unreachable from the internet, so Tailscale clients on
+   both gatekeeper and pyrite can't re-auth → <code>100.64.0.1</code> never returns → nginx
+   can never bind it. Deadlock.</li>
 </ol>
+<p><strong>Fix applied:</strong></p>
+<pre><code class="language-bash">sudo sysctl -w net.ipv4.ip_nonlocal_bind=1
+echo 'net.ipv4.ip_nonlocal_bind=1' | sudo tee /etc/sysctl.d/99-nonlocal-bind.conf
+sudo systemctl start nginx     # headscale.perdrizet.org back
+sudo tailscale up              # gatekeeper re-auths, 100.64.0.1 returns
+# then on pyrite: sudo tailscale up
+</code></pre>
+<p><code>ip_nonlocal_bind=1</code> lets nginx bind an address that isn't up yet, so a Tailscale
+hiccup can no longer take down all public ingress.</p>
 <hr />
-<p><strong>IMPORTANT:</strong> User will create these after Phase 3 Services 1, 3, 8 are complete (before Services 2, 5, 6, 7).</p>
-<h3 id="databases-to-create">Databases to Create<a class="headerlink" href="#databases-to-create" title="Permanent link">&para;</a></h3>
-<pre><code class="language-sql">-- LogKeep databases
-CREATE DATABASE logkeep_prod;
-CREATE DATABASE logkeep_staging;
-
--- Bench databases
-CREATE DATABASE bench_prod;
-CREATE DATABASE bench_staging;  -- New, start empty
+<h2 id="2026-07-headplane-cant-reach-headscale-ufw-subnet-drift">2026-07: headplane can't reach headscale (ufw subnet drift)<a class="headerlink" href="#2026-07-headplane-cant-reach-headscale-ufw-subnet-drift" title="Permanent link">&para;</a></h2>
+<p><strong>Symptom:</strong> headplane login fails with "Error while validating API key" for any
+key, valid or not.</p>
+<p><strong>Root cause:</strong> headplane (container on <code>logkeep_logkeep-network</code>) reaches
+headscale via <code>host.docker.internal:8090</code>. A ufw rule allowed the headscale API
+only from <code>172.20.0.0/16</code>, but Docker had reassigned that network to
+<strong><code>172.18.0.0/16</code></strong>. The container's packets to headscale:8090 were denied, so
+headplane could never validate a key. (A coincidentally-expired config key sent
+the initial diagnosis down the wrong path — the key was a red herring.)</p>
+<p><strong>Fix applied — drift-proof ufw rule:</strong></p>
+<pre><code class="language-bash">sudo ufw allow from 172.16.0.0/12 to any port 8090 proto tcp comment &quot;docker to headscale API&quot;
+sudo ufw reload
 </code></pre>
-<h3 id="users-to-create">Users to Create<a class="headerlink" href="#users-to-create" title="Permanent link">&para;</a></h3>
-<pre><code class="language-sql">-- LogKeep user
-CREATE USER logkeep_user WITH PASSWORD '&lt;secure_password&gt;';
-GRANT ALL PRIVILEGES ON DATABASE logkeep_prod TO logkeep_user;
-GRANT ALL PRIVILEGES ON DATABASE logkeep_staging TO logkeep_user;
-
--- In each logkeep database, grant schema permissions:
-\c logkeep_prod
-GRANT ALL PRIVILEGES ON SCHEMA public TO logkeep_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logkeep_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO logkeep_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO logkeep_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO logkeep_user;
-
-\c logkeep_staging
-GRANT ALL PRIVILEGES ON SCHEMA public TO logkeep_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO logkeep_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO logkeep_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO logkeep_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO logkeep_user;
-
--- Bench user
-CREATE USER bench_user WITH PASSWORD '&lt;secure_password&gt;';
-GRANT ALL PRIVILEGES ON DATABASE bench_prod TO bench_user;
-GRANT ALL PRIVILEGES ON DATABASE bench_staging TO bench_user;
-
--- In each bench database, grant schema permissions:
-\c bench_prod
-GRANT ALL PRIVILEGES ON SCHEMA public TO bench_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO bench_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bench_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO bench_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO bench_user;
-
-\c bench_staging
-GRANT ALL PRIVILEGES ON SCHEMA public TO bench_user;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO bench_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO bench_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO bench_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO bench_user;
-</code></pre>
-<h3 id="connection-strings-format">Connection Strings Format<a class="headerlink" href="#connection-strings-format" title="Permanent link">&para;</a></h3>
-<p>After database creation, user should provide these connection strings:</p>
-<pre><code class="language-bash"># LogKeep Production
-LOGKEEP_PROD_DB=postgresql://logkeep_user:&lt;password&gt;@100.64.0.2:5432/logkeep_prod
-
-# LogKeep Staging
-LOGKEEP_STAGING_DB=postgresql://logkeep_user:&lt;password&gt;@100.64.0.2:5432/logkeep_staging
-
-# Bench Production
-BENCH_PROD_DB=postgresql://bench_user:&lt;password&gt;@100.64.0.2:5432/bench_prod
-
-# Bench Staging
-BENCH_STAGING_DB=postgresql://bench_user:&lt;password&gt;@100.64.0.2:5432/bench_staging
+<p>Verify a container on the network can reach headscale (expect <code>200</code>):</p>
+<pre><code class="language-bash">docker run --rm --network logkeep_logkeep-network \
+  --add-host host.docker.internal:host-gateway curlimages/curl:latest \
+  -s -o /dev/null -w '%{http_code}\n' http://host.docker.internal:8090/health
 </code></pre>
 <hr />
-<h2 id="revised-execution-order">REVISED EXECUTION ORDER<a class="headerlink" href="#revised-execution-order" title="Permanent link">&para;</a></h2>
-<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
-<p><strong>SSH Key Setup for Remote Backups:</strong></p>
-<p>Remote backups to pyrite work automatically using your user's SSH keys (no sudo required).</p>
-<p><strong>Setup verification:</strong></p>
-<pre><code class="language-bash"># Test backup script (runs as your user, not root)
-/srv/backups/backup-databases.sh
-
-# Verify remote backups
-ssh pyrite &quot;ls -lh /mnt/storage/backups/vps/&quot;
-</code></pre>
-<p><strong>Note:</strong> 
-- Backup script runs as <code>siderealyear</code> user (docker group membership allows container access)
-- <code>/srv/backups</code> and <code>/var/log/vps-backup.log</code> owned by <code>siderealyear</code>
-- SSH to pyrite uses your <code>~/.ssh/config</code> settings (hostname: pyrite, port: 4444)</p>
-<p><strong>Daily Backup Schedule: Configured</strong></p>
-<p>Cron job configured in user crontab (siderealyear, not root):</p>
-<pre><code class="language-bash"># Daily backups at 2 AM
-0 2 * * * /srv/backups/backup-databases.sh
-</code></pre>
-<p>To view or edit:</p>
-<pre><code class="language-bash">crontab -l  # View current crontab
-crontab -e  # Edit crontab
-</code></pre>
-<hr />
-<h3 id="phase-1-quick-wins-week-1-8-12-hours-ready-to-start">Phase 1: Quick Wins (Week 1, 8-12 hours) READY TO START<a class="headerlink" href="#phase-1-quick-wins-week-1-8-12-hours-ready-to-start" title="Permanent link">&para;</a></h3>
-<p><strong>No changes from original plan.</strong> All tasks can proceed immediately:</p>
+<h2 id="recommendations">Recommendations<a class="headerlink" href="#recommendations" title="Permanent link">&para;</a></h2>
+<h3 id="1-offsite-uptime-monitoring-alerting-highest-priority">1. Offsite uptime monitoring + alerting (highest priority)<a class="headerlink" href="#1-offsite-uptime-monitoring-alerting-highest-priority" title="Permanent link">&para;</a></h3>
+<p>The 3-day outage was invisible because Prometheus/Alertmanager/Grafana all sit
+behind the same gatekeeper ingress that failed — when ingress dies, so does
+alerting. Add an <strong>external</strong> check that does not depend on gatekeeper:</p>
 <ul>
-<li>[x] 1.1 - Clean up unused Docker networks</li>
-<li>[x] 1.2 - Remove unused UFW rules</li>
-<li>[x] 1.3 - Fix logkeep-staging health check (Python urllib instead of curl)</li>
-<li>[x] 1.4 - Add SSL certificate monitoring (Blackbox Exporter on port 9115)</li>
-<li>[x] 1.5 - Add container health alerts (4 rules: unhealthy, restarting, memory, CPU)</li>
-<li>[x] 1.6 - Add disk usage alerts (verified existing rules)</li>
-<li>[x] 1.7 - Document SSH reverse tunnel (deprecated - already done)</li>
-<li>[x] 1.8 - Create initial backup script (runs as siderealyear, syncs to pyrite)</li>
-<li>[x] 1.9 - Test backup restoration (verified bench database restore)</li>
+<li>A hosted uptime monitor (healthchecks.io, UptimeRobot, or similar) probing
+  <code>https://perdrizet.org</code> and <code>https://headscale.perdrizet.org</code>, alerting to
+  email/phone.</li>
+<li>Or a cron probe from pyrite/arkk over the public internet.</li>
 </ul>
-<p><strong>Pause Point:</strong> Evaluate results, decide whether to continue to Phase 2.</p>
-<hr />
-<h3 id="phase-2-foundation-week-2-3-14-18-hours">Phase 2: Foundation (Week 2-3, 14-18 hours)<a class="headerlink" href="#phase-2-foundation-week-2-3-14-18-hours" title="Permanent link">&para;</a></h3>
-<p><strong>No changes from original plan:</strong></p>
-<ul>
-<li>[x] 2.1 - Create <code>vps-infrastructure</code> GitHub repository</li>
-<li>[x] 2.2 - Set up repository structure</li>
-<li>[x] 2.3 - Export current docker-compose files</li>
-<li>[ ] 2.4 - Create <code>docker-compose.core.yml</code></li>
-<li>[ ] 2.5 - Externalize secrets to <code>.env</code> template</li>
-<li>[x] 2.6 - Export nginx configs</li>
-<li>[x] 2.7 - Export Prometheus/Grafana configs</li>
-<li>[x] 2.8 - Create deployment script</li>
-<li>[x] 2.9 - Create health check script</li>
-<li>[ ] 2.10 - Create documentation generation script</li>
-<li>[x] 2.11 - Write documentation</li>
-<li>[x] 2.12 - Verify Ionos wildcard certificate (user will research)</li>
-<li>[x] 2.13 - Plan Let's Encrypt to Ionos migration (deferred)</li>
-<li>[x] 2.14 - Create <code>/srv/infra/</code> directory structure</li>
-</ul>
-<hr />
-<h3 id="phase-3-migration-week-3-4-26-38-hours-revised-order">Phase 3: Migration (Week 3-4, 26-38 hours) REVISED ORDER<a class="headerlink" href="#phase-3-migration-week-3-4-26-38-hours-revised-order" title="Permanent link">&para;</a></h3>
-<p><strong>CRITICAL CHANGE:</strong> Database consolidation moved to AFTER network consolidation.</p>
-<h4 id="part-a-infrastructure-migration-no-database-dependencies">Part A: Infrastructure Migration (No database dependencies)<a class="headerlink" href="#part-a-infrastructure-migration-no-database-dependencies" title="Permanent link">&para;</a></h4>
-<p><strong>Service 1: Monitoring Stack Separation (3-4 hours)</strong> ✅ COMPLETE
-- [x] 3.1 - Export Grafana dashboards
-- [x] 3.2 - Create <code>docker-compose.monitoring.yml</code> (rename containers: <code>monitoring-*</code>)
-- [x] 3.3 - Stop current <code>logkeep-*</code> monitoring containers
-- [x] 3.4 - Move volumes to <code>/srv/infra/data/monitoring/</code>
-- [x] 3.5 - Start new independent monitoring stack
-- [x] 3.6 - Validate Grafana access, check datasources
-- [x] 3.7 - Verify Prometheus scraping all targets
-- [x] 3.8 - Test alert rules and Alertmanager
-- [x] 3.9 - Confirm monitoring independence
-- <strong>Downtime:</strong> 5 min (acceptable)</p>
-<p><strong>Service 3: Public Access Strategy (1 hour)</strong> ✅ COMPLETE
-- [x] 3.19 - Update nginx TCP stream for PostgreSQL (db.perdrizet.org:54321 → 100.64.0.2:5432)
-- [x] 3.20 - Rename gpt.conf → llm.conf, update domain (llm.perdrizet.org → 100.64.0.2:8502)
-- [x] 3.21 - Add DNS A records (user action: db.perdrizet.org, llm.perdrizet.org)
-- [x] 3.22 - Test nginx config: <code>nginx -t</code>
-- [x] 3.23 - Reload nginx: <code>nginx -s reload</code>
-- [x] 3.24 - Test PostgreSQL access from external machine
-- [x] 3.25 - Test llama.cpp access: <code>curl -I https://llm.perdrizet.org</code>
-- [x] 3.26 - Update documentation
-- [x] 3.27 - Update services.md
-- [x] 3.28 - Remove unused SSH reverse tunnel (no action needed - nothing listening)
-- <strong>Downtime:</strong> &lt;1 min</p>
-<p><strong>Service 4: Headplane - SKIP</strong> Already working, user said don't touch it</p>
-<p><strong>Service 8: Network Consolidation (1 hour)</strong> ✅ COMPLETE
-- [x] 3.59 - Verify Tailscale peer identity: <code>tailscale status</code>
-- [x] 3.60 - Test PostgreSQL via Tailscale: <code>nc -zv 100.64.0.2 5432</code>
-- [x] 3.61 - Test llama.cpp via Tailscale: <code>curl -I http://100.64.0.2:8502</code>
-- [x] 3.62 - Verify nginx already using Tailscale IPs (from Service 3)
-- [x] 3.63 - Monitor for 1 hour - no connectivity issues
-- [x] 3.64 - Tear down WireGuard: <code>wg-quick down wg0; systemctl disable wg-quick@wg0</code>
-- [x] 3.65 - Remove UFW rule for port 51820
-- [x] 3.66 - Archive WireGuard config (backup)
-- [x] 3.67 - Update documentation
-- <strong>Downtime:</strong> 2-3 min</p>
-<p><strong>🛑 PAUSE POINT - User Action Required:</strong>
-1. Create databases on pyrite (see "DATABASE REQUIREMENTS" above)
-2. Create users (logkeep_user, bench_user)
-3. Provide connection strings to continue</p>
-<hr />
-<h4 id="part-b-database-application-migration-requires-pyrite-databases-ready">Part B: Database &amp; Application Migration (Requires pyrite databases ready)<a class="headerlink" href="#part-b-database-application-migration-requires-pyrite-databases-ready" title="Permanent link">&para;</a></h4>
-<p><strong>Service 2: Database Setup Verification (30 min)</strong>
-- [ ] 3.10 - Test connection to pyrite PostgreSQL: <code>psql -h 100.64.0.2 -p 5432 -U logkeep_user -d logkeep_prod</code>
-- [ ] 3.11 - Verify all 4 databases exist and users have correct permissions
-- [ ] 3.12 - Export bench database: <code>docker exec bench-postgres pg_dump -U bench bench &gt; bench-export.sql</code>
-- [ ] 3.13 - Import to pyrite: <code>psql -h 100.64.0.2 -U bench_user -d bench_prod &lt; bench-export.sql</code>
-- [ ] 3.14 - Export logkeep production: <code>docker exec logkeep-postgres pg_dump -U logkeep_admin logkeep &gt; logkeep-prod-export.sql</code>
-- [ ] 3.15 - Export logkeep staging: <code>docker exec logkeep-postgres pg_dump -U logkeep_admin logkeep_staging &gt; logkeep-staging-export.sql</code>
-- [ ] 3.16 - Import to pyrite
-- [ ] 3.17 - Test connectivity and query counts
-- [ ] 3.18 - Update <code>.env</code> with remote connection strings (user provides)</p>
-<p><strong>Service 5: Bench Stack Migration (3-4 hours)</strong>
-- [ ] 3.32 - Create <code>docker-compose.bench.yml</code> (blue, green, staging, remote DB, no local postgres)
-- [ ] 3.33 - Stop old bench containers
-- [ ] 3.34 - Start new bench stack
-- [ ] 3.35 - Validate bench-blue connects to remote DB
-- [ ] 3.36 - Create nginx vhost for bench-staging.perdrizet.org
-- [ ] 3.37 - Update bench.perdrizet.org → bench-blue (port 8012)
-- [ ] 3.38 - Validate production: https://bench.perdrizet.org
-- [ ] 3.39 - Validate staging: https://bench-staging.perdrizet.org
-- [ ] 3.40 - Test bench-green
-- [ ] 3.41 - Keep old bench-postgres container for 1 week
-- [ ] 3.42 - Document blue-green procedure
-- <strong>Downtime:</strong> 5-10 min
-- <strong>Containers eliminated:</strong> -1 (later)</p>
-<p><strong>Service 6: LogKeep Staging (1 hour)</strong>
-- [ ] 3.43 - Stop staging
-- [ ] 3.44 - Fix health check (from Phase 1)
-- [ ] 3.45 - Update compose - use remote DB
-- [ ] 3.46 - Start via new compose
-- [ ] 3.47 - Validate staging access and DB connection
-- <strong>Downtime:</strong> 2 min</p>
-<p><strong>Service 7: LogKeep Production (4-6 hours)</strong>
-- [ ] 3.48 - Update <code>docker-compose.logkeep.yml</code> (blue, green use remote DB, no local postgres)
-- [ ] 3.49 - Deploy new blue
-- [ ] 3.50 - Validate DB connection
-- [ ] 3.51 - Update nginx → new blue
-- [ ] 3.52 - Reload nginx
-- [ ] 3.53 - Validate production traffic
-- [ ] 3.54 - Stop old containers
-- [ ] 3.55 - Deploy new green
-- [ ] 3.56 - Update compose final ports
-- [ ] 3.57 - Reconfigure nginx
-- [ ] 3.58 - Keep old postgres for 1 week
-- <strong>Downtime:</strong> 0 (blue/green)
-- <strong>Containers eliminated:</strong> -1 (later)</p>
-<p><strong>Service 9: PostgreSQL Monitoring (2 hours)</strong>
-- [ ] 3.68 - Verify exporter on pyrite: <code>curl http://100.64.0.2:9187/metrics</code>
-- [ ] 3.69 - Add scrape job to Prometheus
-- [ ] 3.70 - Reload Prometheus
-- [ ] 3.71 - Validate scraping in Grafana
-- [ ] 3.72 - Create Grafana dashboard for pyrite PostgreSQL
-- [ ] 3.73 - Add alert rules
-- [ ] 3.74 - Test alerts
-- [ ] 3.75 - Document unified monitoring
-- <strong>Downtime:</strong> None</p>
-<p><strong>Post-Migration Validation (2-3 hours)</strong>
-- [ ] 3.76 - Verify all services in new locations
-- [ ] 3.77 - Run health check: <code>./scripts/health-check.sh</code>
-- [ ] 3.78 - Verify monitoring (including pyrite)
-- [ ] 3.79 - Test all public endpoints
-- [ ] 3.80 - Test bench blue-green swap
-- [ ] 3.81 - Test logkeep blue-green swap
-- [ ] 3.82 - Generate updated docs
-- [ ] 3.83 - Monitor for 24-48 hours
-- [ ] 3.84 - Verify remote PostgreSQL load handling
-- [ ] 3.85 - Remove old <code>/opt/</code> directories (wait 1 week)
-- [ ] 3.86 - Remove WireGuard backup (wait 1 week)
-- [ ] 3.87 - Remove old PostgreSQL containers and volumes (wait 1 week)</p>
-<hr />
-<h3 id="phase-4-polish-optional-week-5-6-6-10-hours">Phase 4: Polish (Optional, Week 5-6, 6-10 hours)<a class="headerlink" href="#phase-4-polish-optional-week-5-6-6-10-hours" title="Permanent link">&para;</a></h3>
-<p><strong>Deferred - can be added later if desired:</strong>
-- Ionos certificate expiry monitoring
-- Public Grafana/Headplane access
-- Tailscale peer health monitoring
-- Additional Grafana dashboards
-- Automated documentation updates
-- Disaster recovery drill
-- Performance tuning
-- Runbooks creation</p>
-<hr />
-<h2 id="current-status">CURRENT STATUS<a class="headerlink" href="#current-status" title="Permanent link">&para;</a></h2>
-<p><strong>Phases 1-2:</strong> Complete<br />
-<strong>Phase 3 Part A:</strong> Complete (Services 1, 3, 8)<br />
-<strong>Next Action:</strong> User creates databases on pyrite, then begin Phase 3 Part B</p>
-<p><strong>Critical Path:</strong>
-1. ~~Phase 1 → evaluate → Phase 2 → Phase 3 Part A~~ ✅ Done
-2. <strong>PAUSE (current):</strong> User creates pyrite databases
-3. Phase 3 Part B → completion</p>
-<p><strong>Total Estimated Time:</strong>
-- Phase 1: 8-12 hours
-- Phase 2: 14-18 hours<br />
-- Phase 3 Part A: 5-6 hours
-- <strong>USER ACTION: Database creation</strong>
-- Phase 3 Part B: 10-14 hours
-- Phase 3 Validation: 2-3 hours
-- <strong>Total: 39-53 hours</strong></p>
-<p><strong>Container Reduction:</strong> 19 → 17 containers (-2 PostgreSQL after validation period)</p>
-<hr />
-<h2 id="notes">NOTES<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>No monitoring gaps matter</strong> - services are dev/testing only</li>
-<li><strong>Downtime acceptable</strong> - not supporting real users</li>
-<li><strong>No rush</strong> - proceed at natural pace</li>
-<li><strong>Headplane</strong> - working correctly, excluded from migration</li>
-<li><strong>DNS records</strong> - user will create manually when services are ready to go public</li>
-<li><strong>Ionos cert</strong> - user researching, not blocking</li>
-<li><strong>Backups</strong> - new script will backup to pyrite</li>
-<li><strong>VPS-local PostgreSQL</strong> - keep running for 1 week after migration for safety</li>
-</ol>
+<h3 id="2-pin-docker-network-subnets">2. Pin Docker network subnets<a class="headerlink" href="#2-pin-docker-network-subnets" title="Permanent link">&para;</a></h3>
+<p>Subnet drift silently broke the headscale firewall rule. Pin the subnet in the
+compose file so it never moves:</p>
+<pre><code class="language-yaml">networks:
+  logkeep-network:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+</code></pre>
+<p>Keep the ufw rules on the broad <code>172.16.0.0/12</code> range as defense in depth. The
+metrics rules (<code>9099/tcp</code> from <code>172.17/172.19/172.20</code>) have the same drift risk —
+widen them to <code>172.16.0.0/12</code> and confirm headscale metrics still scrape in
+Grafana.</p>
+<h3 id="3-decouple-nginx-from-the-tailnet-ip-at-startup">3. Decouple nginx from the tailnet IP at startup<a class="headerlink" href="#3-decouple-nginx-from-the-tailnet-ip-at-startup" title="Permanent link">&para;</a></h3>
+<p><code>ip_nonlocal_bind=1</code> is the safety net, but also audit why a listener binds
+<code>100.64.0.1:8012</code> at all. If that upstream can listen on <code>127.0.0.1</code> or <code>0.0.0.0</code>
+instead, nginx never depends on the tailnet being up.</p>
+<h3 id="4-headscale-api-key-hygiene">4. headscale API key hygiene<a class="headerlink" href="#4-headscale-api-key-hygiene" title="Permanent link">&para;</a></h3>
+<p>The headplane config key expired silently (90-day default). Use a long-lived key
+for service-to-service auth and note its expiry, or add a check that alerts
+before headscale API keys expire. Never paste generated keys into a shell that
+is being screen-shared or logged — treat any exposed key as compromised and
+<code>headscale apikeys expire --prefix &lt;prefix&gt;</code>.</p>
+<h3 id="5-tailscale-auto-recovery">5. Tailscale auto-recovery<a class="headerlink" href="#5-tailscale-auto-recovery" title="Permanent link">&para;</a></h3>
+<p>Ensure <code>tailscaled</code> re-authenticates automatically after headscale returns
+(persistent auth key / <code>--auth-key</code>) so a control-plane blip self-heals instead
+of requiring a manual <code>tailscale up</code> on each node.</p>
 
 
 
