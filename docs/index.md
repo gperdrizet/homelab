@@ -1,19 +1,42 @@
 # Homelab documentation
 
-This site is the published documentation view for the homelab repository.
+Single source of truth for the machines, network, and services that make up the
+homelab. Published from the [gperdrizet/homelab](https://github.com/gperdrizet/homelab) repository.
 
-## What lives here
+## The machines
 
-- Machine inventory and roles
-- Agent orientation and repository structure model
-- Core services hosted on pyrite
-- Pyrite platform runbooks (boot, Wayland, remote access, troubleshooting)
-- Network topology and tailnet notes
-- Operational runbooks for backups, secrets, and docker images
+| Machine | Role | Status |
+|---------|------|--------|
+| [gatekeeper](machines/gatekeeper/README.md) | Public VPS: ingress, TLS, monitoring, app hosting | Active |
+| [pyrite](machines/pyrite/README.md) | Workstation: development, GPU compute, core services | Active |
+| [arkk](machines/arkk/README.md) | NAS: RAID storage, backup target | Recovering |
 
-## Source repository
+## Start here
 
-- GitHub: [gperdrizet/homelab](https://github.com/gperdrizet/homelab)
+- **Looking for a service?** [Gatekeeper service and port inventory](machines/gatekeeper/docs/services.md)
+  and [services on pyrite](machines/pyrite/services/README.md)
+- **How machines connect:** [Network overview](network/README.md)
+- **Day-2 operations:** [Operations index](operations.md) — backups, secrets, docker images
+- **Active incident:** [arkk RAID recovery](machines/arkk/RAID_RECOVERY_2026.md) and
+  [backup triage](machines/arkk/BACKUP_TRIAGE_2026.md)
+
+## Design principles
+
+- **Private by default** — services live on the tailnet; public ingress terminates
+  on gatekeeper only.
+- **Secrets stay out of git** — `.env.template` committed, real values in
+  Vaultwarden. See [secrets management](secrets/README.md).
+- **Every operational change documents** decision, apply steps, verify steps,
+  and revert path.
+
+## Related repositories
+
+| Repo | Contents |
+|------|----------|
+| [llama.cpp](https://github.com/gperdrizet/llama.cpp) | Inference server on pyrite (port 8502) |
+| [postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server) | Multi-tenant PostgreSQL on pyrite |
+| [nixx](https://github.com/gperdrizet/nixx) | nixx server on pyrite (port 8000) |
+| [docker-images](https://github.com/gperdrizet/docker-images) | Custom base images on GHCR |
 
 ## Local preview
 

@@ -10,8 +10,8 @@ gatekeeper (VPS).
 
 | Device  | LAN interface | LAN IP | Notes |
 |---------|---------------|--------|-------|
-| pyrite  | <!-- e.g. eth0 --> | <!-- e.g. 192.168.1.x --> | Primary LAN adapter |
-| arkk    | <!-- e.g. eth0 --> | <!-- e.g. 192.168.1.x --> | Primary LAN adapter |
+| pyrite  | lan-ssh | 10.1.10.200/24 | Primary LAN adapter |
+| arkk    | eth (onboard) | 10.1.10.201/24 | Primary LAN adapter, SSH access |
 
 ---
 
@@ -24,25 +24,38 @@ traffic (backups, large file access), keeping that load off the main LAN.
 ### pyrite side
 
 ```
-# TODO: document after arkk is restored
-Interface: <!-- e.g. bond0 -->
-Members:   <!-- e.g. eth1 + eth2 -->
-IP:        <!-- e.g. 192.168.10.1/24 -->
-Mode:      <!-- e.g. active-backup / 802.3ad LACP -->
+Interface: bond0
+Members:   data0 + data1 (2 × 1000 Mbps)
+IP:        192.168.2.2/24
+Mode:      balance-rr (round-robin)
 ```
+
+Measured throughput: ~200 MB/s aggregate (iperf); a single TCP stream sees
+less due to round-robin packet reordering — use parallel streams for bulk
+transfers.
 
 ### arkk side
 
 ```
-Interface: <!-- e.g. bond0 -->
-Members:   <!-- e.g. eth1 + eth2 -->
-IP:        <!-- e.g. 192.168.10.2/24 -->
+Interface: bond0
+Members:   dual gigabit pair (direct-wired to pyrite data0/data1)
+IP:        192.168.2.1/24
 ```
 
 ### NFS mount (pyrite)
 
+During the 2026 recovery the mount is established manually, read-only:
+
+```bash
+# arkk exports /mnt/arkk read-only to pyrite (192.168.2.2)
+sudo mount -t nfs4 -o ro,hard,noatime,nosuid,nodev,noexec \
+  192.168.2.1:/mnt/arkk /mnt/arkk
 ```
-# TODO: document NFS mount config once arkk is restored
-# /etc/fstab entry on pyrite:
-# <arkk-ip>:/export/data  /mnt/arkk  nfs  defaults,_netdev  0  0
+
+Normal (post-recovery) fstab entry on pyrite — currently commented out until
+the array returns to read-write service:
+
+```
+# /etc/fstab
+192.168.2.1:/mnt/arkk  /mnt/arkk  nfs  rw,hard,sync,noatime,nfsvers=4  0  0
 ```

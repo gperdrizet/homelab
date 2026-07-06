@@ -27,41 +27,34 @@ VPS running public-facing services, nginx reverse proxy, Tailscale exit node, an
 
 ## Contents
 
-See [docs/services.md](docs/services.md) for full service/port/domain inventory and
+See [docs/services.md](docs/services.md) for the full service/port/domain inventory and
 [docs/infrastructure-layout.md](docs/infrastructure-layout.md) for the directory layout.
 
----
+## Repository layout
 
-## VPS Infrastructure consolidation status
+All gatekeeper operational assets live in this repo:
 
-Homelab is the canonical source of truth for gatekeeper operations.
+| Asset | Location |
+|-------|----------|
+| Core + monitoring compose files | `docker-compose.core.yml`, `docker-compose.monitoring.yml` |
+| App compose files (logkeep, bench, btcpay) | `compose/` |
+| nginx, monitoring, alertmanager configs | `configs/` — see [nginx README](configs/nginx/README.md) |
+| Setup, deploy, health-check scripts | `scripts/` |
+| Headscale/Tailscale setup | [tailnet/README.md](tailnet/README.md) |
+| Runbooks and reference docs | [docs/services.md](docs/services.md), [docs/infrastructure-layout.md](docs/infrastructure-layout.md) |
 
-The external `vps-infrastructure` repository is being folded into this repo and
-is treated as a migration source during consolidation.
+## Runbooks
 
-Primary gatekeeper assets in this repo:
+- Service and domain inventory: [docs/services.md](docs/services.md)
+- Runtime layout and container placement: [docs/infrastructure-layout.md](docs/infrastructure-layout.md)
+- Backup operations: [docs/backup-improvements.md](docs/backup-improvements.md)
+- nginx configuration model: [configs/nginx/README.md](configs/nginx/README.md)
+- Tailnet setup: [tailnet/README.md](tailnet/README.md)
+- Incidents and resilience: [docs/incidents.md](docs/incidents.md)
 
-- Compose and infra files: `docs/machines/gatekeeper/compose/`,
-  `docs/machines/gatekeeper/docker-compose.*.yml`
-- Configurations: `docs/machines/gatekeeper/configs/`
-- Scripts: `docs/machines/gatekeeper/scripts/`
-- Tailnet assets: `docs/machines/gatekeeper/tailnet/`
-- Operational docs: `docs/machines/gatekeeper/docs/`
-
-Continue to update the homelab paths above first; mirror from external sources
-only while migration remains in progress.
-
-## Canonical runbooks
-
-- Service and domain inventory:
-  [docs/services.md](docs/services.md)
-- Runtime layout and container placement:
-  [docs/infrastructure-layout.md](docs/infrastructure-layout.md)
-- Backup operational notes:
-  [docs/backup-improvements.md](docs/backup-improvements.md)
-- Implementation and migration notes:
-  [docs/IMPLEMENTATION-GUIDE.md](docs/IMPLEMENTATION-GUIDE.md),
-  [docs/phase3-summary.md](docs/phase3-summary.md)
+Historical records (April 2026 VPS reorganization):
+[docs/IMPLEMENTATION-GUIDE.md](docs/IMPLEMENTATION-GUIDE.md),
+[docs/phase3-summary.md](docs/phase3-summary.md)
 
 ## Operational conventions
 
@@ -73,9 +66,3 @@ only while migration remains in progress.
   nginx TCP stream `:54321` -> `100.64.0.2:5432`.
 - Secrets policy:
   no secret values in git; follow [../../secrets/README.md](../../secrets/README.md).
-
-## Deprecated source note
-
-The external `vps-infrastructure` repository remains a historical migration
-source only. Net-new operational updates should be authored in this repo under
-`docs/machines/gatekeeper/`.

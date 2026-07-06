@@ -13,10 +13,17 @@ docs_dir: docs
 
 nav:
   - Home: index.md
-  - Agent Orientation: agents.md
   - Machines:
       - Overview: machines.md
-      - Gatekeeper: machines/gatekeeper/README.md
+      - Gatekeeper:
+          - Overview: machines/gatekeeper/README.md
+          - Services and Ports: machines/gatekeeper/docs/services.md
+          - Infrastructure Layout: machines/gatekeeper/docs/infrastructure-layout.md
+          - Backups: machines/gatekeeper/docs/backup-improvements.md
+          - Incidents and Resilience: machines/gatekeeper/docs/incidents.md
+          - Tailnet Setup: machines/gatekeeper/tailnet/README.md
+          - Tailnet Manual Steps: machines/gatekeeper/tailnet/docs/manual-steps.md
+          - Nginx Configuration: machines/gatekeeper/configs/nginx/README.md
       - Pyrite:
           - Overview: machines/pyrite/README.md
           - Platform Baseline: machines/pyrite/docs/platform-baseline.md
@@ -24,20 +31,35 @@ nav:
           - Wayland and AV: machines/pyrite/docs/wayland-and-av.md
           - Remote Access: machines/pyrite/docs/remote-access.md
           - Troubleshooting: machines/pyrite/docs/troubleshooting.md
+          - Services: machines/pyrite/services/README.md
+          - Services TODO: machines/pyrite/services/TODO.md
+          - Guides:
+              - OBS Audio: machines/pyrite/guides/obs-audio.md
+              - OBS Video: machines/pyrite/guides/obs-video.md
+              - Zed Install: machines/pyrite/guides/zed-install.md
+              - Google Cloud Remote Dev: machines/pyrite/guides/google-cloud-remote-dev.md
+              - ML Workstation Build Plan: machines/pyrite/guides/ml-workstation-build-plan.md
           - Change Log: machines/pyrite/docs/change-log.md
           - Platform TODO: machines/pyrite/docs/TODO.md
-          - Services: machines/pyrite/services/README.md
-      - Arkk: machines/arkk/README.md
+      - Arkk:
+          - Overview: machines/arkk/README.md
+          - RAID Recovery Runbook: machines/arkk/RAID_RECOVERY.md
+          - 2026 Incident Notes: machines/arkk/RAID_RECOVERY_2026.md
+          - 2026 Backup Triage: machines/arkk/BACKUP_TRIAGE_2026.md
   - Network:
-      - Overview: network.md
-      - Topology: network/README.md
-      - LAN and Bonding: network/lan.md
+      - Overview: network/README.md
+      - LAN and Bonded Link: network/lan.md
       - Tailnet and Headscale: network/tailnet.md
   - Operations:
       - Overview: operations.md
       - Backups: backups/README.md
       - Secrets: secrets/README.md
       - Docker Images: docker-images/README.md
+  - History:
+      - Repo Consolidation (2026): history/consolidation-2026.md
+      - VPS Reorganization Guide: machines/gatekeeper/docs/IMPLEMENTATION-GUIDE.md
+      - VPS Phase 3 Summary: machines/gatekeeper/docs/phase3-summary.md
+  - Agent Orientation: agents.md
 
 markdown_extensions:
   - admonition
