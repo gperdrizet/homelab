@@ -14,13 +14,14 @@ Internet
     │       │
     │   [gatekeeper]  ── Tailscale 100.64.0.1 (exit node)
     │
-    └── Home LAN (router)
+    └── Home LAN (router, 10.1.10.0/24)
             │
-            ├── [pyrite]  ── Tailscale 100.64.0.2
+            ├── [pyrite] 10.1.10.200 ── Tailscale 100.64.0.2
             │       │
-            │       └── bond0 ──────────────────── bond0
-            │                                        │
-            └── [arkk]    ── Tailscale 100.64.0.x  (NFS, RECOVERING)
+            │       └── bond0 192.168.2.2 ═══════ bond0 192.168.2.1
+            │           (dual GbE, direct-wired)         │
+            └── [arkk] 10.1.10.201 ──────────────────────┘
+                (NFS over bonded link; Tailscale TBD — RECOVERING)
 ```
 
 ---

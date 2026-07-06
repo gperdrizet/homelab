@@ -1,4 +1,7 @@
-# Backup System Improvements (Phase 3 - Deferred)
+# Backups on gatekeeper
+
+Current backup operations for gatekeeper, plus planned improvements (deferred
+from the April 2026 Phase 3 reorganization).
 
 ## Current State
 

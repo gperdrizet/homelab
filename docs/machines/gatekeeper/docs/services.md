@@ -33,7 +33,7 @@ All domains below are served over HTTPS on port 443.
 |------------------------------|----------------------------|-------------------------|---------------------------------------|
 | perdrizet.org                | redirect                   | Let's Encrypt (certbot) | Redirects to logkeep.perdrizet.org    |
 | www.perdrizet.org            | redirect                   | Let's Encrypt (certbot) | Redirects to logkeep.perdrizet.org    |
-| logkeep.perdrizet.org        | http://127.0.0.1:8000      | Let's Encrypt (certbot) | LogKeep production (blue/green deploy); **currently down** (mid-update) |
+| logkeep.perdrizet.org        | http://127.0.0.1:8000      | Let's Encrypt (certbot) | LogKeep production (blue/green deploy) |
 | staging.perdrizet.org        | http://100.64.0.1:8003     | Let's Encrypt (certbot) | LogKeep staging (Tailscale-only access) |
 | feedback.perdrizet.org       | http://127.0.0.1:18080     | Let's Encrypt (certbot) | Feedback/contact form app (Django)    |
 | admin.perdrizet.org          | http://127.0.0.1:8600      | Let's Encrypt (certbot) | Site admin agent (LLM-backed, systemd service) |

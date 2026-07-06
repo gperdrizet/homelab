@@ -10,7 +10,7 @@ two complementary systems. **No secrets are ever committed to this or any other 
 **Tool:** [Vaultwarden](https://github.com/dani-garcia/vaultwarden) (self-hosted Bitwarden-compatible server)  
 **Hosted on:** gatekeeper (Docker container)  
 **Access:** Bitwarden browser extension, mobile app, or CLI (`bw`)  
-**Setup:** [vaultwarden/](vaultwarden/)  
+**Setup:** `vaultwarden/` (compose file in this directory)  
 
 Covers: Gmail, GitHub, domain registrar, cloud provider accounts, SSH passphrases, and
 any other personal login.
@@ -52,4 +52,4 @@ rotating keys or rebuilding servers.
 
 ## Vaultwarden
 
-See [vaultwarden/](vaultwarden/) for the Docker compose setup.
+See `vaultwarden/docker-compose.yml` (in this directory) for the Docker compose setup.

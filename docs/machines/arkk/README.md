@@ -2,7 +2,9 @@
 
 NAS and RAID storage server, physically located in the home office alongside pyrite.
 
-**Status: RECOVERING**: drive replacement in progress, resilvering and restore needed.
+**Status: RECOVERING** — array assembled **degraded (4/5 disks)**, rescue backup
+to pyrite **complete and verified (1.4T)**. Ready to resilver the replacement
+drive (ZGY9V4AT) — see [RAID_RECOVERY_2026.md](RAID_RECOVERY_2026.md#resilver-the-replacement-drive-ready-to-run).
 
 ---
 
@@ -12,17 +14,18 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 **CPU:** AMD A8-3870 APU with Radeon HD Graphics  
 **RAM:** 8 GB Corsair Vengeance 1333 MT/s (4 x 2GB)
 **Storage (RAID array):**
-- 5 × 4 TB Seagate IronWolf (MN: ST4000VN008-2DR1) via mdadm
-- ZGY8RDRE, ZGY8S00W, ZGY8RLDM, ZGY8NY0Q
-- Failed: ZGY8RFGN
-- Replacement: ZGY9V4AT
-- **Current state:** Resilvering / restoring after drive replacement
+- 5 × 4 TB Seagate IronWolf (MN: ST4000VN008-2DR1) via mdadm (RAID5, `/dev/md0`, xfs)
+- Active members: ZGY8RDRE, ZGY8S00W, ZGY8RLDM, ZGY8NY0Q
+- Failed: ZGY8RFGN (slot 3)
+- Replacement: ZGY9V4AT (installed; currently a spare — **not** yet resilvered)
+- **Current state:** degraded `[UUU_U]` (4/5), assembled read-only for rescue backup
 
 **OS:** Ubuntu Server 20.04.6 LTS  
 **Network:**
-- LAN (gigabit Ethernet to router)
-- Direct bonded dual gigabit link to pyrite (high-speed NFS)
-- TODO: Tailscale client (100.64.0.<!-- TODO -->) when operational
+- LAN gigabit Ethernet (`10.1.10.201`)
+- Direct bonded dual-gigabit link to pyrite: `bond0` = `192.168.2.1` (arkk) ↔ `192.168.2.2` (pyrite); ~200 MB/s iperf
+- NFS: `/mnt/arkk` exported read-only to `192.168.2.2` during recovery
+- TODO: Tailscale client when operational
 
 ---
 
@@ -37,63 +40,54 @@ NAS and RAID storage server, physically located in the home office alongside pyr
 
 ## Recovery Status
 
-- [x] Replacement drive installed
-- [ ] RAID resilvering complete
-- [ ] Data restore complete
-- [ ] NFS shares re-exported to pyrite
+- [x] Replacement drive installed (ZGY9V4AT, present as spare `sda1`)
+- [x] Array assembled degraded (4/5) and mounted read-only
+- [x] NFS export re-established to pyrite (read-only, bonded link)
+- [x] Selective rescue backup to pyrite complete and verified (1.4T to `/mnt/glass`)
+- [ ] Spare re-added; RAID resilvering complete
+- [ ] Array remounted read-write; NFS exports restored to normal
 - [ ] Backup jobs re-pointed to arkk
 - [ ] Tailscale client reconnected
 
 ---
 
-## Network (when operational)
+## Network (current)
 
 | Interface | Address | Notes |
 |-----------|---------|-------|
-| eth0 (LAN) | DHCP / static | Router-connected |
-| bond0 | <!-- e.g. 192.168.10.2 --> | Direct bonded link to pyrite |
-| Tailscale | 100.64.0.<!-- TODO --> | Tailnet access |
+| LAN | 10.1.10.201 | Router-connected, SSH access |
+| bond0 | 192.168.2.1/24 | Direct bonded link to pyrite (192.168.2.2) |
+| Tailscale | TBD | Reconnect after recovery |
 
 ---
 
 ## NFS Exports
 
-<!-- TODO: document NFS share paths once restored -->
+During recovery: `/mnt/arkk` exported **read-only** to `192.168.2.2` (pyrite)
+over the bonded link. Normal (post-recovery) exports TBD when the array is
+remounted read-write.
 
 ---
 
 ## Recovery Tools
 
-### Selective copy script (rsync over SSH)
+### Rescue backup scripts
 
-Use this from the backup machine when you only want specific directories from `/mnt/arkk`.
+The 2026 rescue backup runs from pyrite against the NFS mount. Scripts and
+selection lists live in the `scripts/` directory alongside this page:
 
-Script: [scripts/rsync_selected_from_arkk.sh](scripts/rsync_selected_from_arkk.sh)  
-Example targets list: [scripts/targets.example.txt](scripts/targets.example.txt)
-Example excludes list: [scripts/excludes.example.txt](scripts/excludes.example.txt)
-
-Example:
+- `run_backup.sh` — orchestrates both passes with logging and preflight checks
+- `rsync_selected_from_arkk.sh` + `targets.txt` / `excludes.txt` — bulk selective copy
+- `thin_checkpoints_from_arkk.sh` + `checkpoint_dirs.txt` — thinned GAN checkpoint ladder
 
 ```bash
-./docs/machines/arkk/scripts/rsync_selected_from_arkk.sh \
-	-f ./docs/machines/arkk/scripts/targets.example.txt \
-	-x ./docs/machines/arkk/scripts/excludes.example.txt \
-	-d /srv/backups/arkk \
-	-s siderealyear@arkk:/mnt/arkk
+cd ~/homelab/docs/machines/arkk/scripts
+./run_backup.sh -s /mnt/arkk -d /mnt/glass/arkk -n   # dry run
+./run_backup.sh -s /mnt/arkk -d /mnt/glass/arkk      # real run
 ```
 
-Exclude patterns let you keep a parent directory while skipping noisy subdirectories
-like `logs/` or `data/tmp/`.
-
-### RAID degraded-start runbook
-
-See [RAID_RECOVERY.md](RAID_RECOVERY.md), especially:
-- Step 6a: stop inactive md device
-- Step 6b: assemble with `--readonly --force --run`
-- Step 6d: mount read-only for data extraction
-
-Incident backup triage notes:
-- [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md)
+See [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md) for the full keep/drop plan
+and run procedure.
 
 ---
 

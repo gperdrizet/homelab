@@ -14,7 +14,7 @@ a private mesh network (tailnet).
 **MagicDNS domain:** ts.perdrizet.org  
 **Subnet:** 100.64.0.0/24  
 
-Setup scripts and configs: [machines/gatekeeper/tailnet/](../machines/gatekeeper/tailnet/)
+Setup scripts and configs: [machines/gatekeeper/tailnet](../machines/gatekeeper/tailnet/README.md)
 
 ---
 

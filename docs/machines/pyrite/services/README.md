@@ -26,48 +26,78 @@ current homelab deployment path and operational dependencies.
 ## llama.cpp inference server
 
 **Repo:** [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp)  
-**Port:** 8502 (tailnet path from gatekeeper to 100.64.0.2)  
-**Backend for:** model-gateway on gatekeeper (promptlyapi.com, model.perdrizet.org)
+**Bind:** `0.0.0.0:8502` (consumed by gatekeeper over tailnet at `100.64.0.2:8502`)  
+**Model:** `/opt/models/gpt-oss-20b-mxfp4.gguf`  
+**GPU:** Tesla P100 (`CUDA_VISIBLE_DEVICES=0`)  
+**Backend for:** model-gateway (promptlyapi.com, model.perdrizet.org)
 
-Operational references for homelab:
-- Service health endpoint: `http://100.64.0.2:8502/health`
-- systemd unit: `llamacpp.service`
-- Service deployment source: `utils/llamacpp.service` and `utils/deploy_service.sh` in the llama.cpp repo
+Operational references:
+- systemd unit: `llamacpp.service` (binary `/opt/llama.cpp/build/bin/llama-server`)
+- Waits for the GPU before start (`ExecStartPre` polls `nvidia-smi`)
+- Health endpoint: `http://100.64.0.2:8502/health`
 - Logs: `journalctl -u llamacpp.service -f`
-
-Operational boundary in homelab:
-- Public access is mediated by gatekeeper/model-gateway, not direct public exposure on pyrite.
-- Route and domain posture are documented in
-	`docs/machines/gatekeeper/docs/services.md`.
+- Public access is mediated by gatekeeper/model-gateway; not directly exposed.
 
 ---
 
 ## PostgreSQL server
 
 **Repo:** [gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server)  
-**Port:** 5432 (local) → 54321 (public via gatekeeper TCP stream proxy)  
+**Container:** `student-postgres` (`pgvector/pgvector:pg16`, PostgreSQL 16.13)  
+**Bind:** `0.0.0.0:5432` (local) → `:54321` public via gatekeeper nginx TCP stream proxy  
 **Used by:** external clients connecting to pyrite's database over the internet
 
-Operational references for homelab:
-- Local database listener on pyrite: `5432`
-- Public entrypoint via gatekeeper nginx stream proxy: `:54321`
+Operational references:
 - Compose source: `docker-compose.yml` in the postgreSQL-server repo
-- Host auth and TLS config sources: `config/pg_hba.conf`, `config/postgresql.conf`
-- Admin command surface: `make help` in the postgreSQL-server repo
-
-Operational boundary in homelab:
-- Gatekeeper owns public ingress and stream proxy behavior.
-- pyrite hosts the database stack and monitoring exporter components.
-- Backup/recovery strategy references should remain aligned with
-	`docs/backups/README.md` and arkk recovery posture while RAID work is active.
+- Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf`
+- Admin surface: `make help` in the repo
+- Metrics: `postgres-exporter` container on pyrite (`:9187`), scraped by monitoring
+- Gatekeeper owns the public stream proxy (`:54321` → `100.64.0.2:5432`)
 
 ---
 
-## nixx server
+## nixx
 
 **Repo:** [gperdrizet/nixx](https://github.com/gperdrizet/nixx)  
-**Port:** 8000 (tailnet path from gatekeeper to 100.64.0.2)  
-**Used by:** nixx.perdrizet.org reverse proxy on gatekeeper
+**Ingress:** nixx.perdrizet.org → gatekeeper → `100.64.0.2:8000` over tailnet  
+**Status:** enabled but currently **inactive** (not running as of this writing)
+
+nixx runs as a set of systemd units (grouped under `nixx.target`):
+
+| Unit | Role | Port |
+|------|------|------|
+| `nixx-server` | API server (`nixx serve`) | 8000 |
+| `nixx-admin` | admin dashboard | — |
+| `nixx-embed` | embedding server (llama.cpp `llama-server`) | 8082 |
+| `nixx-pgweb` | pgweb database browser (`0.0.0.0:8081`) | 8081 |
+| `nixx-image` | image generation (FLUX.1 Kontext); **disabled** | — |
+
+Working directory `/home/siderealyear/nixx`. Manage with
+`systemctl start nixx.target`; check with `systemctl is-active nixx-server`.
+
+---
+
+## model-gateway
+
+**Bind:** `0.0.0.0:8503` (container `model-gateway-gateway-1`, healthy)  
+Runs on pyrite in front of llama.cpp; also mirrored on gatekeeper for public
+ingress (model.perdrizet.org / promptlyapi.com). Adminer companion on
+`127.0.0.1:8504`.
+
+---
+
+## Developer endpoints (tailnet-only)
+
+These bind to pyrite's Tailscale IP `100.64.0.2` and are proxied by gatekeeper:
+
+| Service | Bind | Ingress | systemd unit |
+|---------|------|---------|--------------|
+| OpenVSCode Server | `100.64.0.2:47301` | code.perdrizet.org | `openvscode-server` |
+| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | `jupyterlab` |
+| VS Code Tunnel | Microsoft relay | vscode.dev/tunnel | `vscode-tunnel` |
+
+> Because these bind the tailnet IP, they are unreachable whenever Tailscale is
+> down on pyrite — see the gatekeeper [incidents](../../gatekeeper/docs/incidents.md) note.
 
 ---
 

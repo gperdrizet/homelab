@@ -38,14 +38,19 @@ Primary development and compute workstation in the home office.
 
 ## Core services
 
-| Service | Port | Access path | Notes |
-|---------|------|-------------|-------|
-| llama.cpp | 8502 | gatekeeper over tailnet | Backend for model-gateway |
-| PostgreSQL | 5432 | gatekeeper stream proxy (54321 public) | Remote database access |
-| nixx | 8000 | gatekeeper reverse proxy | nixx.perdrizet.org |
-| OpenVSCode Server | 47301 | gatekeeper reverse proxy over tailnet | code.perdrizet.org |
-| JupyterLab | 47302 | gatekeeper reverse proxy over tailnet | jupyter.perdrizet.org |
-| VS Code Tunnel | N/A | vscode.dev/tunnel/pyrite | Outbound remote access path |
+| Service | Bind | Ingress path | Status |
+|---------|------|--------------|--------|
+| llama.cpp | `0.0.0.0:8502` | gatekeeper over tailnet | active (systemd) |
+| model-gateway | `0.0.0.0:8503` | model.perdrizet.org / promptlyapi.com | active (docker) |
+| PostgreSQL (postgreSQL-server) | `0.0.0.0:5432` | gatekeeper stream proxy `:54321` | active (docker) |
+| nixx | `100.64.0.2:8000` | nixx.perdrizet.org | enabled, **inactive** |
+| OpenVSCode Server | `100.64.0.2:47301` | code.perdrizet.org | active (systemd) |
+| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | active (systemd) |
+| VS Code Tunnel | Microsoft relay | vscode.dev/tunnel/pyrite | active (systemd) |
+| Grafana / Prometheus / postgres-exporter | `:3000` / `:9090` / `:9187` | local monitoring | active (docker) |
+
+See [services/README.md](services/README.md) for per-service detail (ports,
+units, models, dependencies).
 
 Service repo references:
 - https://github.com/gperdrizet/llama.cpp
@@ -64,8 +69,12 @@ Service repo references:
 - [docs/change-log.md](docs/change-log.md): consolidated migration history
 - [docs/TODO.md](docs/TODO.md): remaining platform tasks
 
-- [services/](services/): pyrite service inventory and service roadmap
-- [guides/](guides/): app and tooling setup guides
+- [services/README.md](services/README.md): pyrite service inventory; roadmap in [services/TODO.md](services/TODO.md)
+- `guides/`: app and tooling setup guides —
+  [OBS audio](guides/obs-audio.md), [OBS video](guides/obs-video.md),
+  [Zed install](guides/zed-install.md),
+  [Google Cloud remote dev](guides/google-cloud-remote-dev.md),
+  [ML workstation build plan](guides/ml-workstation-build-plan.md)
 - [guides/obs-audio.md](guides/obs-audio.md): OBS virtual microphone, audio routing, and filter chain
 - [guides/obs-video.md](guides/obs-video.md): OBS video capture, NVENC tuning, and plugin notes
 - [guides/ml-workstation-build-plan.md](guides/ml-workstation-build-plan.md): future workstation hardware planning reference

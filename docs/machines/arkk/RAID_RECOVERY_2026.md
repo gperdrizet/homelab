@@ -6,40 +6,105 @@
 
 ---
 
-## 2026 backup triage status (pre-resilver)
+## 2026 backup triage status
 
-Current rescue workflow for this incident:
+**Backup: COMPLETE (2026-07-05).** Rescue copy to pyrite `/mnt/glass/arkk`
+finished successfully — **1.4T** of the 2.7T budget used (1.2T free). `rpm`
+collapsed from 4.9T to **1.3T** via checkpoint thinning; exclusions reduced the
+large corpora dramatically (opensearch 564G→1.0G, pubsum 438G→883M). Both passes
+returned rc=0; the only skip was one root-owned `attack/auth.log.bak` (Permission
+denied), which is inconsequential.
 
-- Backup target host: pyrite
-- Temporary rescue capacity: 2.7T RAID0 on pyrite (`/mnt/glass`)
-- Transport: **NFS mount over a pair of bonded gigabit Ethernet links wired
-  directly between arkk and pyrite.** arkk exports the read-only array; pyrite
-  mounts it locally (e.g. `/mnt/arkk`) and rsync runs against that local path.
-- Estimated footprint: ~1.8T of the 2.7T budget after exclusions + checkpoint
-  thinning (≈0.9T headroom).
-- Priority: copy selected high-value data before rebuilding parity.
+Rescue workflow used:
 
-Strategy in brief:
+- Target: 2.7T RAID0 on pyrite (`/mnt/glass`)
+- Transport: NFS over the bonded dual-GbE direct link (arkk `192.168.2.1` →
+  pyrite `192.168.2.2`); array exported and mounted **read-only**; parallel rsync
+  streams to saturate the link.
+- Strategy: keep code/configs + irreplaceable datasets + generated art; drop
+  regenerable data and boilerplate; thin GAN checkpoints to ~35 per run + final;
+  git history preserved.
 
-- Copy code/configs and irreplaceable datasets + generated art; **drop**
-  regenerable/redownloadable data (model caches, downloaded corpora) and
-  boilerplate (`.venv`, `__pycache__`, `node_modules`, editor dirs, ...).
-- **Thin** periodic GAN training checkpoints to ~35 evenly-spaced per run + the
-  final one (~3.8T of churn collapses to ~110G).
-- Git history is preserved.
+Full keep/drop plan, run procedure, and helper scripts:
+[BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md) and `scripts/run_backup.sh`.
+
+**Next: resilver the replacement drive** — the backup is the safety net, so the
+degraded (no-redundancy) rebuild can now proceed. See
+[Resilver the replacement drive](#resilver-the-replacement-drive-ready-to-run).
 
 Order of operations: assemble/mount **read-only** → back up → verify →
-**then** re-add the spare and resilver (Step 9 onward).
+**then** re-add the spare and resilver. First three are done.
 
-Active working notes, the full keep/drop lists, and the exact run procedure are
-maintained in:
+---
 
-- [BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md)
+## Resilver the replacement drive (ready to run)
 
-Helper scripts: `docs/machines/arkk/scripts/run_backup.sh` (orchestrator),
-`rsync_selected_from_arkk.sh`, and `thin_checkpoints_from_arkk.sh`. See the
-selective rsync workflow in [RAID_RECOVERY.md](RAID_RECOVERY.md) to prioritize
-transfer order and rerun copy passes for partials.
+Verified state (2026-07-05):
+
+- Array `/dev/md0`: `clean, degraded`, `[5/4] [UUU_U]` — slot 3 missing.
+- Active members: `sdb1` (ZGY8RDRE, slot 0), `sdf1` (ZGY8NY0Q, slot 1),
+  `sdc1` (ZGY8S00W, slot 2), `sde1` (ZGY8RLDM, slot 4).
+- **Replacement drive `sda` = ZGY9V4AT**; partition `sda1` is a **clean spare**
+  with the matching array UUID (`4ad8134f:b1450118:aa804d2a:d1691d6f`), not yet
+  assembled into the running array.
+- Failed/removed original: ZGY8RFGN.
+- OS disk: `sdd` (Hitachi 111.8G) — not part of the array.
+
+> **Identify disks by serial, never by letter** (`lsblk -o NAME,SERIAL`) — letters
+> can change across reboots.
+
+```bash
+ssh arkk
+
+# 1. Confirm the state matches the above.
+cat /proc/mdstat
+lsblk -o NAME,SERIAL,SIZE | grep -E 'sd[a-f]'
+sudo mdadm --examine /dev/sda1 | grep -iE 'Array UUID|Device Role|Events'
+
+# 2. Ensure the array is read-write at the md level (harmless if already rw).
+sudo mdadm --readwrite /dev/md0
+
+# 3. Add the replacement (ZGY9V4AT = sda1). It already carries a matching spare
+#    superblock, so mdadm rebuilds it into the missing slot 3 automatically.
+sudo mdadm --manage /dev/md0 --add /dev/sda1
+
+# If --add is rejected due to stale metadata, clear it and retry:
+#   sudo mdadm --zero-superblock /dev/sda1
+#   sudo mdadm --manage /dev/md0 --add /dev/sda1
+
+# 4. Confirm the rebuild started.
+cat /proc/mdstat
+# Expect: recovery = X% ... and [5/4] [UUU_U] transitioning toward [UUUUU]
+```
+
+### Monitor (rebuild takes ~4–8 hours for 4 TB)
+
+```bash
+watch -n 30 cat /proc/mdstat
+```
+
+The array has **no redundancy until the rebuild completes** — a second disk
+failure during this window would lose data. The pyrite backup is the safety net.
+
+### On completion
+
+```bash
+cat /proc/mdstat                 # expect [5/5] [UUUUU]
+sudo mdadm --detail /dev/md0 | grep -iE 'State|Active|Working|Failed|Spare'
+# State : clean ; Active 5 ; Working 5 ; Failed 0
+
+# Persist the (unchanged) array definition and rebuild initramfs.
+sudo mdadm --detail --scan | grep md0        # compare to /etc/mdadm/mdadm.conf
+sudo update-initramfs -u
+
+# Return the array to normal read-write service and restore exports.
+sudo mount -o remount,rw /mnt/arkk           # or remount per fstab
+```
+
+Then run the [Post-Recovery Tasks](#post-recovery-tasks) (SMART tests, order a
+new cold spare, SMART monitoring).
+
+---
 
 ---
 
