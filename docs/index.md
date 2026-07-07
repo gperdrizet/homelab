@@ -9,7 +9,8 @@ homelab. Published from the [gperdrizet/homelab](https://github.com/gperdrizet/h
 |---------|------|--------|
 | [gatekeeper](machines/gatekeeper/README.md) | Public VPS: ingress, TLS, monitoring, app hosting | Active |
 | [pyrite](machines/pyrite/README.md) | Workstation: development, GPU compute, core services | Active |
-| [arkk](machines/arkk/README.md) | NAS: RAID storage, backup target | Recovering |
+| [arkk](machines/arkk/README.md) | NAS: RAID storage, backup target | Active |
+| [the-educator](machines/the-educator/README.md) | Home theater, gaming, minecraft server | Active |
 
 ## Start here
 
