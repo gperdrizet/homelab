@@ -106,8 +106,6 @@ new cold spare, SMART monitoring).
 
 ---
 
----
-
 ## Current Situation
 
 The array is running in **degraded mode** with 4 working disks. One disk (sdd) has failed with I/O errors.
