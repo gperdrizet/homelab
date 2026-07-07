@@ -10,13 +10,9 @@
       
       
       
-        <link rel="canonical" href="https://gperdrizet.github.io/homelab/network/lan/">
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/network/nfs/">
       
       
-        <link rel="prev" href="../">
-      
-      
-        <link rel="next" href="../tailnet/">
       
       
         
@@ -27,7 +23,7 @@
     
     
       
-        <title>LAN and Bonded Link - homelab docs</title>
+        <title>Network file systems - homelab docs</title>
       
     
     
@@ -68,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#local-network-lan-layout" class="md-skip">
+        <a href="#network-file-systems" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LAN and Bonded Link
+              Network file systems
             
           </span>
         </div>
@@ -1329,8 +1325,6 @@
       
   
   
-    
-  
   
   
     
@@ -1348,11 +1342,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1380,7 +1374,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1397,37 +1391,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    LAN and Bonded Link
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../lan/" class="md-nav__link">
         
   
   
@@ -1443,70 +1410,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#arkk-lan-data-interface" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        arkk lan-data interface
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lan-interfaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        LAN interfaces
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#host-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Host names
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1906,46 +1809,69 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#nfs-mounts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        NFS mounts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NFS mounts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pyrite
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pyrite">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ark/
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#arkk-lan-data-interface" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#big_itch" class="md-nav__link">
     <span class="md-ellipsis">
       
-        arkk lan-data interface
+        big_itch/
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#lan-interfaces" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#arkk-side" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LAN interfaces
+        Arkk side
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#host-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Host names
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1969,165 +1895,110 @@
   
 
 
-<h1 id="local-network-lan-layout">Local network: LAN layout<a class="headerlink" href="#local-network-lan-layout" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>All <code>interesting-times-gang</code> machines connect to the internet via a standard home router.
-No services are exposed directly from the LAN; all public endpoints run on
-gatekeeper (VPS). Network configuration is done via netplan configuration at <code>/etc/netplan/01-netcfg.yaml</code>. </p>
+<h1 id="network-file-systems">Network file systems<a class="headerlink" href="#network-file-systems" title="Permanent link">&para;</a></h1>
 <table>
 <thead>
 <tr>
-<th>Device</th>
-<th>LAN interface</th>
-<th>IP</th>
-<th>Notes</th>
+<th>Host</th>
+<th>Volume</th>
+<th>Mount</th>
+<th>RAID</th>
+<th>Size (TB)</th>
+<th>Exported IP</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>pyrite</code></td>
-<td>lan-ssh</td>
-<td>10.1.10.200</td>
-<td>Primary LAN adapter, SSH access</td>
-</tr>
-<tr>
-<td><code>pyrite</code></td>
-<td>arkk-link</td>
-<td>192.168.2.2</td>
-<td>Direct data link to arkk</td>
-</tr>
-<tr>
-<td><code>arkk</code></td>
-<td>lan-ssh</td>
-<td>10.1.10.201</td>
-<td>Primary LAN adapter, SSH access</td>
-</tr>
-<tr>
-<td><code>arkk</code></td>
-<td>pyrite-link</td>
-<td>192.168.2.1</td>
-<td>Direct data link to pyrite</td>
-</tr>
-<tr>
-<td><code>arkk</code></td>
-<td>lan-data</td>
-<td>10.1.10.202</td>
-<td>Dual bonded data link for LAN hosts</td>
+<td><code>the-educator</code></td>
+<td><code>/dev/sdc1</code></td>
+<td><code>/home/siderealyear/ark</code></td>
+<td>5</td>
+<td>3.6</td>
+<td>10.1.10.0/24</td>
 </tr>
 <tr>
 <td><code>the-educator</code></td>
-<td>lan</td>
-<td>10.1.10.204</td>
-<td>Primary LAN adapter</td>
+<td><code>/dev/sda1</code></td>
+<td><code>/home/siderealyear/big_itch</code></td>
+<td>NA</td>
+<td>3.6</td>
+<td>10.1.10.0/24</td>
 </tr>
 <tr>
-<td><code>voxxel</code></td>
-<td>wifi</td>
-<td>10.1.10.203</td>
-<td>Phone wifi</td>
+<td><code>arkk</code></td>
+<td><code>/dev/md0</code></td>
+<td><code>/mnt/arkk</code></td>
+<td>5</td>
+<td>15.0</td>
+<td>192.168.2.2</td>
 </tr>
 <tr>
-<td><code>gatekeeper</code></td>
-<td></td>
-<td>74.208.107.78</td>
-<td>Gatekeeper public IP</td>
+<td><code>arkk</code></td>
+<td><code>/dev/md0</code></td>
+<td><code>/mnt/arkk</code></td>
+<td>5</td>
+<td>15.0</td>
+<td>10.1.10.0/24</td>
 </tr>
 </tbody>
 </table>
-<h2 id="arkk-lan-data-interface"><code>arkk</code> lan-data interface<a class="headerlink" href="#arkk-lan-data-interface" title="Permanent link">&para;</a></h2>
-<p>The lan-data interface on <code>arkk</code> is a bond of two gigabit ethernet adapters:</p>
-<ul>
-<li><strong>data0</strong>, MAC address: 00:0b:0e:0f:00:ed</li>
-<li><strong>data1</strong>, MAC address: 00:11:0e:26:35:28</li>
-</ul>
-<pre><code class="language-yaml"># /etc/netplan/01-netcfg.yaml
-
-    data0:
-      match:
-        macaddress: 00:0b:0e:0f:00:ed
-      set-name: data0
-      dhcp4: no
-    data1:
-      match:
-        macaddress: 00:11:0e:26:35:28
-      set-name: data1
-      dhcp4: no
-  bonds:
-    lan-data:
-      interfaces:
-        - data0
-        - data1
-      addresses: [10.1.10.202/24]
-      parameters:
-        mode: balance-alb
-        mii-monitor-interval: 100
+<p>Arkk's RAID is avalible via a dual bonded link in mode <code>balance-alb</code> to any host on the LAN at 10.1.10.202:</p>
+<pre><code class="language-bash"># /etc/exports
+/mnt/arkk 10.1.10.0/24(rw,no_root_squash,no_subtree_check,async)
 </code></pre>
-<p>The link runs in <code>balance-alb</code> (adaptive load balancing) mode to distribute traffic across both NIC's when multiple hosts are hitting the RAID array.</p>
-<h2 id="lan-interfaces">LAN interfaces<a class="headerlink" href="#lan-interfaces" title="Permanent link">&para;</a></h2>
-<p>On <code>pyrite</code> and <code>arkk</code> the lan-ssh link caries all traffic other than nfs mounts. On the educator, the single lan link handles everything.</p>
-<p>Static IPv4 addresses are assigned via netplan. Interface names are assigned via MAC address matching. IPv6 is disabled. Example lan-ssh netplan configuration stanza from <code>pyrite</code>:</p>
-<pre><code class="language-yaml"># /etc/netplan/01-netcfg.yaml
-
-    lan-ssh:
-      match:
-        macaddress: 0c:c4:7a:47:63:ac
-      set-name: lan-ssh
-      dhcp6: false
-      accept-ra: false
-      link-local: []
-      addresses: [10.1.10.200/24]
-      nameservers:
-        addresses: [1.1.1.1, 1.0.0.1, 8.8.8.8]
-      routes:
-      - to: default
-        via: 10.1.10.1
-      optional: true
+<h3 id="nfs-mounts">NFS mounts<a class="headerlink" href="#nfs-mounts" title="Permanent link">&para;</a></h3>
+<p>Pyrite mounts arkk's RAID via nfs:</p>
+<h4 id="pyrite">pyrite<a class="headerlink" href="#pyrite" title="Permanent link">&para;</a></h4>
+<p>Direct data link to <code>arkk</code> RAID is mounted via <code>etc/fstab</code>.</p>
+<pre><code class="language-bash"># /etc/fstab
+192.168.2.1:/mnt/arkk /mnt/arkk nfs rw,hard,sync,noatime,nfsvers=4 0 0
 </code></pre>
-<h2 id="host-names">Host names<a class="headerlink" href="#host-names" title="Permanent link">&para;</a></h2>
-<p>Host names are configured in <code>/etc/hosts</code>. The loopback is given a FQDN to distinguish it from the host's network address. Here is <code>pyrite</code>:</p>
-<pre><code class="language-text"># /etc/hosts
-127.0.0.1 localhost
-127.0.1.1 pyrite.local pyrite
+<p>Drives on <code>the-educator</code> (<code>ark</code> &amp; <code>big_itch</code>) are mounted via systemd to avoid issues with boot order/timing of network interface availability. Does not seem to be a problem with <code>arkk</code>, probably because it's a direct link with no switch or router.</p>
+<h5 id="ark"><code>ark/</code><a class="headerlink" href="#ark" title="Permanent link">&para;</a></h5>
+<p>Archival storage RAID 5 (3.6 TB) on <code>the-educator</code>. Here is the systemd unit file contents:</p>
+<pre><code class="language-text">#/etc/systemd/system/ark.service 
 
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
+[Unit]
+Description=Ark NFS RAID mount
+After=network-online.target
+Wants=network-online.target
 
-10.1.10.204 the-educator
-10.1.10.202 arkk
-10.1.10.200 pyrite
-100.64.0.1 gatekeeper
-74.208.107.78 gatekeeper-public-ip
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/mount -t nfs4 10.1.10.204:/home/siderealyear/ark /mnt/ark
+ExecStop=/usr/bin/umount /mnt/ark
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=30
+
+[Install]
+WantedBy=multi-user.target
 </code></pre>
-<p>SSH hosts are also set in <code>~/.ssh/config</code>:</p>
-<pre><code class="language-text">Host arkk
-    HostName 10.1.10.201
-    User siderealyear
-    Port 22
+<h5 id="big_itch"><code>big_itch/</code><a class="headerlink" href="#big_itch" title="Permanent link">&para;</a></h5>
+<p>Single large SATA HDD (3.6 TB) - use for overflow, steam library etc., where to stick stuff when we aren't sure where else to put it.</p>
+<pre><code>#/etc/systemd/system/ark.service 
 
-Host gatekeeper
-    HostName 100.64.0.1
-    User siderealyear
-    Port 44441
-    ForwardAgent yes
+[Unit]
+Description=Big itch NFS mount
+After=network-online.target
+Wants=network-online.target
 
-Host gatekeeper-public-ip
-    HostName 74.208.107.78
-    User siderealyear
-    Port 44441
-    ForwardAgent yes
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/mount -t nfs4 10.1.10.204:/home/siderealyear/big_itch /mnt/big_itch
+ExecStop=/usr/bin/umount /mnt/big_itch
+Restart=on-failure
+RestartSec=10
+TimeoutStartSec=30
 
-Host pyrite
-    HostName 10.1.10.200
-    User siderealyear
-    Port 4444
-
-Host the-educator
-    HostName 10.1.10.204
-    User siderealyear
-    Port 22
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<h4 id="arkk-side">Arkk side<a class="headerlink" href="#arkk-side" title="Permanent link">&para;</a></h4>
+<pre><code class="language-bash"># /etc/exports
+/mnt/arkk 192.168.2.2(rw,no_root_squash,no_subtree_check,async)
 </code></pre>
 
 
