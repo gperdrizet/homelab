@@ -82,7 +82,7 @@ Host names are configured in `/etc/hosts`. The loopback is given a FQDN to disti
 ```text
 # /etc/hosts
 127.0.0.1 localhost
-127.0.1.1 pyrite.local
+127.0.1.1 pyrite.local pyrite
 
 ::1     ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
@@ -94,7 +94,7 @@ ff02::2 ip6-allrouters
 10.1.10.202 arkk
 10.1.10.200 pyrite
 100.64.0.1 gatekeeper
-74.208.107.78 gatekeeper-public-i
+74.208.107.78 gatekeeper-public-ip
 ```
 
 SSH hosts are also set in `~/.ssh/config`:
