@@ -17,15 +17,15 @@ homelab. Published from the [gperdrizet/homelab](https://github.com/gperdrizet/h
 - **Looking for a service?** [Gatekeeper service and port inventory](machines/gatekeeper/docs/services.md)
   and [services on pyrite](machines/pyrite/services/README.md)
 - **How machines connect:** [Network overview](network/README.md)
-- **Day-2 operations:** [Operations index](operations.md) — backups, secrets, docker images
+- **Day-2 operations:** [Operations index](operations.md) - backups, secrets, docker images
 - **Active incident:** [arkk RAID recovery](machines/arkk/RAID_RECOVERY_2026.md) and
   [backup triage](machines/arkk/BACKUP_TRIAGE_2026.md)
 
 ## Design principles
 
-- **Private by default** — services live on the tailnet; public ingress terminates
+- **Private by default** - services live on the tailnet; public ingress terminates
   on gatekeeper only.
-- **Secrets stay out of git** — `.env.template` committed, real values in
+- **Secrets stay out of git** - `.env.template` committed, real values in
   Vaultwarden. See [secrets management](secrets/README.md).
 - **Every operational change documents** decision, apply steps, verify steps,
   and revert path.
