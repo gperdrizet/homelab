@@ -18,8 +18,6 @@ homelab. Published from the [gperdrizet/homelab](https://github.com/gperdrizet/h
   and [services on pyrite](machines/pyrite/services/README.md)
 - **How machines connect:** [Network overview](network/README.md)
 - **Day-2 operations:** [Operations index](operations.md) - backups, secrets, docker images
-- **Active incident:** [arkk RAID recovery](machines/arkk/RAID_RECOVERY_2026.md) and
-  [backup triage](machines/arkk/BACKUP_TRIAGE_2026.md)
 
 ## Design principles
 
@@ -27,8 +25,8 @@ homelab. Published from the [gperdrizet/homelab](https://github.com/gperdrizet/h
   on gatekeeper only.
 - **Secrets stay out of git** - `.env.template` committed, real values in
   Vaultwarden. See [secrets management](secrets/README.md).
-- **Every operational change documents** decision, apply steps, verify steps,
-  and revert path.
+- **Docs track current state** - runbooks and inventory pages describe active
+  infrastructure, not migration history.
 
 ## Related repositories
 

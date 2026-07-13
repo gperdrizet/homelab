@@ -48,11 +48,14 @@ The lan-data interface on `arkk` is a bond of two gigabit ethernet adapters:
         mii-monitor-interval: 100
 ```
 
-The link runs in `balance-alb` (adaptive load balancing) mode to distribute traffic across both NIC's when multiple hosts are hitting the RAID array.
+The `lan-data` bond runs in `balance-alb` mode to distribute LAN-side storage traffic across both NICs.
 
 ## LAN interfaces
 
-On `pyrite` and `arkk` the lan-ssh link caries all traffic other than nfs mounts. On the educator, the single lan link handles everything.
+On `pyrite` and `arkk`, `lan-ssh` carries general host traffic.
+NFS traffic to arkk uses the direct link (`arkk-link` on pyrite,
+`pyrite-link` on arkk). On the educator, the single LAN link handles all
+traffic.
 
 Static IPv4 addresses are assigned via netplan. Interface names are assigned via MAC address matching. IPv6 is disabled. Example lan-ssh netplan configuration stanza from `pyrite`:
 

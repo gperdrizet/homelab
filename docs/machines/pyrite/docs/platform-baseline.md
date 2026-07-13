@@ -18,7 +18,6 @@ System profile:
 - Legacy WireGuard and autossh tunnels are retired.
 
 2. Service bind posture:
-- OpenVSCode Server binds to 100.64.0.2.
 - JupyterLab binds to 100.64.0.2.
 - pyrite core services are consumed through gatekeeper proxying where applicable.
 

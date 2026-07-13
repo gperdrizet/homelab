@@ -8,7 +8,7 @@ networks:
     name: monitoring-network
     driver: bridge
   logkeep-network:
-    name: logkeep_logkeep-network
+    name: docker_logkeep-network
     external: true
   bench-network:
     name: bench_bench-network

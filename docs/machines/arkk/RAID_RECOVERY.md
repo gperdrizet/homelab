@@ -275,8 +275,8 @@ Selective-copy helper scripts in this repo (`docs/machines/arkk/scripts/`):
 - `rsync_selected_from_arkk.sh` + `targets.txt` / `excludes.txt` — bulk selective copy
 - `thin_checkpoints_from_arkk.sh` + `checkpoint_dirs.txt` — thinned checkpoint ladder
 
-For the incident-specific keep/drop plan and run procedure, see
-[BACKUP_TRIAGE_2026.md](BACKUP_TRIAGE_2026.md).
+Maintain selection lists in `docs/machines/arkk/scripts/targets.txt` and
+`docs/machines/arkk/scripts/excludes.txt` for current-state backup runs.
 
 ---
 

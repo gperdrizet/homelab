@@ -24,9 +24,9 @@ Setup scripts and configs: [machines/gatekeeper/tailnet](../machines/gatekeeper/
 |------------|------------|--------------|---------|-------------------------------|
 | gatekeeper | gatekeeper | 100.64.0.1   | Ubuntu  | Exit node (advertised)        |
 | pyrite     | pyrite     | 100.64.0.2   | Ubuntu  | Client, exit node enabled     |
-| laptop     | laptop     | 100.64.0.3   | <!-- TODO --> | Client               |
+| laptop     | laptop     | 100.64.0.3   | Unknown | Client                        |
 | voxxel     | voxxel     | 100.64.0.4   | Android | Mobile client                 |
-| arkk       | arkk       | TBD          | <!-- TODO --> | Storage server (offline) |
+| arkk       | arkk       | TBD          | Ubuntu  | Not currently enrolled        |
 
 ---
 

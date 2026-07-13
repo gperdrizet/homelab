@@ -6,7 +6,7 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: http://logkeep-prometheus:9090
+    url: http://monitoring-prometheus:9090
     isDefault: true
     editable: true
     jsonData:
@@ -17,7 +17,7 @@ datasources:
   - name: Loki
     type: loki
     access: proxy
-    url: http://logkeep-loki:3100
+    url: http://monitoring-loki:3100
     editable: true
     jsonData:
       maxLines: 1000
