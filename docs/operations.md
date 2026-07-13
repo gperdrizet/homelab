@@ -3,17 +3,6 @@
 Task-oriented index into the operational runbooks for each machine and each
 cross-cutting concern.
 
-## Active incident: arkk RAID recovery
-
-The arkk RAID5 array is degraded (1 of 5 disks failed) and mounted read-only
-while a selective rescue backup runs to pyrite.
-
-1. [2026 incident notes](machines/arkk/RAID_RECOVERY_2026.md) — current state,
-   degraded-start procedure, resilver steps (deferred until backup verifies)
-2. [Backup triage](machines/arkk/BACKUP_TRIAGE_2026.md) — keep/drop plan,
-   thinning policy, run procedure
-3. [General RAID recovery runbook](machines/arkk/RAID_RECOVERY.md)
-
 ## Machine runbooks
 
 ### gatekeeper (VPS ingress and public services)
@@ -35,16 +24,13 @@ while a selective rescue backup runs to pyrite.
 
 ### arkk (NAS and storage)
 
-- [Machine overview](machines/arkk/README.md) — see active incident above
+- [Machine overview](machines/arkk/README.md)
+- [RAID recovery runbook](machines/arkk/RAID_RECOVERY.md)
 
 ## Cross-cutting
 
 - [Backup strategy](backups/README.md)
+- [Monitoring inventory](operations/monitoring-inventory.md)
 - [Network documentation](network/README.md)
 - [Secrets management](secrets/README.md)
 - [Docker images](docker-images/README.md)
-
-## History
-
-- [Repo consolidation record (2026)](history/consolidation-2026.md) — migration
-  of `admin/` and `vps-infrastructure/` into this repo

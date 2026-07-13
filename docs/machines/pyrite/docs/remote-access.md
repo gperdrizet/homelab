@@ -6,35 +6,22 @@ Remote access methods for pyrite.
 
 1. Tailscale access:
 - Host tailnet IP: 100.64.0.2
-- Used by gatekeeper nginx upstreams for code and jupyter endpoints.
+- Used by gatekeeper nginx upstreams for Jupyter and service backends.
 
-2. VS Code tunnel:
-- Tunnel name: pyrite
-- URL: https://vscode.dev/tunnel/pyrite
+2. SSH over LAN or tailnet:
+- LAN: `10.1.10.200`
+- Tailnet: `100.64.0.2`
 
-## VS Code tunnel service
+3. Browser notebook access:
+- Public ingress: `https://jupyter.perdrizet.org`
+- Proxy path: gatekeeper nginx -> `100.64.0.2:47302`
 
-Install and persist as user service:
-- code tunnel service install --accept-server-license-terms
+## Operational checks
 
-Service controls:
-- systemctl --user status code-tunnel.service
-- systemctl --user restart code-tunnel.service
-- systemctl --user stop code-tunnel.service
-- systemctl --user start code-tunnel.service
-- code tunnel service uninstall
-
-Logs:
-- code tunnel service log
-- journalctl --user -u code-tunnel.service -f
-
-## Recovery playbook
-
-If tunnel breaks after update:
-1. Restart service.
-2. Re-check logs.
-3. Reinstall service if missing.
-4. Re-auth via GitHub device flow.
-
-If multiple code-tunnel processes exist:
-- Stop duplicates and keep only the systemd user service instance.
+- Verify tailnet connectivity:
+	- `tailscale status`
+- Verify Jupyter service:
+	- `sudo systemctl status jupyterlab`
+	- `docker ps --filter name=jupyterlab`
+- Verify local Jupyter bind:
+	- `curl -I http://100.64.0.2:47302`

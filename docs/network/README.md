@@ -18,10 +18,10 @@ Internet
             │
             ├── [pyrite] 10.1.10.200 ── Tailscale 100.64.0.2
             │       │
-            │       └── bond0 192.168.2.2 ═══════ bond0 192.168.2.1
-            │           (dual GbE, direct-wired)         │
+            │       └── arkk-link 192.168.2.2 ═══════ pyrite-link 192.168.2.1
+            │           (direct link)                         │
             └── [arkk] 10.1.10.201 ──────────────────────┘
-                (NFS over bonded link; Tailscale TBD — RECOVERING)
+                (NFS over direct link; Tailscale currently inactive)
 ```
 
 ---
@@ -39,7 +39,7 @@ See [tailnet.md](tailnet.md) for full details.
 | pyrite     | pyrite     | 100.64.0.2   | Client, exit node enabled         |
 | laptop     | laptop     | 100.64.0.3   | Client                            |
 | voxxel     | voxxel     | 100.64.0.4   | Android client                    |
-| arkk       | arkk       | TBD          | Client (offline; recovering)     |
+| arkk       | arkk       | TBD          | Not currently enrolled            |
 
 All client devices route internet traffic through gatekeeper (exit node).
 
@@ -53,9 +53,9 @@ run on gatekeeper.
 
 ---
 
-## Direct bonded link (pyrite ↔ arkk)
+## Direct link (pyrite ↔ arkk)
 
-pyrite and arkk are connected by a dedicated high-speed bonded Ethernet link
-used for NFS storage traffic, keeping backup and file access off the main LAN.
+pyrite and arkk are connected by a dedicated Ethernet link used for NFS
+storage traffic, keeping backup and file access off the main LAN.
 
 See [lan.md](lan.md) for interface names, IP addresses, and bonding configuration.

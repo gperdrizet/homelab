@@ -58,11 +58,15 @@
       },
       "targets": [
         {
-          "expr": "up{job=\"logkeep-production\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum(up)",
           "refId": "A"
         }
       ],
-      "title": "LogKeep App Status",
+      "title": "Targets Up",
       "type": "stat"
     },
     {
@@ -79,11 +83,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "green",
+                "color": "red",
                 "value": 1
               }
             ]
@@ -115,11 +119,15 @@
       },
       "targets": [
         {
-          "expr": "up{job=\"logkeep-postgres-exporter\"}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "count(up == 0)",
           "refId": "A"
         }
       ],
-      "title": "Postgres Exporter Status",
+      "title": "Targets Down",
       "type": "stat"
     },
     {
@@ -136,16 +144,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "yellow",
-                "value": 100
-              },
-              {
-                "color": "red",
-                "value": 500
+                "color": "green",
+                "value": 1
               }
             ]
           },
@@ -176,11 +180,15 @@
       },
       "targets": [
         {
-          "expr": "sum(increase(logkeep_requests_total[24h]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum(probe_success{job=~\"ssl-certs.*\"})",
           "refId": "A"
         }
       ],
-      "title": "Total Requests (24h)",
+      "title": "HTTP Probe Successes",
       "type": "stat"
     },
     {
@@ -202,15 +210,15 @@
               },
               {
                 "color": "yellow",
-                "value": 1
+                "value": 0.2
               },
               {
                 "color": "red",
-                "value": 10
+                "value": 1
               }
             ]
           },
-          "unit": "short"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -237,11 +245,15 @@
       },
       "targets": [
         {
-          "expr": "sum(increase(logkeep_requests_total{status=~\"5..\"}[1h]))",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "max(scrape_duration_seconds{job=\"pyrite-postgres-exporter\"})",
           "refId": "A"
         }
       ],
-      "title": "5xx Responses (1h)",
+      "title": "Pyrite Exporter Scrape Duration",
       "type": "stat"
     },
     {
@@ -293,7 +305,7 @@
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "short"
         },
         "overrides": []
       },
@@ -307,8 +319,7 @@
       "options": {
         "legend": {
           "calcs": [
-            "lastNotNull",
-            "max"
+            "lastNotNull"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -321,12 +332,16 @@
       },
       "targets": [
         {
-          "expr": "sum(rate(logkeep_requests_total[5m]))",
-          "legendFormat": "requests/sec",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum by (job) (up)",
+          "legendFormat": "{{job}}",
           "refId": "A"
         }
       ],
-      "title": "Request Rate",
+      "title": "Target Health by Job",
       "type": "timeseries"
     },
     {
@@ -378,7 +393,7 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "s"
         },
         "overrides": []
       },
@@ -406,17 +421,16 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum(rate(logkeep_request_duration_seconds_bucket[5m])) by (le)) * 1000",
-          "legendFormat": "p95 latency",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "max by (job, instance) (scrape_duration_seconds)",
+          "legendFormat": "{{job}} {{instance}}",
           "refId": "A"
-        },
-        {
-          "expr": "sum(rate(logkeep_request_duration_seconds_sum[5m])) / sum(rate(logkeep_request_duration_seconds_count[5m])) * 1000",
-          "legendFormat": "avg latency",
-          "refId": "B"
         }
       ],
-      "title": "API Latency",
+      "title": "Scrape Duration by Target",
       "type": "timeseries"
     },
     {
@@ -495,12 +509,16 @@
       },
       "targets": [
         {
-          "expr": "sum by (status) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{status}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "max by (database, job) (up{job=~\".*postgres-exporter\"})",
+          "legendFormat": "{{database}} ({{job}})",
           "refId": "A"
         }
       ],
-      "title": "Requests by Status",
+      "title": "PostgreSQL Exporter Health",
       "type": "timeseries"
     },
     {
@@ -579,157 +597,25 @@
       },
       "targets": [
         {
-          "expr": "sum by (endpoint) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{endpoint}}",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "probe_success{job=~\"ssl-certs.*\"}",
+          "legendFormat": "{{instance}}",
           "refId": "A"
         }
       ],
-      "title": "Top API Endpoints",
+      "title": "External Endpoint Probe Success",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 20
-      },
-      "id": 9,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "expr": "pg_stat_database_numbackends{job=\"logkeep-postgres-exporter\",datname=\"logkeep\"}",
-          "legendFormat": "db connections",
-          "refId": "A"
-        }
-      ],
-      "title": "Database Connections",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 20
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "value"
-      },
-      "targets": [
-        {
-          "expr": "sum(logkeep_active_users{environment=\"production\"})",
-          "refId": "A"
-        }
-      ],
-      "title": "Active Users",
-      "type": "stat"
     }
   ],
   "refresh": "30s",
   "schemaVersion": 38,
   "tags": [
-    "logkeep",
-    "production"
+    "homelab",
+    "monitoring",
+    "overview"
   ],
   "templating": {
     "list": []
@@ -740,8 +626,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "LogKeep Production Monitoring",
-  "uid": "logkeep-production-monitoring",
+  "title": "Homelab Monitoring Overview",
+  "uid": "homelab-monitoring-overview",
   "version": 0,
   "weekStart": ""
 }

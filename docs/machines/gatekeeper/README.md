@@ -52,16 +52,14 @@ All gatekeeper operational assets live in this repo:
 - Tailnet setup: [tailnet/README.md](tailnet/README.md)
 - Incidents and resilience: [docs/incidents.md](docs/incidents.md)
 
-Historical records (April 2026 VPS reorganization):
-[docs/IMPLEMENTATION-GUIDE.md](docs/IMPLEMENTATION-GUIDE.md),
-[docs/phase3-summary.md](docs/phase3-summary.md)
-
 ## Operational conventions
 
 - Routing model: gatekeeper proxies to pyrite over Tailscale where required.
-- Developer endpoints:
-  `code.perdrizet.org` -> `100.64.0.2:47301`,
+- Developer endpoint:
   `jupyter.perdrizet.org` -> `100.64.0.2:47302`.
+- Legacy endpoint retained in nginx config:
+  `code.perdrizet.org` -> `100.64.0.2:47301` (OpenVSCode path is no longer part
+  of the active pyrite service model).
 - Public PostgreSQL path:
   nginx TCP stream `:54321` -> `100.64.0.2:5432`.
 - Secrets policy:

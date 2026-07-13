@@ -1,13 +1,18 @@
 # Services on pyrite
 
 This page documents the services running on pyrite that are accessible from
-the rest of the homelab. Each service is maintained in its own repo.
+the rest of the homelab. Most services are maintained in separate repos.
+
+The JupyterLab deployment for pyrite is intentionally maintained in this
+homelab repo under `services/jupyterlab/` because it is infrastructure wiring
+for this specific host and ingress path.
 
 Planned additions and infrastructure follow-up tasks are tracked in
 [TODO.md](TODO.md).
 
 Platform-level workstation setup and tuning notes are tracked in
 https://github.com/gperdrizet/homelab/tree/main/docs/machines/pyrite/docs.
+
 
 ## Documentation boundary
 
@@ -21,7 +26,6 @@ For services that remain independent repos (including llama.cpp and
 postgreSQL-server), this page and related machine docs must always document the
 current homelab deployment path and operational dependencies.
 
----
 
 ## llama.cpp inference server
 
@@ -29,16 +33,15 @@ current homelab deployment path and operational dependencies.
 **Bind:** `0.0.0.0:8502` (consumed by gatekeeper over tailnet at `100.64.0.2:8502`)  
 **Model:** `/opt/models/gpt-oss-20b-mxfp4.gguf`  
 **GPU:** Tesla P100 (`CUDA_VISIBLE_DEVICES=0`)  
-**Backend for:** model-gateway (promptlyapi.com, model.perdrizet.org)
+**Backend for:** Promptly API on gatekeeper (promptlyapi.com)
 
 Operational references:
 - systemd unit: `llamacpp.service` (binary `/opt/llama.cpp/build/bin/llama-server`)
 - Waits for the GPU before start (`ExecStartPre` polls `nvidia-smi`)
 - Health endpoint: `http://100.64.0.2:8502/health`
 - Logs: `journalctl -u llamacpp.service -f`
-- Public access is mediated by gatekeeper/model-gateway; not directly exposed.
+- Public access is mediated by gatekeeper/Promptly; not directly exposed.
 
----
 
 ## PostgreSQL server
 
@@ -51,10 +54,9 @@ Operational references:
 - Compose source: `docker-compose.yml` in the postgreSQL-server repo
 - Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf`
 - Admin surface: `make help` in the repo
-- Metrics: `postgres-exporter` container on pyrite (`:9187`), scraped by monitoring
+- Metrics: `postgres-exporter` container on pyrite (`:9187`), scraped by gatekeeper Prometheus over tailnet
 - Gatekeeper owns the public stream proxy (`:54321` → `100.64.0.2:5432`)
 
----
 
 ## nixx
 
@@ -75,31 +77,32 @@ nixx runs as a set of systemd units (grouped under `nixx.target`):
 Working directory `/home/siderealyear/nixx`. Manage with
 `systemctl start nixx.target`; check with `systemctl is-active nixx-server`.
 
----
 
-## model-gateway
+## JupyterLab
 
-**Bind:** `0.0.0.0:8503` (container `model-gateway-gateway-1`, healthy)  
-Runs on pyrite in front of llama.cpp; also mirrored on gatekeeper for public
-ingress (model.perdrizet.org / promptlyapi.com). Adminer companion on
-`127.0.0.1:8504`.
+**Image:** `gperdrizet/kaggle-nvidia:6.0.1`  
+**Bind:** `100.64.0.2:47302`  
+**Ingress:** jupyter.perdrizet.org -> gatekeeper nginx -> `100.64.0.2:47302`  
+**GPU:** Tesla P100 only (`nvidia.com/gpu=0`)  
+**Workspace mount:** host home directory mounted at `/workspace`
 
----
+Operational references:
+- Compose source: [jupyterlab/docker-compose.yml](jupyterlab/docker-compose.yml)
+- Environment template: [jupyterlab/.env.template](jupyterlab/.env.template)
+- Jupyter server config: [jupyterlab/jupyter_server_config.py](jupyterlab/jupyter_server_config.py)
+- JupyterLab theme defaults: [jupyterlab/lab/settings/overrides.json](jupyterlab/lab/settings/overrides.json)
+- User theme settings: [jupyterlab/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings](jupyterlab/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings)
+- systemd unit template: [jupyterlab/jupyterlab.service](jupyterlab/jupyterlab.service)
+- Deployment helper script: [../../gatekeeper/tailnet/scripts/setup-dev-server.sh](../../gatekeeper/tailnet/scripts/setup-dev-server.sh)
 
-## Developer endpoints (tailnet-only)
+Authentication note:
+- `JUPYTER_PASSWORD_HASH` must be set in `.env` with single quotes preserved,
+  e.g. `JUPYTER_PASSWORD_HASH='argon2:...'`.
 
-These bind to pyrite's Tailscale IP `100.64.0.2` and are proxied by gatekeeper:
+Availability note:
+- JupyterLab binds to pyrite's tailnet IP (`100.64.0.2`), so it is unavailable
+	if Tailscale is down on pyrite.
 
-| Service | Bind | Ingress | systemd unit |
-|---------|------|---------|--------------|
-| OpenVSCode Server | `100.64.0.2:47301` | code.perdrizet.org | `openvscode-server` |
-| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | `jupyterlab` |
-| VS Code Tunnel | Microsoft relay | vscode.dev/tunnel | `vscode-tunnel` |
-
-> Because these bind the tailnet IP, they are unreachable whenever Tailscale is
-> down on pyrite — see the gatekeeper [incidents](../../gatekeeper/docs/incidents.md) note.
-
----
 
 ## Access and ingress model
 
@@ -107,7 +110,6 @@ These bind to pyrite's Tailscale IP `100.64.0.2` and are proxied by gatekeeper:
 - Public TLS termination and external domain routing happen on gatekeeper nginx.
 - Legacy autossh and WireGuard tunnels are retired for pyrite service ingress.
 
----
 
 ## Docker images
 

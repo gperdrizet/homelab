@@ -1,0 +1,23 @@
+services:
+  jupyterlab:
+    image: ${JUPYTER_IMAGE}
+    container_name: jupyterlab
+    restart: unless-stopped
+    devices:
+      - "nvidia.com/gpu=0"
+    env_file:
+      - .env
+    environment:
+      NVIDIA_VISIBLE_DEVICES: ${NVIDIA_VISIBLE_DEVICES}
+      NVIDIA_DRIVER_CAPABILITIES: ${NVIDIA_DRIVER_CAPABILITIES}
+    ports:
+      - "${TAILNET_IP}:${JUPYTER_PORT}:47302"
+    volumes:
+      - ${JUPYTER_CONFIG_DIR}:/opt/jupyterlab/config
+      - ${HOST_HOME_DIR}:/workspace
+    working_dir: /workspace
+    command:
+      - jupyter
+      - lab
+      - --allow-root
+      - --config=/opt/jupyterlab/config/jupyter_server_config.py

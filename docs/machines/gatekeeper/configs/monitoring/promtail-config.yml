@@ -7,7 +7,7 @@ positions:
   filename: /tmp/positions.yaml
 
 clients:
-  - url: http://logkeep-loki:3100/loki/api/v1/push
+  - url: http://monitoring-loki:3100/loki/api/v1/push
 
 scrape_configs:
   # Docker container logs
@@ -47,10 +47,14 @@ scrape_configs:
     pipeline_stages:
       - regex:
           expression: '^(?P<remote_addr>[\d\.]+) - (?P<remote_user>[^\s]+) \[(?P<time_local>[^\]]+)\] "(?P<method>[A-Z]+) (?P<path>[^\s]+) HTTP/(?P<http_version>[\d\.]+)" (?P<status>\d+) (?P<body_bytes_sent>\d+)'
+      - regex:
+          source: filename
+          expression: '.*/(?P<vhost>[^/]+)-access\.log'
       - labels:
           remote_addr:
           method:
           status:
+          vhost:
 
   # Nginx error logs
   - job_name: nginx-error

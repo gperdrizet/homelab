@@ -39,26 +39,20 @@ nav:
               - Zed Install: machines/pyrite/guides/zed-install.md
               - Google Cloud Remote Dev: machines/pyrite/guides/google-cloud-remote-dev.md
               - ML Workstation Build Plan: machines/pyrite/guides/ml-workstation-build-plan.md
-          - Change Log: machines/pyrite/docs/change-log.md
           - Platform TODO: machines/pyrite/docs/TODO.md
       - Arkk:
           - Overview: machines/arkk/README.md
           - RAID Recovery Runbook: machines/arkk/RAID_RECOVERY.md
-          - 2026 Incident Notes: machines/arkk/RAID_RECOVERY_2026.md
-          - 2026 Backup Triage: machines/arkk/BACKUP_TRIAGE_2026.md
   - Network:
       - Overview: network/README.md
-      - LAN and Bonded Link: network/lan.md
+      - LAN and Direct Link: network/lan.md
       - Tailnet and Headscale: network/tailnet.md
   - Operations:
       - Overview: operations.md
       - Backups: backups/README.md
+      - Monitoring Inventory: operations/monitoring-inventory.md
       - Secrets: secrets/README.md
       - Docker Images: docker-images/README.md
-  - History:
-      - Repo Consolidation (2026): history/consolidation-2026.md
-      - VPS Reorganization Guide: machines/gatekeeper/docs/IMPLEMENTATION-GUIDE.md
-      - VPS Phase 3 Summary: machines/gatekeeper/docs/phase3-summary.md
   - Agent Orientation: agents.md
 
 markdown_extensions:

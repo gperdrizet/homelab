@@ -106,10 +106,10 @@ main() {
     echo ""
     
     echo "=== Application Containers ==="
-    check_container "logkeep-blue" false
-    check_container "logkeep-green" false
+    check_container "logkeep" false
     check_container "logkeep-staging" false
     check_container "logkeep-postgres" false
+    check_container "logkeep-postgres-exporter" false
     check_container "bench-web" false
     check_container "bench-celery" false
     check_container "bench-celery-beat" false
