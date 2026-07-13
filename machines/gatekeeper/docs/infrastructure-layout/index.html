@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vps-infrastructure-layout" class="md-skip">
+        <a href="#gatekeeper-infrastructure-layout" class="md-skip">
           Skip to content
         </a>
       
@@ -504,10 +504,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#host-role" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Host role
       
     </span>
   </a>
@@ -515,10 +515,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#core-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Directory Structure
+        Core paths
       
     </span>
   </a>
@@ -526,82 +526,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#services-running" class="md-nav__link">
+  <a href="#monitoring-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Services Running
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Services Running">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#monitoring-port-127001" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Monitoring (Port 127.0.0.1:*)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Applications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#support-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Support Services
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exporters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exporters
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#external-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        External Services
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#networks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Networks
+        Monitoring paths
       
     </span>
   </a>
@@ -609,10 +537,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#phase-3-progress" class="md-nav__link">
+  <a href="#nginx-vhost-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 3 Progress
+        Nginx vhost model
       
     </span>
   </a>
@@ -620,10 +548,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#cross-machine-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Cross-machine dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
       
     </span>
   </a>
@@ -798,8 +737,6 @@
       
         
           
-        
-      
         
       
         
@@ -1279,34 +1216,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../../pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1347,10 +1256,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1419,62 +1324,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1583,7 +1432,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1645,6 +1494,8 @@
       
         
           
+        
+      
         
       
         
@@ -1735,6 +1586,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../secrets/" class="md-nav__link">
         
   
@@ -1771,152 +1650,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../history/consolidation-2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -1991,10 +1724,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#host-role" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Host role
       
     </span>
   </a>
@@ -2002,10 +1735,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#directory-structure" class="md-nav__link">
+  <a href="#core-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Directory Structure
+        Core paths
       
     </span>
   </a>
@@ -2013,82 +1746,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#services-running" class="md-nav__link">
+  <a href="#monitoring-paths" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Services Running
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Services Running">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#monitoring-port-127001" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Monitoring (Port 127.0.0.1:*)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#applications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Applications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#support-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Support Services
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exporters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Exporters
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#external-services" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        External Services
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#networks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Networks
+        Monitoring paths
       
     </span>
   </a>
@@ -2096,10 +1757,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#phase-3-progress" class="md-nav__link">
+  <a href="#nginx-vhost-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Phase 3 Progress
+        Nginx vhost model
       
     </span>
   </a>
@@ -2107,10 +1768,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#cross-machine-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next Steps
+        Cross-machine dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Notes
       
     </span>
   </a>
@@ -2137,248 +1809,127 @@
   
 
 
-<h1 id="vps-infrastructure-layout">VPS Infrastructure Layout<a class="headerlink" href="#vps-infrastructure-layout" title="Permanent link">&para;</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Current VPS organization after Phase 1-3C (Monitoring Separation, Backups, Nginx Complete)</p>
-<h2 id="directory-structure">Directory Structure<a class="headerlink" href="#directory-structure" title="Permanent link">&para;</a></h2>
-<pre><code>/srv/
-├── infra/                    # Central infrastructure (NEW)
-│   ├── configs/             # Configuration files
-│   │   ├── prometheus.yml
-│   │   ├── alert-rules.yml
-│   │   ├── grafana-datasources.yml
-│   │   ├── grafana-dashboards/
-│   │   ├── loki-config.yml
-│   │   ├── promtail-config.yml
-│   │   ├── alertmanager.yml
-│   │   └── blackbox.yml
-│   ├── data/                # Persistent data
-│   │   └── monitoring/
-│   │       ├── prometheus/  (1.6GB)
-│   │       ├── grafana/     (42MB)
-│   │       ├── loki/        (9GB)
-│   │       └── alertmanager/ (4KB)
-│   ├── logs/                # Infrastructure logs
-│   ├── scripts/             # Management scripts
-│   ├── docs/                # Documentation
-│   │   └── backup-improvements.md
-│   └── docker-compose.monitoring.yml  # Monitoring stack
-│
-└── backups/                 # Database backups
-    ├── backup-databases.sh  # Daily backup script (cron: 2 AM)
-    ├── logkeep_*.sql.gz     # LogKeep production backups (26KB)
-    ├── logkeep_staging_*.sql.gz  # Staging backups (3.4KB)
-    └── bench_*.sql.gz       # Bench app backups (16KB)
-
-/opt/
-├── logkeep/                 # LogKeep application
-│   ├── src/                 # Python application code
-│   ├── docker/              # Docker compose files
-│   │   ├── docker-compose.prod.yml
-│   │   ├── docker-compose.staging.yml
-│   │   ├── .env.production
-│   │   └── .env.staging
-│   ├── nginx/               # Nginx configs for app
-│   └── scripts/             # App management scripts
-│
-├── model-gateway/           # model-gateway application
-│   ├── app/                 # FastAPI application code
-│   ├── docker-compose.yml   # Production stack
-│   ├── .env                 # Runtime secrets (DATABASE_URL, LLAMA_BASE_URL, etc.)
-│   └── .env.template        # Secret key reference
-│
-└── bench/                   # Bench application
-    ├── src/                 # Application code
-    └── docker/              # Docker compose files
-        ├── docker-compose.yml          # Development
-        ├── docker-compose.prod.yml     # Production (active)
-        └── .env.production
-
-/opt/bug-hunter/                 # Bug Hunter application (production)
-    ├── backend/             # FastAPI application code
-    ├── frontend/            # Frontend code
-    ├── docker-compose.yml   # Base compose
-    └── docker-compose.prod.yml  # Production overrides (port 127.0.0.1:8509)
-
-/opt/bug-hunter-staging/         # Bug Hunter staging
-    └── docker-compose.staging.yml  # Staging overrides (port 100.64.0.1:8507)
-
-/opt/feedback/                   # Feedback/contact form app (Django)
-    ├── docker-compose.prod.yml  # Production stack (port 127.0.0.1:18080)
-    └── deploy/
-
-/opt/perdrizet.org-admin/        # Site admin agent (systemd: perdrizet-admin)
-    ├── server.py            # FastAPI/uvicorn app (port 127.0.0.1:8600)
-    ├── admin.service        # systemd unit (copy to /etc/systemd/system/)
-    └── .venv/
-
-/opt/perdrizet.org-staging/      # Static staging site for perdrizet.org (Astro build)
-
-/opt/model-gateway-staging/      # model-gateway staging instance
-    ├── docker-compose.staging.yml  # Staging stack (Tailscale-only: 100.64.0.1:8505-8506)
-    └── app/
-
-/opt/logkeep-staging/            # LogKeep staging (separate repo/deployment)
-    └── docker/              # docker-compose.staging.yml (Tailscale-only: 100.64.0.1:8003)
-
-/opt/bench-staging/              # Bench staging
-    └── docker/              # Staging compose (Tailscale-only via nginx 100.64.0.1:8012)
-
-/opt/spark/                      # Apache Spark: DECOMMISSIONED (failed experiment)
-
-/etc/nginx/
-├── conf.d/
-│   ├── admin.conf               # admin.perdrizet.org (-&gt; 127.0.0.1:8600, perdrizet-admin service)
-│   ├── bench.conf               # Bench app (-&gt; 127.0.0.1:8010)
-│   ├── bench-staging.conf       # Bench staging (100.64.0.1:8012, Tailscale-only)
-│   ├── bug-hunter.conf          # Bug Hunter (-&gt; 127.0.0.1:8509)
-│   ├── code.conf                # OpenVSCode Server (-&gt; 127.0.0.1:47301)
-│   ├── feedback.conf            # Feedback app (-&gt; 127.0.0.1:18080)
-│   ├── grafana.conf             # Grafana (-&gt; 127.0.0.1:3000)
-│   ├── headplane.conf           # Headplane (-&gt; 127.0.0.1:3001)
-│   ├── headscale.conf           # Headscale (-&gt; 127.0.0.1:8090)
-│   ├── jupyter.conf             # JupyterLab (-&gt; 127.0.0.1:47302)
-│   ├── logkeep.conf             # Symlink -&gt; /etc/nginx/logkeep-configs/blue.conf
-│   ├── model.conf               # model-gateway proxy (-&gt; 127.0.0.1:8503, legacy)
-│   ├── nixx.conf                # nixx.perdrizet.org (-&gt; pyrite:8000/8001 via Tailscale)
-│   ├── perdrizet.conf           # Root domain redirect
-│   ├── promptlyapi.conf         # promptlyapi.com (-&gt; 127.0.0.1:8503)
-│   ├── site-staging.conf        # site-staging.perdrizet.org (static, /opt/perdrizet.org-staging)
-│   └── staging.conf             # LogKeep staging (-&gt; 100.64.0.1:8003, Tailscale-only access)
-├── logkeep-configs/
-│   ├── blue.conf                # LogKeep blue (-&gt; 127.0.0.1:8000)
-│   └── green.conf               # LogKeep green (-&gt; 127.0.0.1:8002)
-└── snippets/
-    └── security-headers.conf    # Shared security headers
-
-/home/siderealyear/
-└── vps-infrastructure/      # Git repository (version control)
-    ├── configs/
-    │   └── monitoring/      # Monitoring configs (Phase 2)
-    ├── scripts/
-    │   └── health-check.sh  # Health monitoring (Phase 1)
-    └── docker-compose.core.yml  # OLD, not in use
-</code></pre>
-<h2 id="services-running">Services Running<a class="headerlink" href="#services-running" title="Permanent link">&para;</a></h2>
-<h3 id="monitoring-port-127001">Monitoring (Port 127.0.0.1:*)<a class="headerlink" href="#monitoring-port-127001" title="Permanent link">&para;</a></h3>
+<h1 id="gatekeeper-infrastructure-layout">Gatekeeper infrastructure layout<a class="headerlink" href="#gatekeeper-infrastructure-layout" title="Permanent link">&para;</a></h1>
+<p>Current-state file and runtime layout for gatekeeper.</p>
+<p>Last verified: 2026-07-12</p>
+<h2 id="host-role">Host role<a class="headerlink" href="#host-role" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>monitoring-prometheus</strong> (9090) - Metrics collection, 30-day retention</li>
-<li><strong>monitoring-grafana</strong> (3000) - Dashboards and visualization</li>
-<li><strong>monitoring-loki</strong> (3100) - Log aggregation</li>
-<li><strong>monitoring-alertmanager</strong> (9093) - Alert routing to email</li>
-<li><strong>monitoring-promtail</strong> - Log shipping to Loki</li>
-<li><strong>monitoring-node-exporter</strong> (9100) - System metrics</li>
-<li><strong>monitoring-cadvisor</strong> (8080) - Container metrics</li>
-<li><strong>monitoring-blackbox-exporter</strong> (9115) - SSL cert / endpoint monitoring</li>
+<li>Public ingress and TLS termination (nginx)</li>
+<li>Monitoring control plane (Prometheus, Grafana, Loki, Alertmanager)</li>
+<li>Public app host for LogKeep, Bench, Promptly API, Bug Hunter, Feedback</li>
+<li>Tailnet control services (Headscale + Headplane)</li>
 </ul>
-<h3 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h3>
+<h2 id="core-paths">Core paths<a class="headerlink" href="#core-paths" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/srv/infra/</code></td>
+<td>monitoring stack compose, monitoring configs, monitoring data</td>
+</tr>
+<tr>
+<td><code>/etc/nginx/</code></td>
+<td>nginx runtime config (<code>conf.d</code>, stream proxy in <code>nginx.conf</code>)</td>
+</tr>
+<tr>
+<td><code>/opt/logkeep/</code></td>
+<td>LogKeep production stack</td>
+</tr>
+<tr>
+<td><code>/opt/bench/</code></td>
+<td>Bench production stack</td>
+</tr>
+<tr>
+<td><code>/opt/model-gateway/</code></td>
+<td>Promptly/model-gateway stack</td>
+</tr>
+<tr>
+<td><code>/opt/feedback/</code></td>
+<td>Feedback app stack</td>
+</tr>
+<tr>
+<td><code>/opt/bug-hunter/</code></td>
+<td>Bug Hunter production stack</td>
+</tr>
+<tr>
+<td><code>/opt/*-staging/</code></td>
+<td>staging stacks retained where still used</td>
+</tr>
+</tbody>
+</table>
+<h2 id="monitoring-paths">Monitoring paths<a class="headerlink" href="#monitoring-paths" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/srv/infra/docker-compose.monitoring.yml</code></td>
+<td>monitoring stack definition</td>
+</tr>
+<tr>
+<td><code>/srv/infra/configs/prometheus.yml</code></td>
+<td>scrape and probe config</td>
+</tr>
+<tr>
+<td><code>/srv/infra/configs/alert-rules.yml</code></td>
+<td>alert rules</td>
+</tr>
+<tr>
+<td><code>/srv/infra/configs/promtail-config.yml</code></td>
+<td>log shipping config</td>
+</tr>
+<tr>
+<td><code>/srv/infra/configs/grafana-datasources.yml</code></td>
+<td>Grafana datasource provisioning</td>
+</tr>
+<tr>
+<td><code>/srv/infra/configs/grafana-dashboards/</code></td>
+<td>provisioned dashboard JSON files</td>
+</tr>
+<tr>
+<td><code>/srv/infra/data/monitoring/</code></td>
+<td>persistent monitoring data volumes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="nginx-vhost-model">Nginx vhost model<a class="headerlink" href="#nginx-vhost-model" title="Permanent link">&para;</a></h2>
+<p>Active nginx vhost files are under <code>/etc/nginx/conf.d/</code>.</p>
+<p>Current active public endpoints include:
+- <code>logkeep.perdrizet.org</code>
+- <code>bench.perdrizet.org</code>
+- <code>bug-hunter.perdrizet.org</code>
+- <code>feedback.perdrizet.org</code>
+- <code>admin.perdrizet.org</code>
+- <code>promptlyapi.com</code>
+- <code>grafana.perdrizet.org</code>
+- <code>headscale.perdrizet.org</code>
+- <code>headplane.perdrizet.org</code>
+- <code>jupyter.perdrizet.org</code></p>
+<p>Configured/limited-use endpoints retained in nginx:
+- <code>staging.perdrizet.org</code>
+- <code>site-staging.perdrizet.org</code>
+- <code>code.perdrizet.org</code>
+- <code>model.perdrizet.org</code> (redirect to promptlyapi.com)</p>
+<h2 id="cross-machine-dependencies">Cross-machine dependencies<a class="headerlink" href="#cross-machine-dependencies" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>logkeep-blue</strong> (8001) - LogKeep production (blue slot) <strong>[STOPPED: pending major update]</strong></li>
-<li><strong>logkeep-green</strong> (8002) - LogKeep production (green slot) <strong>[STOPPED: pending major update]</strong></li>
-<li><strong>logkeep-staging</strong> (100.64.0.1:8003) - LogKeep staging (Tailscale-only)</li>
-<li><strong>logkeep-postgres-staging</strong> - PostgreSQL for logkeep staging (separate from prod)</li>
-<li><strong>feedback-app-1</strong> (127.0.0.1:18080) - Feedback/contact app (Django, <code>/opt/feedback/</code>)</li>
-<li><strong>feedback-worker-1</strong> - Celery worker for feedback app</li>
-<li><strong>feedback-db-1</strong> - PostgreSQL for feedback app</li>
-<li><strong>perdrizet-admin</strong> (127.0.0.1:8600) - Site admin agent, systemd service (<code>/opt/perdrizet.org-admin/</code>)</li>
-<li><strong>bench-web</strong> (127.0.0.1:8010) - Bench web application</li>
-<li><strong>bench-celery</strong> - Bench background tasks</li>
-<li><strong>bench-celery-beat</strong> - Bench scheduled tasks</li>
-<li><strong>bench-web-staging</strong> (127.0.0.1:8011) - Bench staging (served via nginx on 100.64.0.1:8012, Tailscale-only)</li>
-<li><strong>bench-celery-staging</strong> - Bench staging background tasks</li>
-<li><strong>bench-celery-beat-staging</strong> - Bench staging scheduled tasks</li>
-<li><strong>model-gateway-api</strong> (127.0.0.1:8503) - Authenticated API gateway for llama.cpp on pyrite</li>
-<li><strong>model-gateway-db</strong> - PostgreSQL for model-gateway (users, token balances, usage)</li>
-<li><strong>model-gateway-adminer</strong> (100.64.0.1:8504) - Adminer DB UI (Tailscale-only)</li>
-<li><strong>model-gateway-api-staging</strong> (100.64.0.1:8505) - model-gateway staging (Tailscale-only)</li>
-<li><strong>model-gateway-db-staging</strong> - PostgreSQL for model-gateway staging</li>
-<li><strong>model-gateway-adminer-staging</strong> (100.64.0.1:8506) - Adminer staging UI (Tailscale-only)</li>
-<li><strong>bug-hunter-frontend-1</strong> (127.0.0.1:8509) - Bug Hunter production frontend</li>
-<li><strong>bug-hunter-backend-1</strong> - Bug Hunter FastAPI backend (internal)</li>
-<li><strong>bug-hunter-db-1</strong> - PostgreSQL for Bug Hunter (internal)</li>
-<li><strong>bug-hunter-staging-frontend-1</strong> (100.64.0.1:8507) - Bug Hunter staging frontend (Tailscale-only)</li>
-<li><strong>bug-hunter-staging-backend-1</strong> - Bug Hunter staging backend (internal)</li>
-<li><strong>bug-hunter-staging-db-1</strong> - PostgreSQL for Bug Hunter staging (internal)</li>
-<li><strong>compose-btcpay-1</strong> (100.64.0.1:23000) - BTCPay Server UI (Tailscale-only) <strong>[STOPPED 2026-05-24: not in active use]</strong></li>
-<li><strong>compose-btcd-1</strong> - Bitcoin full node (~500MB–1GB RAM) <strong>[STOPPED]</strong></li>
-<li><strong>compose-nbxplorer-1</strong> - NBXplorer blockchain indexer <strong>[STOPPED]</strong></li>
-<li><strong>compose-btcpay-db-1</strong> - PostgreSQL for BTCPay <strong>[STOPPED]</strong></li>
+<li>Jupyter backend on pyrite: <code>100.64.0.2:47302</code></li>
+<li>PostgreSQL stream proxy: public <code>:54321</code> -&gt; <code>100.64.0.2:5432</code></li>
+<li>Promptly API forwards model traffic to pyrite llama.cpp</li>
 </ul>
-<p>To restart BTCPay: <code>cd ~/vps-infrastructure/compose &amp;&amp; docker compose -f docker-compose.btcpay.yml up -d</code></p>
-<h3 id="support-services">Support Services<a class="headerlink" href="#support-services" title="Permanent link">&para;</a></h3>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>logkeep-postgres</strong> (127.0.0.1:5432) - PostgreSQL for LogKeep prod</li>
-<li><strong>bench-postgres</strong> (5432) - PostgreSQL for Bench prod</li>
-<li><strong>bench-postgres-staging</strong> (5432) - PostgreSQL for Bench staging</li>
-<li><strong>bench-redis</strong> (6379) - Redis for Bench/Celery prod</li>
-<li><strong>bench-redis-staging</strong> (6379) - Redis for Bench/Celery staging</li>
+<li>This document is current-state only.</li>
+<li>Historical migration phases are intentionally excluded.</li>
 </ul>
-<h3 id="exporters">Exporters<a class="headerlink" href="#exporters" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>monitoring-nginx-exporter</strong> (9113) - Nginx metrics for Prometheus</li>
-<li><strong>logkeep-postgres-exporter</strong> (9187) - PostgreSQL metrics</li>
-<li><strong>bench-postgres-exporter</strong> (9188) - PostgreSQL metrics</li>
-</ul>
-<h3 id="external-services">External Services<a class="headerlink" href="#external-services" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>headplane</strong> - Headscale UI (port 3001)</li>
-<li><strong>headscale</strong> (systemd) - Tailscale control server (port 8090)</li>
-<li><strong>nginx</strong> (systemd) - Reverse proxy with SSL termination (ports 80, 443)</li>
-</ul>
-<h2 id="networks">Networks<a class="headerlink" href="#networks" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>monitoring-network</strong> - Monitoring stack (independent)</li>
-<li><strong>logkeep_logkeep-network</strong> - LogKeep app stack (prod + staging)</li>
-<li><strong>bench_bench-network</strong> - Bench app stack</li>
-<li>Prometheus scrapes targets on both monitoring-network and logkeep_logkeep-network</li>
-</ul>
-<h2 id="phase-3-progress">Phase 3 Progress<a class="headerlink" href="#phase-3-progress" title="Permanent link">&para;</a></h2>
-<p>✅ <strong>Phase 3A: Monitoring Stack Separation</strong> (Complete)
-- Separated monitoring from application services
-- Migrated 10.6GB historical data
-- Independent monitoring-network
-- All services healthy and operational</p>
-<p>✅ <strong>Phase 3B: Backup System</strong> (Complete - documented, working)
-- See <code>/srv/infra/docs/backup-improvements.md</code>
-- Daily backups at 2 AM, 7-day retention, synced to pyrite
-- Healthcheck cron at 3 AM</p>
-<p>✅ <strong>Phase 3C: Nginx Configuration</strong> (Complete)
-- Migrated from sites-enabled to conf.d structure
-- Blue/green deploy via symlink at /etc/nginx/conf.d/logkeep.conf
-- All SSL migrated to Let's Encrypt
-- Security headers snippet shared across vhosts
-- Version controlled in vps-infrastructure repo</p>
-<p>✅ <strong>Network Consolidation</strong> (Complete)
-- WireGuard decommissioned
-- All remote connectivity via Tailscale
-- nginx proxies updated to Tailscale IPs</p>
-<p>✅ <strong>Docker Project Cleanup</strong> (Complete - 2026-04-20)
-- Bench: reassigned from 'docker' to 'bench' project
-- LogKeep-staging: reassigned to 'logkeep' project
-- Container names updated to match proper project structure
-- Stale monitoring services removed from logkeep compose
-- Orphaned docker_logkeep-network cleaned up
-- Three clean projects: infra (8), logkeep (6), bench (5)</p>
-<p>🔲 <strong>Phase 3D: Database Migration</strong> (Next - requires user action)
-- Create databases on pyrite (logkeep_prod, logkeep_staging, bench_prod, bench_staging)
-- Migrate local PostgreSQL data
-- Update app compose files to use remote DB
-- Remove local postgres containers</p>
-<p>🔲 <strong>Phase 3E: Shared Services</strong> (Future)
-- Consider separating postgres to /srv/infra/
-- Redis organization
-- Shared database stack</p>
-<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ol>
-<li><strong>LogKeep major update</strong>: containers stopped pending rewrite. When redeploying:</li>
-<li>Tune gunicorn worker count in <code>docker-compose.prod.yml</code> (current default spawns ~10 workers × ~135 MB = ~1.4 GB). Set <code>--workers</code> to 2–3 to cap at ~400 MB.</li>
-<li>Fix LLM API key in <code>.env</code> (logkeep has been sending 401s to model-gateway since the model-gateway migration; retry storm was generating <code>HighRequestRateSpike</code> alerts continuously)</li>
-<li><strong>Database Migration to Pyrite</strong> - Create databases, migrate data, update compose files</li>
-<li><strong>Remove Local PostgreSQL</strong> - After migration validated</li>
-<li><strong>Pyrite PostgreSQL Monitoring</strong> - Add scrape job for postgres_exporter on pyrite</li>
-<li><strong>Network Simplification</strong> - Clean up unused Docker networks</li>
-<li><strong>Application Organization</strong> - Consider moving to /srv/apps/</li>
-</ol>
 
 
 

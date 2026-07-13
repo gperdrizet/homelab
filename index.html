@@ -740,8 +740,6 @@
       
         
       
-        
-      
     
     
     
@@ -1201,34 +1199,6 @@
   
   
     <li class="md-nav__item">
-      <a href="machines/pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="machines/pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1269,10 +1239,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1341,62 +1307,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="machines/arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="machines/arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1505,7 +1415,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1567,6 +1477,8 @@
       
         
           
+        
+      
         
       
         
@@ -1657,6 +1569,34 @@
   
   
     <li class="md-nav__item">
+      <a href="operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secrets/" class="md-nav__link">
         
   
@@ -1693,152 +1633,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="history/consolidation-2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="machines/gatekeeper/docs/phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -2028,8 +1822,6 @@ homelab. Published from the <a href="https://github.com/gperdrizet/homelab">gper
   and <a href="machines/pyrite/services/">services on pyrite</a></li>
 <li><strong>How machines connect:</strong> <a href="network/">Network overview</a></li>
 <li><strong>Day-2 operations:</strong> <a href="operations/">Operations index</a> - backups, secrets, docker images</li>
-<li><strong>Active incident:</strong> <a href="machines/arkk/RAID_RECOVERY_2026/">arkk RAID recovery</a> and
-  <a href="machines/arkk/BACKUP_TRIAGE_2026/">backup triage</a></li>
 </ul>
 <h2 id="design-principles">Design principles<a class="headerlink" href="#design-principles" title="Permanent link">&para;</a></h2>
 <ul>
@@ -2037,8 +1829,8 @@ homelab. Published from the <a href="https://github.com/gperdrizet/homelab">gper
   on gatekeeper only.</li>
 <li><strong>Secrets stay out of git</strong> - <code>.env.template</code> committed, real values in
   Vaultwarden. See <a href="secrets/">secrets management</a>.</li>
-<li><strong>Every operational change documents</strong> decision, apply steps, verify steps,
-  and revert path.</li>
+<li><strong>Docs track current state</strong> - runbooks and inventory pages describe active
+  infrastructure, not migration history.</li>
 </ul>
 <h2 id="related-repositories">Related repositories<a class="headerlink" href="#related-repositories" title="Permanent link">&para;</a></h2>
 <table>

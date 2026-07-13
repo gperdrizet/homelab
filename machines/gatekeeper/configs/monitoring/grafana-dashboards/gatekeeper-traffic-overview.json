@@ -9,10 +9,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -22,12 +19,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "green",
-                "value": 1
+                "color": "yellow",
+                "value": 1000
+              },
+              {
+                "color": "red",
+                "value": 10000
               }
             ]
           },
@@ -58,18 +59,16 @@
       },
       "targets": [
         {
-          "expr": "up{job=\"logkeep-production\"}",
+          "expr": "sum(count_over_time({job=\"nginx\",log_type=\"access\"}[24h]))",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "LogKeep App Status",
+      "title": "Total Requests (24h)",
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -79,12 +78,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               },
               {
-                "color": "green",
-                "value": 1
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 100
               }
             ]
           },
@@ -115,18 +118,16 @@
       },
       "targets": [
         {
-          "expr": "up{job=\"logkeep-postgres-exporter\"}",
+          "expr": "sum(count_over_time({job=\"nginx\",log_type=\"access\",status=~\"5..\"}[1h]))",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "Postgres Exporter Status",
+      "title": "5xx Responses (1h)",
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -141,7 +142,7 @@
               },
               {
                 "color": "yellow",
-                "value": 100
+                "value": 50
               },
               {
                 "color": "red",
@@ -176,18 +177,16 @@
       },
       "targets": [
         {
-          "expr": "sum(increase(logkeep_requests_total[24h]))",
+          "expr": "sum(count_over_time({job=\"nginx\",log_type=\"access\",status=~\"4..\"}[1h]))",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "Total Requests (24h)",
+      "title": "4xx Responses (1h)",
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -197,16 +196,12 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "red",
                 "value": null
               },
               {
-                "color": "yellow",
+                "color": "green",
                 "value": 1
-              },
-              {
-                "color": "red",
-                "value": 10
               }
             ]
           },
@@ -237,18 +232,16 @@
       },
       "targets": [
         {
-          "expr": "sum(increase(logkeep_requests_total{status=~\"5..\"}[1h]))",
+          "expr": "count(sum by (vhost) (count_over_time({job=\"nginx\",log_type=\"access\",vhost=~\".+\"}[15m])))",
+          "queryType": "instant",
           "refId": "A"
         }
       ],
-      "title": "5xx Responses (1h)",
+      "title": "Active Vhosts (15m)",
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -293,7 +286,7 @@
               }
             ]
           },
-          "unit": "reqps"
+          "unit": "short"
         },
         "overrides": []
       },
@@ -321,19 +314,17 @@
       },
       "targets": [
         {
-          "expr": "sum(rate(logkeep_requests_total[5m]))",
-          "legendFormat": "requests/sec",
+          "expr": "sum by (vhost) (count_over_time({job=\"nginx\",log_type=\"access\",vhost=~\".+\"}[5m]))",
+          "legendFormat": "{{vhost}}",
+          "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Request Rate",
+      "title": "Requests by Service/Vhost",
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -378,7 +369,7 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "short"
         },
         "overrides": []
       },
@@ -406,24 +397,17 @@
       },
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum(rate(logkeep_request_duration_seconds_bucket[5m])) by (le)) * 1000",
-          "legendFormat": "p95 latency",
+          "expr": "sum by (status) (count_over_time({job=\"nginx\",log_type=\"access\"}[5m]))",
+          "legendFormat": "{{status}}",
+          "queryType": "range",
           "refId": "A"
-        },
-        {
-          "expr": "sum(rate(logkeep_request_duration_seconds_sum[5m])) / sum(rate(logkeep_request_duration_seconds_count[5m])) * 1000",
-          "legendFormat": "avg latency",
-          "refId": "B"
         }
       ],
-      "title": "API Latency",
+      "title": "Requests by Status Code",
       "type": "timeseries"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
+      "datasource": "Loki",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -474,7 +458,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
         "y": 12
       },
@@ -495,241 +479,23 @@
       },
       "targets": [
         {
-          "expr": "sum by (status) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{status}}",
+          "expr": "topk(15, sum by (path) (count_over_time({job=\"nginx\",log_type=\"access\"}[5m])))",
+          "legendFormat": "{{path}}",
+          "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Requests by Status",
+      "title": "Top Request Paths",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 12
-      },
-      "id": 8,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "expr": "sum by (endpoint) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{endpoint}}",
-          "refId": "A"
-        }
-      ],
-      "title": "Top API Endpoints",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "tooltip": false,
-              "viz": false,
-              "legend": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 20
-      },
-      "id": 9,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "expr": "pg_stat_database_numbackends{job=\"logkeep-postgres-exporter\",datname=\"logkeep\"}",
-          "legendFormat": "db connections",
-          "refId": "A"
-        }
-      ],
-      "title": "Database Connections",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 20
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "value"
-      },
-      "targets": [
-        {
-          "expr": "sum(logkeep_active_users{environment=\"production\"})",
-          "refId": "A"
-        }
-      ],
-      "title": "Active Users",
-      "type": "stat"
     }
   ],
   "refresh": "30s",
   "schemaVersion": 38,
   "tags": [
-    "logkeep",
-    "production"
+    "gatekeeper",
+    "traffic",
+    "nginx",
+    "loki"
   ],
   "templating": {
     "list": []
@@ -740,8 +506,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "LogKeep Production Monitoring",
-  "uid": "logkeep-production-monitoring",
+  "title": "Gatekeeper Traffic Overview",
+  "uid": "gatekeeper-traffic-overview",
   "version": 0,
   "weekStart": ""
 }

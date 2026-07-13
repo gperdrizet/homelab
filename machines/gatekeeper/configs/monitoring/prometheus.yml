@@ -49,35 +49,24 @@ scrape_configs:
           service: 'postgresql'
           database: 'bench'
 
-  # LogKeep Application (Blue)
-  - job_name: 'logkeep-blue'
-    metrics_path: '/metrics'
+  # Pyrite PostgreSQL Exporter
+  - job_name: 'pyrite-postgres-exporter'
     static_configs:
-      - targets: ['logkeep-blue:8000']
+      - targets: ['100.64.0.2:9187']
         labels:
-          service: 'logkeep'
-          slot: 'blue'
-          environment: 'production'
+          service: 'postgresql'
+          database: 'pyrite'
+          instance: 'pyrite'
 
-  # LogKeep Application (Green)
-  - job_name: 'logkeep-green'
+  # LogKeep Application (Production)
+  - job_name: 'logkeep-production'
     metrics_path: '/metrics'
     static_configs:
-      - targets: ['logkeep-green:8000']
+      - targets: ['logkeep:8000']
         labels:
           service: 'logkeep'
-          slot: 'green'
+          slot: 'production'
           environment: 'production'
-
-  # LogKeep Staging
-  - job_name: 'logkeep-staging'
-    metrics_path: '/metrics'
-    static_configs:
-      - targets: ['logkeep-staging:8000']
-        labels:
-          service: 'logkeep'
-          slot: 'staging'
-          environment: 'staging'
 
   # Docker Container Metrics
   - job_name: 'cadvisor'
@@ -131,8 +120,7 @@ scrape_configs:
     static_configs:
       - targets:
           - https://headscale.perdrizet.org
-          - https://code.perdrizet.org
-          - https://model.perdrizet.org
+          - https://promptlyapi.com
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target

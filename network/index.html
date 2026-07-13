@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://gperdrizet.github.io/homelab/network/">
       
       
-        <link rel="prev" href="../machines/arkk/BACKUP_TRIAGE_2026/">
+        <link rel="prev" href="../machines/arkk/RAID_RECOVERY/">
       
       
         <link rel="next" href="lan/">
@@ -640,8 +640,6 @@
       
         
       
-        
-      
     
     
     
@@ -1101,34 +1099,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../machines/pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../machines/pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1169,10 +1139,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1241,62 +1207,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../machines/arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../machines/arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1407,7 +1317,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1469,6 +1379,8 @@
       
         
           
+        
+      
         
       
         
@@ -1559,6 +1471,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../secrets/" class="md-nav__link">
         
   
@@ -1595,152 +1535,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../history/consolidation-2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../machines/gatekeeper/docs/phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -1848,10 +1642,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#direct-bonded-link-pyrite-arkk" class="md-nav__link">
+  <a href="#direct-link-pyrite-arkk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Direct bonded link (pyrite ↔ arkk)
+        Direct link (pyrite ↔ arkk)
       
     </span>
   </a>
@@ -1893,10 +1687,10 @@ other and to the internet.</p>
             │
             ├── [pyrite] 10.1.10.200 ── Tailscale 100.64.0.2
             │       │
-            │       └── bond0 192.168.2.2 ═══════ bond0 192.168.2.1
-            │           (dual GbE, direct-wired)         │
+            │       └── arkk-link 192.168.2.2 ═══════ pyrite-link 192.168.2.1
+            │           (direct link)                         │
             └── [arkk] 10.1.10.201 ──────────────────────┘
-                (NFS over bonded link; Tailscale TBD — RECOVERING)
+                (NFS over direct link; Tailscale currently inactive)
 </code></pre>
 <hr />
 <h2 id="tailscale-headscale">Tailscale / Headscale<a class="headerlink" href="#tailscale-headscale" title="Permanent link">&para;</a></h2>
@@ -1941,7 +1735,7 @@ other and to the internet.</p>
 <td>arkk</td>
 <td>arkk</td>
 <td>TBD</td>
-<td>Client (offline; recovering)</td>
+<td>Not currently enrolled</td>
 </tr>
 </tbody>
 </table>
@@ -1952,9 +1746,9 @@ other and to the internet.</p>
 home router/ISP connection. No static public IP on the LAN; all public services
 run on gatekeeper.</p>
 <hr />
-<h2 id="direct-bonded-link-pyrite-arkk">Direct bonded link (pyrite ↔ arkk)<a class="headerlink" href="#direct-bonded-link-pyrite-arkk" title="Permanent link">&para;</a></h2>
-<p>pyrite and arkk are connected by a dedicated high-speed bonded Ethernet link
-used for NFS storage traffic, keeping backup and file access off the main LAN.</p>
+<h2 id="direct-link-pyrite-arkk">Direct link (pyrite ↔ arkk)<a class="headerlink" href="#direct-link-pyrite-arkk" title="Permanent link">&para;</a></h2>
+<p>pyrite and arkk are connected by a dedicated Ethernet link used for NFS
+storage traffic, keeping backup and file access off the main LAN.</p>
 <p>See <a href="lan/">lan.md</a> for interface names, IP addresses, and bonding configuration.</p>
 
 

@@ -644,8 +644,6 @@
       
         
       
-        
-      
     
     
     
@@ -1105,34 +1103,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1173,10 +1143,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1245,62 +1211,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1409,7 +1319,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1471,6 +1381,8 @@
       
         
           
+        
+      
         
       
         
@@ -1561,6 +1473,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../secrets/" class="md-nav__link">
         
   
@@ -1597,152 +1537,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../history/consolidation-2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docs/IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="docs/phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -1970,15 +1764,14 @@
 <li>Tailnet setup: <a href="tailnet/">tailnet/README.md</a></li>
 <li>Incidents and resilience: <a href="docs/incidents/">docs/incidents.md</a></li>
 </ul>
-<p>Historical records (April 2026 VPS reorganization):
-<a href="docs/IMPLEMENTATION-GUIDE/">docs/IMPLEMENTATION-GUIDE.md</a>,
-<a href="docs/phase3-summary/">docs/phase3-summary.md</a></p>
 <h2 id="operational-conventions">Operational conventions<a class="headerlink" href="#operational-conventions" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Routing model: gatekeeper proxies to pyrite over Tailscale where required.</li>
-<li>Developer endpoints:
-  <code>code.perdrizet.org</code> -&gt; <code>100.64.0.2:47301</code>,
+<li>Developer endpoint:
   <code>jupyter.perdrizet.org</code> -&gt; <code>100.64.0.2:47302</code>.</li>
+<li>Legacy endpoint retained in nginx config:
+  <code>code.perdrizet.org</code> -&gt; <code>100.64.0.2:47301</code> (OpenVSCode path is no longer part
+  of the active pyrite service model).</li>
 <li>Public PostgreSQL path:
   nginx TCP stream <code>:54321</code> -&gt; <code>100.64.0.2:5432</code>.</li>
 <li>Secrets policy:

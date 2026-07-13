@@ -27,7 +27,7 @@
     
     
       
-        <title>LAN and Bonded Link - homelab docs</title>
+        <title>LAN and Direct Link - homelab docs</title>
       
     
     
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              LAN and Bonded Link
+              LAN and Direct Link
             
           </span>
         </div>
@@ -640,8 +640,6 @@
       
         
       
-        
-      
     
     
     
@@ -1101,34 +1099,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../machines/pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../machines/pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1169,10 +1139,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1241,62 +1207,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1416,7 +1326,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1434,7 +1344,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1566,6 +1476,8 @@
       
         
       
+        
+      
     
     
     
@@ -1650,6 +1562,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../secrets/" class="md-nav__link">
         
   
@@ -1686,152 +1626,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../history/consolidation-2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/gatekeeper/docs/phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -2062,9 +1856,12 @@ gatekeeper (VPS). Network configuration is done via netplan configuration at <co
         mode: balance-alb
         mii-monitor-interval: 100
 </code></pre>
-<p>The link runs in <code>balance-alb</code> (adaptive load balancing) mode to distribute traffic across both NIC's when multiple hosts are hitting the RAID array.</p>
+<p>The <code>lan-data</code> bond runs in <code>balance-alb</code> mode to distribute LAN-side storage traffic across both NICs.</p>
 <h2 id="lan-interfaces">LAN interfaces<a class="headerlink" href="#lan-interfaces" title="Permanent link">&para;</a></h2>
-<p>On <code>pyrite</code> and <code>arkk</code> the lan-ssh link caries all traffic other than nfs mounts. On the educator, the single lan link handles everything.</p>
+<p>On <code>pyrite</code> and <code>arkk</code>, <code>lan-ssh</code> carries general host traffic.
+NFS traffic to arkk uses the direct link (<code>arkk-link</code> on pyrite,
+<code>pyrite-link</code> on arkk). On the educator, the single LAN link handles all
+traffic.</p>
 <p>Static IPv4 addresses are assigned via netplan. Interface names are assigned via MAC address matching. IPv6 is disabled. Example lan-ssh netplan configuration stanza from <code>pyrite</code>:</p>
 <pre><code class="language-yaml"># /etc/netplan/01-netcfg.yaml
 

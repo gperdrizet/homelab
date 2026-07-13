@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://gperdrizet.github.io/homelab/history/consolidation-2026/">
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/operations/monitoring-inventory/">
       
       
-        <link rel="prev" href="../../docker-images/">
+        <link rel="prev" href="../../backups/">
       
       
-        <link rel="next" href="../../machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/">
+        <link rel="next" href="../../secrets/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Repo Consolidation (2026) - homelab docs</title>
+        <title>Monitoring Inventory - homelab docs</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#repo-consolidation-2026" class="md-skip">
+        <a href="#monitoring-inventory-gatekeeper-pyrite" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Repo Consolidation (2026)
+              Monitoring Inventory
             
           </span>
         </div>
@@ -640,8 +640,6 @@
       
         
       
-        
-      
     
     
     
@@ -1101,34 +1099,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../machines/pyrite/docs/change-log/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Change Log
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../machines/pyrite/docs/TODO/" class="md-nav__link">
         
   
@@ -1169,10 +1139,6 @@
       
         
           
-        
-      
-        
-      
         
       
         
@@ -1241,62 +1207,6 @@
     
   
     RAID Recovery Runbook
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/arkk/RAID_RECOVERY_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Incident Notes
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/arkk/BACKUP_TRIAGE_2026/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2026 Backup Triage
   
 
     
@@ -1405,7 +1315,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Bonded Link
+    LAN and Direct Link
   
 
     
@@ -1458,6 +1368,8 @@
       
   
   
+    
+  
   
   
     
@@ -1473,15 +1385,17 @@
       
         
       
+        
+      
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
@@ -1509,7 +1423,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1527,7 +1441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -1548,6 +1462,180 @@
 
               
             
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#monitoring-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-monitoring-stack-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the monitoring stack works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gatekeeper-monitoring-stack-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gatekeeper monitoring stack (containers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyrite-monitoring-related-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pyrite monitoring-related services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#active-prometheus-scrape-inventory-gatekeeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active Prometheus scrape inventory (gatekeeper)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-being-monitored-right-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is being monitored right now
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-means-for-pageviews-and-api-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this means for pageviews and API requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-tasks-queued" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup tasks queued
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboards
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
               
             
               
@@ -1593,273 +1681,6 @@
     
   
     Docker Images
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    History
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    History
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Repo Consolidation (2026)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#scope-and-ownership-decisions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scope and ownership decisions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#file-by-file-migration-record" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        File-by-file migration record
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="File-by-file migration record">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#admin-homelab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        admin -&gt; homelab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vps-infrastructure-homelab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        vps-infrastructure -&gt; homelab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#independent-service-repos-not-folded" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Independent service repos (not folded)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#related-historical-documents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Related historical documents
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Reorganization Guide
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../machines/gatekeeper/docs/phase3-summary/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    VPS Phase 3 Summary
   
 
     
@@ -1934,10 +1755,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#scope-and-ownership-decisions" class="md-nav__link">
+  <a href="#monitoring-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scope and ownership decisions
+        Monitoring architecture
       
     </span>
   </a>
@@ -1945,60 +1766,87 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-by-file-migration-record" class="md-nav__link">
+  <a href="#how-the-monitoring-stack-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        File-by-file migration record
+        How the monitoring stack works
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="File-by-file migration record">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#admin-homelab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        admin -&gt; homelab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#vps-infrastructure-homelab" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        vps-infrastructure -&gt; homelab
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#independent-service-repos-not-folded" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Independent service repos (not folded)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#related-historical-documents" class="md-nav__link">
+  <a href="#gatekeeper-monitoring-stack-containers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related historical documents
+        Gatekeeper monitoring stack (containers)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pyrite-monitoring-related-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pyrite monitoring-related services
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#active-prometheus-scrape-inventory-gatekeeper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Active Prometheus scrape inventory (gatekeeper)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-being-monitored-right-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is being monitored right now
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-means-for-pageviews-and-api-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this means for pageviews and API requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup-tasks-queued" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup tasks queued
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboards
       
     </span>
   </a>
@@ -2025,69 +1873,126 @@
   
 
 
-<h1 id="repo-consolidation-2026">Repo consolidation (2026)<a class="headerlink" href="#repo-consolidation-2026" title="Permanent link">&para;</a></h1>
-<p>Historical record of the consolidation of the <code>admin/</code> and <code>vps-infrastructure/</code>
-repositories into <code>homelab</code> as the single source of truth. Completed July 2026.</p>
-<h2 id="scope-and-ownership-decisions">Scope and ownership decisions<a class="headerlink" href="#scope-and-ownership-decisions" title="Permanent link">&para;</a></h2>
+<h1 id="monitoring-inventory-gatekeeper-pyrite">Monitoring Inventory (Gatekeeper + Pyrite)<a class="headerlink" href="#monitoring-inventory-gatekeeper-pyrite" title="Permanent link">&para;</a></h1>
+<p>Snapshot date: 2026-07-12 (post-cleanup update)</p>
+<h2 id="monitoring-architecture">Monitoring architecture<a class="headerlink" href="#monitoring-architecture" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>/home/siderealyear/admin/</code>: durable runbooks and machine/service/network
-  notes migrated into this repo; admin docs retired.</li>
-<li><code>/home/siderealyear/vps-infrastructure/</code>: gatekeeper infrastructure docs,
-  configs, compose files, scripts, and tailnet assets migrated; external repo
-  retired.</li>
-<li><code>/home/siderealyear/llama.cpp</code> and <code>/home/siderealyear/postgreSQL-server</code>:
-  remain independent service repos. Homelab documents deployment topology,
-  ingress paths, dependencies, and operational references only.</li>
-<li>Secrets were excluded from migration. Secret values remain outside git per
-  <a href="../../secrets/">secrets management</a>.</li>
+<li>Central metrics, dashboards, alerting, and logs run on gatekeeper.</li>
+<li>Pyrite now exposes exporter endpoints (currently postgres-exporter) and is
+  scraped over tailnet.</li>
+<li>Local pyrite Grafana/Prometheus have been stopped as part of consolidation.</li>
 </ul>
-<h2 id="file-by-file-migration-record">File-by-file migration record<a class="headerlink" href="#file-by-file-migration-record" title="Permanent link">&para;</a></h2>
-<h3 id="admin-homelab">admin -&gt; homelab<a class="headerlink" href="#admin-homelab" title="Permanent link">&para;</a></h3>
+<h2 id="how-the-monitoring-stack-works">How the monitoring stack works<a class="headerlink" href="#how-the-monitoring-stack-works" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Services expose telemetry:</li>
+<li>exporters expose Prometheus metrics (<code>/metrics</code>)</li>
+<li>nginx and container logs are written to files/json logs</li>
+<li>Collection:</li>
+<li>Prometheus scrapes metrics on a fixed interval (15s)</li>
+<li>Promtail tails logs and pushes them to Loki</li>
+<li>Blackbox exporter probes HTTPS endpoints for reachability/TLS health</li>
+<li>Storage and query:</li>
+<li>Prometheus stores time-series metrics (30-day retention)</li>
+<li>Loki stores structured logs for log/traffic queries</li>
+<li>Visualization and alerting:</li>
+<li>Grafana reads from Prometheus and Loki dashboards</li>
+<li>Alertmanager routes alert notifications from Prometheus rules</li>
+</ol>
+<h2 id="gatekeeper-monitoring-stack-containers">Gatekeeper monitoring stack (containers)<a class="headerlink" href="#gatekeeper-monitoring-stack-containers" title="Permanent link">&para;</a></h2>
+<p>Core observability services:
+- <code>monitoring-prometheus</code>
+- <code>monitoring-grafana</code>
+- <code>monitoring-alertmanager</code>
+- <code>monitoring-loki</code>
+- <code>monitoring-promtail</code></p>
+<p>Exporters/probes:
+- <code>monitoring-node-exporter</code>
+- <code>monitoring-cadvisor</code>
+- <code>monitoring-nginx-exporter</code>
+- <code>monitoring-blackbox-exporter</code></p>
+<p>Service-specific exporters observed:
+- <code>logkeep-postgres-exporter</code>
+- <code>bench-postgres-exporter</code></p>
+<h2 id="pyrite-monitoring-related-services">Pyrite monitoring-related services<a class="headerlink" href="#pyrite-monitoring-related-services" title="Permanent link">&para;</a></h2>
+<p>Active exporter:
+- <code>postgres-exporter</code> on <code>100.64.0.2:9187</code></p>
+<p>Not part of active pyrite monitoring plane anymore:
+- local <code>prometheus</code> (stopped)
+- local <code>grafana</code> (stopped)</p>
+<h2 id="active-prometheus-scrape-inventory-gatekeeper">Active Prometheus scrape inventory (gatekeeper)<a class="headerlink" href="#active-prometheus-scrape-inventory-gatekeeper" title="Permanent link">&para;</a></h2>
+<p>Current active jobs discovered from Prometheus targets API include:
+- <code>prometheus</code>
+- <code>node-exporter</code>
+- <code>cadvisor</code>
+- <code>nginx</code>
+- <code>headscale</code>
+- <code>logkeep-postgres-exporter</code>
+- <code>bench-postgres-exporter</code>
+- <code>pyrite-postgres-exporter</code>
+- <code>logkeep-production</code>
+- <code>ssl-certs</code>
+- <code>ssl-certs-reachable</code></p>
+<p>Current target health snapshot highlights:
+- Up: all active scrape targets above, including <code>logkeep-production</code>,
+  <code>logkeep-postgres-exporter</code>, and <code>pyrite-postgres-exporter</code>.
+- Obsolete LogKeep variant scrape jobs were removed from active configuration.
+- Retired <code>code.perdrizet.org</code> reachability probe was removed from
+  <code>ssl-certs-reachable</code>.</p>
+<h2 id="what-is-being-monitored-right-now">What is being monitored right now<a class="headerlink" href="#what-is-being-monitored-right-now" title="Permanent link">&para;</a></h2>
+<p>Host and container telemetry:
+- Gatekeeper host metrics via <code>node-exporter</code>
+- Gatekeeper container metrics via <code>cadvisor</code>
+- Gatekeeper nginx metrics via <code>nginx-exporter</code></p>
+<p>Database telemetry:
+- Bench postgres exporter
+- LogKeep postgres exporter
+- Pyrite postgres exporter over tailnet</p>
+<p>Service/application telemetry:
+- LogKeep production app metrics (<code>/metrics</code>)</p>
+<p>Availability and certificate probes:
+- HTTPS probe jobs via blackbox exporter (<code>ssl-certs</code>, <code>ssl-certs-reachable</code>)</p>
+<p>Logs:
+- Loki + promtail on gatekeeper</p>
+<p>HTTP/API traffic:
+- Nginx access logs are collected by promtail and stored in Loki.
+- Parsed fields include <code>method</code>, <code>path</code>, <code>status</code>, <code>remote_addr</code>, and
+  <code>vhost</code> (derived from nginx access log filename where available).
+- This supports per-service request volume and status code tracking for
+  gatekeeper-hosted domains.
+- Confirmed current <code>vhost</code> label values include:
+  <code>admin</code>, <code>code</code>, <code>grafana</code>, <code>headplane</code>, <code>jupyter</code>, <code>logkeep</code>,
+  and <code>promptlyapi</code>.</p>
+<h2 id="what-this-means-for-pageviews-and-api-requests">What this means for pageviews and API requests<a class="headerlink" href="#what-this-means-for-pageviews-and-api-requests" title="Permanent link">&para;</a></h2>
 <ul>
-<li>[x] <code>arkk-backup-list.md</code> -&gt; <code>docs/machines/arkk/BACKUP_TRIAGE_2026.md</code></li>
-<li>[x] <code>system-setup/boot-optimization.md</code> -&gt; consolidated into <code>docs/machines/pyrite/docs/boot-and-startup.md</code></li>
-<li>[x] <code>system-setup/system-tuning.md</code> -&gt; consolidated into <code>docs/machines/pyrite/docs/platform-baseline.md</code> and <code>docs/machines/pyrite/docs/troubleshooting.md</code></li>
-<li>[x] <code>system-setup/vscode-tunnel.md</code> -&gt; consolidated into <code>docs/machines/pyrite/docs/remote-access.md</code></li>
-<li>[x] <code>system-setup/wayland-switchover.md</code> -&gt; consolidated into <code>docs/machines/pyrite/docs/wayland-and-av.md</code></li>
-<li>[x] <code>system-setup/TODO.md</code> -&gt; consolidated into <code>docs/machines/pyrite/docs/TODO.md</code></li>
-<li>[x] <code>obs-audio.md</code> -&gt; migrated to <code>docs/machines/pyrite/guides/obs-audio.md</code></li>
-<li>[x] <code>obs-video.md</code> -&gt; migrated to <code>docs/machines/pyrite/guides/obs-video.md</code></li>
-<li>[x] <code>new-machine-build-plan.md</code> -&gt; migrated to <code>docs/machines/pyrite/guides/ml-workstation-build-plan.md</code></li>
-<li>[x] <code>vscode-google-cloud-setup-notes.md</code> -&gt; migrated to <code>docs/machines/pyrite/guides/google-cloud-remote-dev.md</code></li>
-<li>[x] <code>wish-list.md</code> -&gt; folded into <code>docs/machines/pyrite/docs/TODO.md</code> (hardware wishlist section)</li>
-<li>[x] <code>secrets/*</code> -&gt; excluded from git docs migration; policy tracked in <code>docs/secrets/README.md</code></li>
+<li>Yes, traffic and request monitoring is available beyond database metrics.</li>
+<li>Prometheus handles infrastructure and exporter metrics (host health,
+  container health, postgres exporters, scrape/probe metrics).</li>
+<li>Loki handles request-level log analytics (request counts, error rates,
+  top endpoints, and per-vhost traffic patterns).</li>
+<li>If a service emits app metrics at <code>/metrics</code> (for example LogKeep),
+  Prometheus can also collect app-level request metrics directly.</li>
 </ul>
-<h3 id="vps-infrastructure-homelab">vps-infrastructure -&gt; homelab<a class="headerlink" href="#vps-infrastructure-homelab" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[x] <code>README.md</code> -&gt; consolidated into <code>docs/machines/gatekeeper/README.md</code></li>
-<li>[x] <code>docs/services.md</code> -&gt; <code>docs/machines/gatekeeper/docs/services.md</code></li>
-<li>[x] <code>docs/infrastructure-layout.md</code> -&gt; <code>docs/machines/gatekeeper/docs/infrastructure-layout.md</code></li>
-<li>[x] <code>docs/backup-improvements.md</code> -&gt; <code>docs/machines/gatekeeper/docs/backup-improvements.md</code></li>
-<li>[x] <code>docs/IMPLEMENTATION-GUIDE.md</code> -&gt; <code>docs/machines/gatekeeper/docs/IMPLEMENTATION-GUIDE.md</code> (historical)</li>
-<li>[x] <code>docs/phase3-summary.md</code> -&gt; <code>docs/machines/gatekeeper/docs/phase3-summary.md</code> (historical)</li>
-<li>[x] <code>docker-compose.core.yml</code> -&gt; <code>docs/machines/gatekeeper/docker-compose.core.yml</code></li>
-<li>[x] <code>docker-compose.monitoring.yml</code> -&gt; <code>docs/machines/gatekeeper/docker-compose.monitoring.yml</code></li>
-<li>[x] <code>compose/*</code> -&gt; <code>docs/machines/gatekeeper/compose/*</code></li>
-<li>[x] <code>configs/*</code> -&gt; <code>docs/machines/gatekeeper/configs/*</code></li>
-<li>[x] <code>scripts/*</code> -&gt; <code>docs/machines/gatekeeper/scripts/*</code></li>
-<li>[x] <code>tailnet/README.md</code> -&gt; <code>docs/machines/gatekeeper/tailnet/README.md</code></li>
-<li>[x] <code>tailnet/docs/manual-steps.md</code> -&gt; <code>docs/machines/gatekeeper/tailnet/docs/manual-steps.md</code></li>
-<li>[x] <code>tailnet/configs/*</code> -&gt; <code>docs/machines/gatekeeper/tailnet/configs/*</code></li>
-<li>[x] <code>tailnet/scripts/*</code> -&gt; <code>docs/machines/gatekeeper/tailnet/scripts/*</code></li>
-<li>[x] <code>tailnet/.github/copilot-instructions.md</code> -&gt; retired; root <code>AGENTS.md</code> is the canonical agent instruction source</li>
-</ul>
-<h3 id="independent-service-repos-not-folded">Independent service repos (not folded)<a class="headerlink" href="#independent-service-repos-not-folded" title="Permanent link">&para;</a></h3>
-<ul>
-<li>[x] <code>/home/siderealyear/llama.cpp</code> -&gt; kept independent; operational references in <code>docs/machines/pyrite/services/README.md</code></li>
-<li>[x] <code>/home/siderealyear/postgreSQL-server</code> -&gt; kept independent; operational references in <code>docs/machines/pyrite/services/README.md</code></li>
-</ul>
-<h2 id="related-historical-documents">Related historical documents<a class="headerlink" href="#related-historical-documents" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../../machines/gatekeeper/docs/IMPLEMENTATION-GUIDE/">VPS Infrastructure Reorganization Guide</a> —
-  the phased plan that created <code>vps-infrastructure</code> (April 2026), now itself consolidated here.</li>
-<li><a href="../../machines/gatekeeper/docs/phase3-summary/">Phase 3 Summary</a> — monitoring stack
-  separation record (April 2026).</li>
-</ul>
+<p>Current limitations:
+- Request-level telemetry quality depends on nginx/app log format.
+- True product analytics (sessions, users, funnels) are not currently tracked.
+- Most services are monitored at reverse-proxy/log level unless they expose
+  dedicated app metrics.</p>
+<h2 id="cleanup-tasks-queued">Cleanup tasks queued<a class="headerlink" href="#cleanup-tasks-queued" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Add pyrite host/container telemetry if desired (<code>node-exporter</code>, <code>cadvisor</code>,
+   optional promtail) and wire to gatekeeper Prometheus/Loki.</li>
+<li>Add service-specific dashboards to match real jobs and remove obsolete panels.</li>
+</ol>
+<h2 id="dashboards">Dashboards<a class="headerlink" href="#dashboards" title="Permanent link">&para;</a></h2>
+<p>New dashboard added in this repo:
+- <code>docs/machines/gatekeeper/configs/monitoring/grafana-dashboards/homelab-monitoring-overview.json</code>
+- <code>docs/machines/gatekeeper/configs/monitoring/grafana-dashboards/gatekeeper-traffic-overview.json</code></p>
+<p>Focus:
+- scrape health
+- target counts up/down
+- scrape duration
+- postgres exporter health (including pyrite)
+- endpoint probe success</p>
 
 
 

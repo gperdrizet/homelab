@@ -347,7 +347,7 @@ display_final_instructions() {
     echo "   Run scripts/setup-ssh-tunnel.sh on your local machine"
     echo ""
     echo "7. Create first admin user:"
-    echo "   docker exec -it logkeep-blue python -m src.cli.admin create-user --admin"
+    echo "   docker exec -it logkeep python -m src.cli.admin create-user --admin"
     echo ""
     log_warn "IMPORTANT: Secure the secrets file at $APP_DIR/secrets/generated_secrets.txt"
 }
