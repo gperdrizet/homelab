@@ -2,7 +2,7 @@
 
 Current-state file and runtime layout for gatekeeper.
 
-Last verified: 2026-07-12
+Last verified: 2026-07-27
 
 ## Host role
 
@@ -39,6 +39,8 @@ Last verified: 2026-07-12
 ## Nginx vhost model
 
 Active nginx vhost files are under `/etc/nginx/conf.d/`.
+
+Nginx hardening for public signup is now in place. The main config at `/etc/nginx/nginx.conf` defines a shared `signup` request-rate zone (`3r/m`), and the Promptly vhost at `/etc/nginx/conf.d/promptlyapi.conf` uses a dedicated `location = /register` block with `limit_req zone=signup burst=2;` and `limit_req_status 429;` to slow automated registration traffic before proxying to the app.
 
 Current active public endpoints include:
 - `logkeep.perdrizet.org`
