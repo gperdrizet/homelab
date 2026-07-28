@@ -2,7 +2,7 @@
 
 Current-state inventory for gatekeeper (74.208.107.78).
 
-Last verified against runtime and nginx config: 2026-07-12
+Last verified against runtime and nginx config: 2026-07-27
 
 ## Public-facing ports
 
@@ -24,7 +24,7 @@ Last verified against runtime and nginx config: 2026-07-12
 | bug-hunter.perdrizet.org | `127.0.0.1:8509` | active | Bug Hunter frontend |
 | feedback.perdrizet.org | `127.0.0.1:18080` | active | Feedback app |
 | admin.perdrizet.org | `127.0.0.1:8600` | active | perdrizet-admin systemd service |
-| promptlyapi.com | `127.0.0.1:8503` | active | model-gateway API |
+| promptlyapi.com | `127.0.0.1:8503` | active | model-gateway API; `/register` is rate-limited at nginx with a signup zone (`3r/m`, burst 2) |
 | model.perdrizet.org | redirect | active | redirects to promptlyapi.com |
 | grafana.perdrizet.org | `127.0.0.1:3000` | active | Grafana |
 | headscale.perdrizet.org | `127.0.0.1:8090` | active | Headscale API |
