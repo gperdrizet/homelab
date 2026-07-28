@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1811,7 +1811,7 @@
 
 <h1 id="gatekeeper-infrastructure-layout">Gatekeeper infrastructure layout<a class="headerlink" href="#gatekeeper-infrastructure-layout" title="Permanent link">&para;</a></h1>
 <p>Current-state file and runtime layout for gatekeeper.</p>
-<p>Last verified: 2026-07-12</p>
+<p>Last verified: 2026-07-27</p>
 <h2 id="host-role">Host role<a class="headerlink" href="#host-role" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Public ingress and TLS termination (nginx)</li>
@@ -1903,6 +1903,7 @@
 </table>
 <h2 id="nginx-vhost-model">Nginx vhost model<a class="headerlink" href="#nginx-vhost-model" title="Permanent link">&para;</a></h2>
 <p>Active nginx vhost files are under <code>/etc/nginx/conf.d/</code>.</p>
+<p>Nginx hardening for public signup is now in place. The main config at <code>/etc/nginx/nginx.conf</code> defines a shared <code>signup</code> request-rate zone (<code>3r/m</code>), and the Promptly vhost at <code>/etc/nginx/conf.d/promptlyapi.conf</code> uses a dedicated <code>location = /register</code> block with <code>limit_req zone=signup burst=2;</code> and <code>limit_req_status 429;</code> to slow automated registration traffic before proxying to the app.</p>
 <p>Current active public endpoints include:
 - <code>logkeep.perdrizet.org</code>
 - <code>bench.perdrizet.org</code>
@@ -1982,7 +1983,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.indexes"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
