@@ -60,7 +60,21 @@ Install the unit file at `/etc/systemd/system/jupyterlab.service`.
 
 - Keep Jupyter authentication enabled. Public access is mediated by gatekeeper,
   but Jupyter still needs its own password.
-- The deployed image is `gperdrizet/kaggle-nvidia:6.0.1`.
+- The deployed image is `gperdrizet/datascience-nvidia:6.0.1`.
 - The deployment passes GPU `0` through to the container using Docker CDI (`nvidia.com/gpu=0`), which is the Tesla P100 on pyrite.
-- The container mounts the full home directory of the target user at `/workspace`.
+- The container mounts `/home/siderealyear` (the `HOST_HOME_DIR` value in `.env`) at `/workspace`.
 - JupyterLab defaults to the `JupyterLab Dark` theme via `config/lab/settings/overrides.json` and `config/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings`.
+
+## Changing the base image
+
+1. Pick an image/tag from the [docker-images](https://github.com/gperdrizet/docker-images) repo (for example `gperdrizet/datascience-nvidia:6.0.1`).
+2. Update `JUPYTER_IMAGE` in this directory's [.env.template](.env.template), and in `/opt/jupyterlab/.env` on pyrite.
+3. Pull the new image on pyrite: `docker pull <image>`.
+4. Redeploy: `cd /opt/jupyterlab && docker compose up -d`.
+5. Verify: `docker inspect jupyterlab --format '{{.Config.Image}}'` and confirm notebooks/kernels still start correctly.
+
+## Changing the workspace mount
+
+1. Update `HOST_HOME_DIR` in this directory's [.env.template](.env.template), and in `/opt/jupyterlab/.env` on pyrite. This path is mounted at `/workspace` in the container.
+2. Redeploy: `cd /opt/jupyterlab && docker compose up -d` (recreates the container with the new mount).
+3. Verify: `docker inspect jupyterlab --format '{{json .Mounts}}'` and confirm the new source path is mounted at `/workspace`.
