@@ -80,7 +80,7 @@ Working directory `/home/siderealyear/nixx`. Manage with
 
 ## JupyterLab
 
-**Image:** `gperdrizet/kaggle-nvidia:6.0.1`  
+**Image:** `gperdrizet/datascience-nvidia:6.0.1`  
 **Bind:** `100.64.0.2:47302`  
 **Ingress:** jupyter.perdrizet.org -> gatekeeper nginx -> `100.64.0.2:47302`  
 **GPU:** Tesla P100 only (`nvidia.com/gpu=0`)  

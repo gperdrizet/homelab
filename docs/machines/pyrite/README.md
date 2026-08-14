@@ -38,7 +38,7 @@ Primary development and compute workstation in the home office.
 | llama.cpp | `0.0.0.0:8502` | promptlyapi.com via gatekeeper API | active (systemd) |
 | PostgreSQL (postgreSQL-server) | `0.0.0.0:5432` | gatekeeper stream proxy `:54321` | degraded (container restart loop observed) |
 | nixx | `100.64.0.2:8000` | nixx.perdrizet.org | enabled, **inactive** |
-| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | active (docker + systemd, image `gperdrizet/kaggle-nvidia:6.0.1`) |
+| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | active (docker + systemd, image `gperdrizet/datascience-nvidia:6.0.1`) |
 | postgres-exporter | `:9187` | scraped by gatekeeper Prometheus over tailnet | active (docker) |
 
 See [services/README.md](services/README.md) for per-service detail (ports,
