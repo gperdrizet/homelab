@@ -1657,6 +1657,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#changing-the-base-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing the base image
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-the-workspace-mount" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Changing the workspace mount
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1730,11 +1752,25 @@ ingress, and operating model. The Docker image itself belongs in the separate
 <ul>
 <li>Keep Jupyter authentication enabled. Public access is mediated by gatekeeper,
   but Jupyter still needs its own password.</li>
-<li>The deployed image is <code>gperdrizet/kaggle-nvidia:6.0.1</code>.</li>
+<li>The deployed image is <code>gperdrizet/datascience-nvidia:6.0.1</code>.</li>
 <li>The deployment passes GPU <code>0</code> through to the container using Docker CDI (<code>nvidia.com/gpu=0</code>), which is the Tesla P100 on pyrite.</li>
-<li>The container mounts the full home directory of the target user at <code>/workspace</code>.</li>
+<li>The container mounts <code>/home/siderealyear</code> (the <code>HOST_HOME_DIR</code> value in <code>.env</code>) at <code>/workspace</code>.</li>
 <li>JupyterLab defaults to the <code>JupyterLab Dark</code> theme via <code>config/lab/settings/overrides.json</code> and <code>config/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings</code>.</li>
 </ul>
+<h2 id="changing-the-base-image">Changing the base image<a class="headerlink" href="#changing-the-base-image" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Pick an image/tag from the <a href="https://github.com/gperdrizet/docker-images">docker-images</a> repo (for example <code>gperdrizet/datascience-nvidia:6.0.1</code>).</li>
+<li>Update <code>JUPYTER_IMAGE</code> in this directory's <a href=".env.template">.env.template</a>, and in <code>/opt/jupyterlab/.env</code> on pyrite.</li>
+<li>Pull the new image on pyrite: <code>docker pull &lt;image&gt;</code>.</li>
+<li>Redeploy: <code>cd /opt/jupyterlab &amp;&amp; docker compose up -d</code>.</li>
+<li>Verify: <code>docker inspect jupyterlab --format '{{.Config.Image}}'</code> and confirm notebooks/kernels still start correctly.</li>
+</ol>
+<h2 id="changing-the-workspace-mount">Changing the workspace mount<a class="headerlink" href="#changing-the-workspace-mount" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Update <code>HOST_HOME_DIR</code> in this directory's <a href=".env.template">.env.template</a>, and in <code>/opt/jupyterlab/.env</code> on pyrite. This path is mounted at <code>/workspace</code> in the container.</li>
+<li>Redeploy: <code>cd /opt/jupyterlab &amp;&amp; docker compose up -d</code> (recreates the container with the new mount).</li>
+<li>Verify: <code>docker inspect jupyterlab --format '{{json .Mounts}}'</code> and confirm the new source path is mounted at <code>/workspace</code>.</li>
+</ol>
 
 
 
