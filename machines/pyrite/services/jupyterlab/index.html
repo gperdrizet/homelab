@@ -1753,7 +1753,7 @@ ingress, and operating model. The Docker image itself belongs in the separate
 <li>Keep Jupyter authentication enabled. Public access is mediated by gatekeeper,
   but Jupyter still needs its own password.</li>
 <li>The deployed image is <code>gperdrizet/datascience-nvidia:6.0.1</code>.</li>
-<li>The deployment passes GPU <code>0</code> through to the container using Docker CDI (<code>nvidia.com/gpu=0</code>), which is the Tesla P100 on pyrite.</li>
+<li>The deployment passes GPU <code>0</code> through to the container using Docker CDI (<code>nvidia.com/gpu=0</code>), which is the GTX 1070 on pyrite. The two Tesla P100s are reserved for LLM inference and are not exposed to this container.</li>
 <li>The container mounts <code>/home/siderealyear</code> (the <code>HOST_HOME_DIR</code> value in <code>.env</code>) at <code>/workspace</code>.</li>
 <li>JupyterLab defaults to the <code>JupyterLab Dark</code> theme via <code>config/lab/settings/overrides.json</code> and <code>config/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings</code>.</li>
 </ul>

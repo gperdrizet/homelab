@@ -1855,8 +1855,8 @@ current homelab deployment path and operational dependencies.</p>
 <h2 id="llamacpp-inference-server">llama.cpp inference server<a class="headerlink" href="#llamacpp-inference-server" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/llama.cpp">gperdrizet/llama.cpp</a><br />
 <strong>Bind:</strong> <code>0.0.0.0:8502</code> (consumed by gatekeeper over tailnet at <code>100.64.0.2:8502</code>)<br />
-<strong>Model:</strong> <code>/opt/models/gpt-oss-20b-mxfp4.gguf</code><br />
-<strong>GPU:</strong> Tesla P100 (<code>CUDA_VISIBLE_DEVICES=0</code>)<br />
+<strong>Model:</strong> <code>/home/siderealyear/llama.cpp/models/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf</code><br />
+<strong>GPU:</strong> 2x Tesla P100 (<code>CUDA_VISIBLE_DEVICES=1,2</code>); excluded from <code>seat0</code> so the desktop never renders on them<br />
 <strong>Backend for:</strong> Promptly API on gatekeeper (promptlyapi.com)</p>
 <p>Operational references:
 - systemd unit: <code>llamacpp.service</code> (binary <code>/opt/llama.cpp/build/bin/llama-server</code>)
@@ -1922,7 +1922,7 @@ current homelab deployment path and operational dependencies.</p>
 <p><strong>Image:</strong> <code>gperdrizet/datascience-nvidia:6.0.1</code><br />
 <strong>Bind:</strong> <code>100.64.0.2:47302</code><br />
 <strong>Ingress:</strong> jupyter.perdrizet.org -&gt; gatekeeper nginx -&gt; <code>100.64.0.2:47302</code><br />
-<strong>GPU:</strong> Tesla P100 only (<code>nvidia.com/gpu=0</code>)<br />
+<strong>GPU:</strong> GTX 1070 only (<code>nvidia.com/gpu=0</code>); the two Tesla P100s are reserved for LLM inference<br />
 <strong>Workspace mount:</strong> host home directory mounted at <code>/workspace</code></p>
 <p>Operational references:
 - Compose source: <a href="jupyterlab/docker-compose.yml">jupyterlab/docker-compose.yml</a>

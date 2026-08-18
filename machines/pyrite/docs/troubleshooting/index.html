@@ -872,6 +872,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#black-screen-on-wayland-login-multi-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Black screen on Wayland login (multi-GPU)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#warm-reboot-hang" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1691,6 +1702,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#black-screen-on-wayland-login-multi-gpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Black screen on Wayland login (multi-GPU)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#warm-reboot-hang" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1745,6 +1767,37 @@
 
 <h1 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h1>
 <p>Issue-focused troubleshooting notes for pyrite platform operations.</p>
+<h2 id="black-screen-on-wayland-login-multi-gpu">Black screen on Wayland login (multi-GPU)<a class="headerlink" href="#black-screen-on-wayland-login-multi-gpu" title="Permanent link">&para;</a></h2>
+<p>Symptom:
+- GDM greeter works, but after login displays flicker then go black with a
+  movable cursor indefinitely.
+- Xorg sessions still log in but are slow.
+- Desktop apps (Zoom, browsers) lag badly, worsening over time.</p>
+<p>Cause:
+- The two Tesla P100s are compute-only and have no display connectors, but
+  logind tagged them onto <code>seat0</code>, so mutter opened all three GPUs as DRM
+  master and built a GBM renderer on each:
+  <code>Created gbm renderer for '/dev/dri/card1'</code> (P100).
+- llama.cpp saturates both P100s, so mutter stalls on GBM/DRM operations
+  against them. The cursor keeps moving because it is a hardware plane on the
+  GTX 1070.</p>
+<p>Fix:
+- <code>/etc/udev/rules.d/74-drm-skip-compute-gpus.rules</code> strips the <code>seat</code> and
+  <code>master-of-seat</code> tags from the P100 DRM card nodes.
+- The rule must sort <strong>after</strong> <code>/usr/lib/udev/rules.d/71-seat.rules</code>, which
+  applies the tags. A lower number (e.g. <code>61-</code>) silently does nothing.</p>
+<p>Apply:
+- <code>sudo udevadm control --reload</code>
+- <code>sudo udevadm trigger --subsystem-match=drm --action=change</code></p>
+<p>Verify:
+- <code>loginctl seat-status seat0 | grep drm:card</code> shows only <code>card0</code>.
+- <code>udevadm info -q property /sys/class/drm/card1 | grep CURRENT_TAGS</code> has no
+  <code>seat</code> tag. Use <code>CURRENT_TAGS</code>, not <code>TAGS</code>; <code>TAGS</code> is cumulative history and
+  keeps showing removed tags.
+- After login: only one <code>Created gbm renderer</code> line in the journal.</p>
+<p>Note:
+- Display-layer only. CUDA uses <code>/dev/nvidia*</code>, so llama.cpp and the
+  JupyterLab container are unaffected.</p>
 <h2 id="warm-reboot-hang">Warm reboot hang<a class="headerlink" href="#warm-reboot-hang" title="Permanent link">&para;</a></h2>
 <p>Symptom:
 - systemctl reboot hangs at black screen.</p>

@@ -1772,7 +1772,7 @@
 - OS: Ubuntu 24.04 LTS
 - Desktop: GNOME
 - Display stack: Wayland user sessions, X11 GDM greeter
-- GPU: NVIDIA (GTX 1070 and Tesla P100)
+- GPU: NVIDIA (GTX 1070 + 2x Tesla P100)
 - Tailnet IP: 100.64.0.2</p>
 <h2 id="current-architecture-decisions">Current architecture decisions<a class="headerlink" href="#current-architecture-decisions" title="Permanent link">&para;</a></h2>
 <ol>
@@ -1793,8 +1793,11 @@
 <p>Desktop session posture:</p>
 </li>
 <li>GDM greeter runs X11 for faster login handoff on NVIDIA.</li>
+<li>User session defaults to Wayland for day-to-day desktop use.</li>
 <li>
-<p>User session defaults to Wayland for day-to-day desktop use.</p>
+<p>Only the GTX 1070 is assigned to <code>seat0</code>. The compute-only P100s are excluded
+  via <code>/etc/udev/rules.d/74-drm-skip-compute-gpus.rules</code> so the compositor does
+  not render on GPUs reserved for inference.</p>
 </li>
 <li>
 <p>Performance defaults:</p>
