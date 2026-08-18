@@ -8,7 +8,7 @@ Primary development and compute workstation in the home office.
 **Platform:** Supermicro X9SRA-3  
 **CPU:** Intel Xeon E5-2697 v2 (12-core)  
 **RAM:** 256 GB  
-**GPU:** NVIDIA GTX 1070 + Tesla P100 16 GB
+**GPU:** NVIDIA GTX 1070 + 2x Tesla P100 16 GB
 **Storage:** 3.7 GB RAID0 + 1 TB NVMe SSD bcache device  
 **OS:** Ubuntu 24.04 LTS
 
