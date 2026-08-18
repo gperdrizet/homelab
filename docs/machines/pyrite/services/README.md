@@ -31,8 +31,8 @@ current homelab deployment path and operational dependencies.
 
 **Repo:** [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp)  
 **Bind:** `0.0.0.0:8502` (consumed by gatekeeper over tailnet at `100.64.0.2:8502`)  
-**Model:** `/opt/models/gpt-oss-20b-mxfp4.gguf`  
-**GPU:** Tesla P100 (`CUDA_VISIBLE_DEVICES=0`)  
+**Model:** `/home/siderealyear/llama.cpp/models/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf`  
+**GPU:** 2x Tesla P100 (`CUDA_VISIBLE_DEVICES=1,2`); excluded from `seat0` so the desktop never renders on them  
 **Backend for:** Promptly API on gatekeeper (promptlyapi.com)
 
 Operational references:
@@ -83,7 +83,7 @@ Working directory `/home/siderealyear/nixx`. Manage with
 **Image:** `gperdrizet/datascience-nvidia:6.0.1`  
 **Bind:** `100.64.0.2:47302`  
 **Ingress:** jupyter.perdrizet.org -> gatekeeper nginx -> `100.64.0.2:47302`  
-**GPU:** Tesla P100 only (`nvidia.com/gpu=0`)  
+**GPU:** GTX 1070 only (`nvidia.com/gpu=0`); the two Tesla P100s are reserved for LLM inference  
 **Workspace mount:** host home directory mounted at `/workspace`
 
 Operational references:

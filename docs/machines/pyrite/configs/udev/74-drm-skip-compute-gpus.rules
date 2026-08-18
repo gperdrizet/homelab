@@ -1,0 +1,7 @@
+# Tesla P100 (0x15f8) are compute-only and have no display connectors.
+# Keeping them off seat0 stops mutter/Xorg building GBM renderers on GPUs that
+# llama.cpp saturates, which caused black-screen Wayland logins.
+#
+# Must sort after /usr/lib/udev/rules.d/71-seat.rules, which applies the tags.
+# Deploy to /etc/udev/rules.d/74-drm-skip-compute-gpus.rules
+SUBSYSTEM=="drm", KERNEL=="card*", ATTRS{vendor}=="0x10de", ATTRS{device}=="0x15f8", TAG-="seat", TAG-="master-of-seat"

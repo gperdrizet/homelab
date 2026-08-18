@@ -61,7 +61,7 @@ Install the unit file at `/etc/systemd/system/jupyterlab.service`.
 - Keep Jupyter authentication enabled. Public access is mediated by gatekeeper,
   but Jupyter still needs its own password.
 - The deployed image is `gperdrizet/datascience-nvidia:6.0.1`.
-- The deployment passes GPU `0` through to the container using Docker CDI (`nvidia.com/gpu=0`), which is the Tesla P100 on pyrite.
+- The deployment passes GPU `0` through to the container using Docker CDI (`nvidia.com/gpu=0`), which is the GTX 1070 on pyrite. The two Tesla P100s are reserved for LLM inference and are not exposed to this container.
 - The container mounts `/home/siderealyear` (the `HOST_HOME_DIR` value in `.env`) at `/workspace`.
 - JupyterLab defaults to the `JupyterLab Dark` theme via `config/lab/settings/overrides.json` and `config/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings`.
 
