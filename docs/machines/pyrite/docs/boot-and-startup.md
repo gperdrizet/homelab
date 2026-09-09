@@ -7,11 +7,30 @@ Outcome:
 
 ## Startup strategy
 
-1. Use socket activation for Docker:
-- Disable eager daemon start:
-  - sudo systemctl disable docker containerd
-- Enable docker socket:
-  - sudo systemctl enable docker.socket
+1. Keep container workloads out of the boot path:
+
+Anything `WantedBy=multi-user.target` is implicitly ordered `Before` it, and
+`graphical.target` (so GDM) waits on `multi-user.target`. Docker takes ~50s to
+restore containers, so leaving it enabled delays the login screen by that much.
+
+- Docker is reached on demand through socket activation:
+  - `sudo systemctl enable docker.socket`
+  - `sudo systemctl disable docker.service`
+- Container workloads start after boot via a timer rather than at boot:
+  - `/etc/systemd/system/containers-late.timer` (`OnBootSec=20s`)
+  - `/etc/systemd/system/containers-late.service` starts `docker.service`,
+    `jupyterlab.service`, `postgressql-server-stack.service` and the GitHub
+    Actions runner with `systemctl start --no-block`.
+- `containerd.service` needs no separate handling; `docker.service` pulls it.
+
+**This regresses on Docker package upgrades.** `docker-ce` postinst runs
+`systemctl enable docker.service`, putting it back in `multi-user.target`.
+Re-check after upgrades:
+
+- `ls /etc/systemd/system/multi-user.target.wants/ | grep -E 'docker|jupyter'`
+  should return nothing.
+- `systemd-analyze critical-chain graphical.target` should not list
+  `docker.service`.
 
 2. Disable non-essential boot services:
 - containerd

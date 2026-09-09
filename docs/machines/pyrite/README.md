@@ -36,7 +36,8 @@ Primary development and compute workstation in the home office.
 | Service | Bind | Ingress path | Status |
 |---------|------|--------------|--------|
 | llama.cpp | `0.0.0.0:8502` | promptlyapi.com via gatekeeper API | active (systemd) |
-| PostgreSQL (postgreSQL-server) | `0.0.0.0:5432` | gatekeeper stream proxy `:54321` | degraded (container restart loop observed) |
+| llama.cpp (batch1/batch2) | `0.0.0.0:8503`/`:8504` | scraped by gatekeeper Prometheus over tailnet | active when running overnight batch jobs (systemd), otherwise stopped |
+| PostgreSQL (postgreSQL-server) | `100.64.0.2:5432` | gatekeeper stream proxy `:54321` | active (docker) |
 | nixx | `100.64.0.2:8000` | nixx.perdrizet.org | enabled, **inactive** |
 | JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | active (docker + systemd, image `gperdrizet/datascience-nvidia:6.0.1`) |
 | postgres-exporter | `:9187` | scraped by gatekeeper Prometheus over tailnet | active (docker) |
@@ -45,8 +46,9 @@ See [services/README.md](services/README.md) for per-service detail (ports,
 units, models, dependencies).
 
 Monitoring scope: pyrite exports PostgreSQL metrics via `postgres-exporter`
-on `:9187`. Central dashboards, alerting, and long-term metric storage are
-hosted on gatekeeper.
+on `:9187` and llama.cpp metrics via each server's built-in `/metrics`
+endpoint (production on `:8502`, batch instances on `:8503`/`:8504`). Central
+dashboards, alerting, and long-term metric storage are hosted on gatekeeper.
 
 Service repo references:
 - https://github.com/gperdrizet/llama.cpp

@@ -31,8 +31,8 @@ current homelab deployment path and operational dependencies.
 
 **Repo:** [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp)  
 **Bind:** `0.0.0.0:8502` (consumed by gatekeeper over tailnet at `100.64.0.2:8502`)  
-**Model:** `/home/siderealyear/llama.cpp/models/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf`  
-**GPU:** 2x Tesla P100 (`CUDA_VISIBLE_DEVICES=1,2`); excluded from `seat0` so the desktop never renders on them  
+**Model:** `/opt/models/gpt-oss-20b-mxfp4.gguf`  
+**GPU:** 2x Tesla P100 (`CUDA_VISIBLE_DEVICES=1,2`)  
 **Backend for:** Promptly API on gatekeeper (promptlyapi.com)
 
 Operational references:
@@ -47,15 +47,36 @@ Operational references:
 
 **Repo:** [gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server)  
 **Container:** `student-postgres` (`pgvector/pgvector:pg16`, PostgreSQL 16.13)  
-**Bind:** `0.0.0.0:5432` (local) → `:54321` public via gatekeeper nginx TCP stream proxy  
+**Bind:** `100.64.0.2:5432` (tailnet only) → `:54321` public via gatekeeper nginx TCP stream proxy  
 **Used by:** external clients connecting to pyrite's database over the internet
 
 Operational references:
 - Compose source: `docker-compose.yml` in the postgreSQL-server repo
 - Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf`
 - Admin surface: `make help` in the repo
-- Metrics: `postgres-exporter` container on pyrite (`:9187`), scraped by gatekeeper Prometheus over tailnet
+- Metrics: `postgres-exporter` container on pyrite (`100.64.0.2:9187`), scraped by gatekeeper Prometheus over tailnet
+- Also runs its own local `grafana` (`100.64.0.2:3000`) and `prometheus`
+  (`100.64.0.2:9090`) containers for the course project itself - separate
+  from the homelab's central Grafana/Prometheus on gatekeeper
 - Gatekeeper owns the public stream proxy (`:54321` → `100.64.0.2:5432`)
+
+
+## llama.cpp batch throughput instances
+
+**Repo:** [gperdrizet/llama.cpp](https://github.com/gperdrizet/llama.cpp)  
+**Bind:** `0.0.0.0:8503` / `0.0.0.0:8504` (consumed by gatekeeper over tailnet at `100.64.0.2:8503`/`:8504`)  
+**GPU:** `llamacpp-batch1` on GPU1 (Tesla P100), `llamacpp-batch2` on GPU2 (Tesla P100)  
+**Purpose:** overnight/offline batch inference jobs (many short requests), run
+instead of the production `llamacpp.service` when both GPUs are needed for a
+batch job - production is stopped for the duration.
+
+Operational references:
+- systemd units: `llamacpp-batch1.service`, `llamacpp-batch2.service`
+- Template: `utils/llamacpp-batch.service`; deploy/redeploy both with
+  `utils/deploy_batch_service.sh <1|2|both> [--restart]`
+- Health endpoints: `http://100.64.0.2:8503/health`, `http://100.64.0.2:8504/health`
+- Logs: `journalctl -u llamacpp-batch1.service -f` (and `-batch2`)
+- Metrics: scraped by gatekeeper Prometheus job `llamacpp-pyrite-batch`
 
 
 ## nixx

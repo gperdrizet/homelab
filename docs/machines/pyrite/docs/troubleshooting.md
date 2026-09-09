@@ -39,6 +39,49 @@ Verify:
 Note:
 - Display-layer only. CUDA uses `/dev/nvidia*`, so llama.cpp and the
   JupyterLab container are unaffected.
+- The udev rule only governs logind/mutter. Xorg ignores seats and binds GPUs
+  via `AutoAddGPU` — see the next section.
+
+## Xorg and GDM bind the compute GPUs
+
+Symptom:
+- `nvidia-smi` shows `/usr/lib/xorg/Xorg` holding a few MiB on each P100.
+- GDM greeter is slow to appear.
+- Journal shows Xorg probing every GPU, for the greeter and the user session:
+  `(II) xfree86: Adding drm device (/dev/dri/card1)`
+
+Cause:
+- `/etc/X11/xorg.conf.d/` was empty, so `AutoAddGPU` defaulted on and Xorg
+  attached every DRM device it could enumerate. Seat tags do not affect this.
+
+Fix:
+- `/etc/X11/xorg.conf.d/10-nvidia-display-gpu.conf` sets
+  `Option "AutoAddGPU" "false"` and pins a single `Device` section to the
+  GTX 1070 at `BusID "PCI:2:0:0"`.
+- BusID is decimal bus:device:function, so PCI address `0000:02:00.0` becomes
+  `PCI:2:0:0`.
+
+Verify:
+- `journalctl -b 0 | grep "Adding drm device"` lists only `card0`.
+- `nvidia-smi` shows no Xorg process on GPU 1 or 2.
+
+Recovery:
+- If X fails to start, drop to a TTY (Ctrl+Alt+F3) and delete the file. An
+  incorrect BusID is the usual cause.
+
+## Do not delete monitors.xml casually
+
+`~/.config/monitors.xml` holds layouts for **both** X11 and Wayland sessions in
+one file, and the two use different connector names for the same physical port:
+
+| Session | Connector names |
+|---------|-----------------|
+| Wayland (kernel DRM) | `DP-2`, `DP-3`, `HDMI-A-1` |
+| X11 (NVIDIA driver)  | `DP-4`, `HDMI-0`, `HDMI-1` |
+
+Entries naming connectors absent from `/sys/class/drm/card0-*` are therefore
+not necessarily stale — they are probably the X11 layout. Deleting the file to
+fix a Wayland problem will destroy a working X11 layout and fix nothing.
 
 ## Warm reboot hang
 
