@@ -883,6 +883,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#xorg-and-gdm-bind-the-compute-gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Xorg and GDM bind the compute GPUs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-not-delete-monitorsxml-casually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Do not delete monitors.xml casually
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#warm-reboot-hang" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1713,6 +1735,28 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#xorg-and-gdm-bind-the-compute-gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Xorg and GDM bind the compute GPUs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-not-delete-monitorsxml-casually" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Do not delete monitors.xml casually
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#warm-reboot-hang" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1797,7 +1841,54 @@
 - After login: only one <code>Created gbm renderer</code> line in the journal.</p>
 <p>Note:
 - Display-layer only. CUDA uses <code>/dev/nvidia*</code>, so llama.cpp and the
-  JupyterLab container are unaffected.</p>
+  JupyterLab container are unaffected.
+- The udev rule only governs logind/mutter. Xorg ignores seats and binds GPUs
+  via <code>AutoAddGPU</code> — see the next section.</p>
+<h2 id="xorg-and-gdm-bind-the-compute-gpus">Xorg and GDM bind the compute GPUs<a class="headerlink" href="#xorg-and-gdm-bind-the-compute-gpus" title="Permanent link">&para;</a></h2>
+<p>Symptom:
+- <code>nvidia-smi</code> shows <code>/usr/lib/xorg/Xorg</code> holding a few MiB on each P100.
+- GDM greeter is slow to appear.
+- Journal shows Xorg probing every GPU, for the greeter and the user session:
+  <code>(II) xfree86: Adding drm device (/dev/dri/card1)</code></p>
+<p>Cause:
+- <code>/etc/X11/xorg.conf.d/</code> was empty, so <code>AutoAddGPU</code> defaulted on and Xorg
+  attached every DRM device it could enumerate. Seat tags do not affect this.</p>
+<p>Fix:
+- <code>/etc/X11/xorg.conf.d/10-nvidia-display-gpu.conf</code> sets
+  <code>Option "AutoAddGPU" "false"</code> and pins a single <code>Device</code> section to the
+  GTX 1070 at <code>BusID "PCI:2:0:0"</code>.
+- BusID is decimal bus:device:function, so PCI address <code>0000:02:00.0</code> becomes
+  <code>PCI:2:0:0</code>.</p>
+<p>Verify:
+- <code>journalctl -b 0 | grep "Adding drm device"</code> lists only <code>card0</code>.
+- <code>nvidia-smi</code> shows no Xorg process on GPU 1 or 2.</p>
+<p>Recovery:
+- If X fails to start, drop to a TTY (Ctrl+Alt+F3) and delete the file. An
+  incorrect BusID is the usual cause.</p>
+<h2 id="do-not-delete-monitorsxml-casually">Do not delete monitors.xml casually<a class="headerlink" href="#do-not-delete-monitorsxml-casually" title="Permanent link">&para;</a></h2>
+<p><code>~/.config/monitors.xml</code> holds layouts for <strong>both</strong> X11 and Wayland sessions in
+one file, and the two use different connector names for the same physical port:</p>
+<table>
+<thead>
+<tr>
+<th>Session</th>
+<th>Connector names</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wayland (kernel DRM)</td>
+<td><code>DP-2</code>, <code>DP-3</code>, <code>HDMI-A-1</code></td>
+</tr>
+<tr>
+<td>X11 (NVIDIA driver)</td>
+<td><code>DP-4</code>, <code>HDMI-0</code>, <code>HDMI-1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Entries naming connectors absent from <code>/sys/class/drm/card0-*</code> are therefore
+not necessarily stale — they are probably the X11 layout. Deleting the file to
+fix a Wayland problem will destroy a working X11 layout and fix nothing.</p>
 <h2 id="warm-reboot-hang">Warm reboot hang<a class="headerlink" href="#warm-reboot-hang" title="Permanent link">&para;</a></h2>
 <p>Symptom:
 - systemctl reboot hangs at black screen.</p>

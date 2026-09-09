@@ -1771,12 +1771,31 @@
 - Baseline boot time improved from about 2m28s to about 40s to graphical target.</p>
 <h2 id="startup-strategy">Startup strategy<a class="headerlink" href="#startup-strategy" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Use socket activation for Docker:</li>
-<li>Disable eager daemon start:</li>
-<li>sudo systemctl disable docker containerd</li>
-<li>Enable docker socket:</li>
+<li>Keep container workloads out of the boot path:</li>
+</ol>
+<p>Anything <code>WantedBy=multi-user.target</code> is implicitly ordered <code>Before</code> it, and
+<code>graphical.target</code> (so GDM) waits on <code>multi-user.target</code>. Docker takes ~50s to
+restore containers, so leaving it enabled delays the login screen by that much.</p>
+<ul>
+<li>Docker is reached on demand through socket activation:</li>
+<li><code>sudo systemctl enable docker.socket</code></li>
+<li><code>sudo systemctl disable docker.service</code></li>
+<li>Container workloads start after boot via a timer rather than at boot:</li>
+<li><code>/etc/systemd/system/containers-late.timer</code> (<code>OnBootSec=20s</code>)</li>
+<li><code>/etc/systemd/system/containers-late.service</code> starts <code>docker.service</code>,
+    <code>jupyterlab.service</code>, <code>postgressql-server-stack.service</code> and the GitHub
+    Actions runner with <code>systemctl start --no-block</code>.</li>
+<li><code>containerd.service</code> needs no separate handling; <code>docker.service</code> pulls it.</li>
+</ul>
+<p><strong>This regresses on Docker package upgrades.</strong> <code>docker-ce</code> postinst runs
+<code>systemctl enable docker.service</code>, putting it back in <code>multi-user.target</code>.
+Re-check after upgrades:</p>
+<ul>
+<li><code>ls /etc/systemd/system/multi-user.target.wants/ | grep -E 'docker|jupyter'</code>
+  should return nothing.</li>
 <li>
-<p>sudo systemctl enable docker.socket</p>
+<p><code>systemd-analyze critical-chain graphical.target</code> should not list
+  <code>docker.service</code>.</p>
 </li>
 <li>
 <p>Disable non-essential boot services:</p>
@@ -1785,7 +1804,7 @@
 <li>lvm2-monitor</li>
 <li>gnome-remote-desktop</li>
 <li>apport</li>
-</ol>
+</ul>
 <p>Command:
 - sudo systemctl disable containerd lvm2-monitor gnome-remote-desktop apport</p>
 <ol>

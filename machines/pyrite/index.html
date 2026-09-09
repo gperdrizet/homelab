@@ -1777,10 +1777,16 @@
 <td>active (systemd)</td>
 </tr>
 <tr>
+<td>llama.cpp (batch1/batch2)</td>
+<td><code>0.0.0.0:8503</code>/<code>:8504</code></td>
+<td>scraped by gatekeeper Prometheus over tailnet</td>
+<td>active when running overnight batch jobs (systemd), otherwise stopped</td>
+</tr>
+<tr>
 <td>PostgreSQL (postgreSQL-server)</td>
-<td><code>0.0.0.0:5432</code></td>
+<td><code>100.64.0.2:5432</code></td>
 <td>gatekeeper stream proxy <code>:54321</code></td>
-<td>degraded (container restart loop observed)</td>
+<td>active (docker)</td>
 </tr>
 <tr>
 <td>nixx</td>
@@ -1805,8 +1811,9 @@
 <p>See <a href="services/">services/README.md</a> for per-service detail (ports,
 units, models, dependencies).</p>
 <p>Monitoring scope: pyrite exports PostgreSQL metrics via <code>postgres-exporter</code>
-on <code>:9187</code>. Central dashboards, alerting, and long-term metric storage are
-hosted on gatekeeper.</p>
+on <code>:9187</code> and llama.cpp metrics via each server's built-in <code>/metrics</code>
+endpoint (production on <code>:8502</code>, batch instances on <code>:8503</code>/<code>:8504</code>). Central
+dashboards, alerting, and long-term metric storage are hosted on gatekeeper.</p>
 <p>Service repo references:
 - https://github.com/gperdrizet/llama.cpp
 - https://github.com/gperdrizet/postgreSQL-server

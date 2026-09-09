@@ -1575,10 +1575,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#grafana-datasources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana datasources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#active-prometheus-scrape-inventory-gatekeeper" class="md-nav__link">
     <span class="md-ellipsis">
       
         Active Prometheus scrape inventory (gatekeeper)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboards
       
     </span>
   </a>
@@ -1608,21 +1630,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cleanup-tasks-queued" class="md-nav__link">
+  <a href="#open-tasks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cleanup tasks queued
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dashboards
+        Open tasks
       
     </span>
   </a>
@@ -1799,10 +1810,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#grafana-datasources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grafana datasources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#active-prometheus-scrape-inventory-gatekeeper" class="md-nav__link">
     <span class="md-ellipsis">
       
         Active Prometheus scrape inventory (gatekeeper)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dashboards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dashboards
       
     </span>
   </a>
@@ -1832,21 +1865,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cleanup-tasks-queued" class="md-nav__link">
+  <a href="#open-tasks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cleanup tasks queued
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dashboards" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Dashboards
+        Open tasks
       
     </span>
   </a>
@@ -1874,13 +1896,18 @@
 
 
 <h1 id="monitoring-inventory-gatekeeper-pyrite">Monitoring Inventory (Gatekeeper + Pyrite)<a class="headerlink" href="#monitoring-inventory-gatekeeper-pyrite" title="Permanent link">&para;</a></h1>
-<p>Snapshot date: 2026-07-12 (post-cleanup update)</p>
+<p>Snapshot date: 2026-09-09</p>
 <h2 id="monitoring-architecture">Monitoring architecture<a class="headerlink" href="#monitoring-architecture" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Central metrics, dashboards, alerting, and logs run on gatekeeper.</li>
-<li>Pyrite now exposes exporter endpoints (currently postgres-exporter) and is
-  scraped over tailnet.</li>
-<li>Local pyrite Grafana/Prometheus have been stopped as part of consolidation.</li>
+<li>Pyrite exposes exporter endpoints (<code>pyrite-postgres-exporter</code>,
+  <code>llamacpp-pyrite</code>, <code>llamacpp-pyrite-batch</code>) and is scraped over tailnet.</li>
+<li>Pyrite also runs a separate local Grafana/Prometheus/postgres-exporter
+  stack. It is <strong>not</strong> part of the homelab monitoring plane - it belongs to
+  the unrelated <code>postgreSQL-server</code> teaching/demo project
+  (https://github.com/gperdrizet/postgreSQL-server, deployed at
+  <code>~/postgreSQL-server</code> on pyrite). It is bound to the tailnet IP
+  (<code>100.64.0.2</code>) only, not the LAN.</li>
 </ul>
 <h2 id="how-the-monitoring-stack-works">How the monitoring stack works<a class="headerlink" href="#how-the-monitoring-stack-works" title="Permanent link">&para;</a></h2>
 <ol>
@@ -1910,17 +1937,46 @@
 - <code>monitoring-cadvisor</code>
 - <code>monitoring-nginx-exporter</code>
 - <code>monitoring-blackbox-exporter</code></p>
-<p>Service-specific exporters observed:
+<p>Service-specific exporters:
 - <code>logkeep-postgres-exporter</code>
 - <code>bench-postgres-exporter</code></p>
+<p>Live config paths (host-side, mounted into the containers):
+- Prometheus: <code>/srv/infra/configs/prometheus.yml</code>
+- Alertmanager: <code>/srv/infra/configs/alertmanager.yml</code>
+- Alert rules: <code>/srv/infra/configs/alert-rules.yml</code>
+- Grafana datasources: <code>/srv/infra/configs/grafana-datasources.yml</code>
+- Grafana dashboards: <code>/srv/infra/configs/grafana-dashboards/</code></p>
 <h2 id="pyrite-monitoring-related-services">Pyrite monitoring-related services<a class="headerlink" href="#pyrite-monitoring-related-services" title="Permanent link">&para;</a></h2>
-<p>Active exporter:
-- <code>postgres-exporter</code> on <code>100.64.0.2:9187</code></p>
-<p>Not part of active pyrite monitoring plane anymore:
-- local <code>prometheus</code> (stopped)
-- local <code>grafana</code> (stopped)</p>
+<p>Active exporters, scraped over tailnet:
+- <code>pyrite-postgres-exporter</code> on <code>100.64.0.2:9187</code>
+- <code>llamacpp-pyrite</code> (llama.cpp's built-in <code>/metrics</code>) on <code>100.64.0.2:8502</code> -
+  the <strong>production</strong> <code>llamacpp.service</code>. This is intentionally stopped
+  whenever a batch/offline inference job needs both GPUs, at which point this
+  target goes down. Restart <code>llamacpp.service</code> on pyrite once the batch job
+  finishes to bring it back.
+- <code>llamacpp-pyrite-batch</code> scrapes the two overnight batch throughput
+  instances: <code>pyrite-batch1</code> (<code>100.64.0.2:8503</code>) and <code>pyrite-batch2</code>
+  (<code>100.64.0.2:8504</code>). These are only up while a batch job is running.</p>
+<p>Not part of the homelab monitoring plane (separate project, see above):
+- local <code>prometheus</code> (tailnet-bound, <code>postgreSQL-server</code> project)
+- local <code>grafana</code> (tailnet-bound, <code>postgreSQL-server</code> project)
+- local <code>postgres-exporter</code> (tailnet-bound, <code>postgreSQL-server</code> project)</p>
+<h2 id="grafana-datasources">Grafana datasources<a class="headerlink" href="#grafana-datasources" title="Permanent link">&para;</a></h2>
+<p>Four datasources are provisioned (<code>/srv/infra/configs/grafana-datasources.yml</code>):
+- <code>Prometheus</code> - default datasource, <code>http://monitoring-prometheus:9090</code>
+- <code>Loki</code> - <code>http://monitoring-loki:3100</code>
+- <code>PostgreSQL</code> - direct connection to <code>logkeep-postgres:5432</code>, database
+  <code>logkeep</code>
+- <code>Promptly</code> - direct connection to <code>model-gateway-db:5432</code>, database
+  <code>gateway</code>, read-only <code>grafana_ro</code> role (only <code>usage_events</code> and <code>users</code>
+  grants)</p>
+<p>Both Postgres datasources set the default database in <strong>both</strong> the top-level
+<code>database:</code> field and <code>jsonData.database</code> - the current Grafana version
+(12.3) reads the default database for query/SQL-builder validation from
+<code>jsonData.database</code>, while the top-level field is still used for the
+connection itself. Both must be kept in sync if either datasource is edited.</p>
 <h2 id="active-prometheus-scrape-inventory-gatekeeper">Active Prometheus scrape inventory (gatekeeper)<a class="headerlink" href="#active-prometheus-scrape-inventory-gatekeeper" title="Permanent link">&para;</a></h2>
-<p>Current active jobs discovered from Prometheus targets API include:
+<p>Active jobs:
 - <code>prometheus</code>
 - <code>node-exporter</code>
 - <code>cadvisor</code>
@@ -1929,15 +1985,45 @@
 - <code>logkeep-postgres-exporter</code>
 - <code>bench-postgres-exporter</code>
 - <code>pyrite-postgres-exporter</code>
+- <code>llamacpp-pyrite</code>
+- <code>llamacpp-pyrite-batch</code>
 - <code>logkeep-production</code>
 - <code>ssl-certs</code>
 - <code>ssl-certs-reachable</code></p>
-<p>Current target health snapshot highlights:
-- Up: all active scrape targets above, including <code>logkeep-production</code>,
-  <code>logkeep-postgres-exporter</code>, and <code>pyrite-postgres-exporter</code>.
-- Obsolete LogKeep variant scrape jobs were removed from active configuration.
-- Retired <code>code.perdrizet.org</code> reachability probe was removed from
-  <code>ssl-certs-reachable</code>.</p>
+<p>Target health notes:
+- All targets are up except <code>llamacpp-pyrite</code>, which tracks whether the
+  production <code>llamacpp.service</code> on pyrite is running (see above - it is
+  intentionally stopped during batch inference jobs).
+- <code>llamacpp-pyrite</code> and <code>llamacpp-pyrite-batch</code> both authenticate with the
+  same Bearer API key (from <code>~/llama.cpp/.env</code> on pyrite) and scrape
+  <code>/metrics</code>. Targets carry a <code>slot</code> label (<code>production</code> or <code>batch</code>) and a
+  distinct <code>instance</code> label per running server
+  (<code>pyrite</code>/<code>pyrite-batch1</code>/<code>pyrite-batch2</code>).</p>
+<h2 id="dashboards">Dashboards<a class="headerlink" href="#dashboards" title="Permanent link">&para;</a></h2>
+<p>Provisioned dashboards (<code>/srv/infra/configs/grafana-dashboards/</code>):
+- <code>gatekeeper-traffic-overview.json</code>
+- <code>traffic-monitoring.json</code>
+- <code>promptly-traffic-dashboard.json</code> (aka "Promptly: gateway traffic",
+  uid <code>promptly-gateway-traffic</code>)
+- <code>homelab-monitoring-overview.json</code>
+- <code>logkeep-dashboard.json</code></p>
+<p>The promptly dashboard has 9 panels:
+- 5 Postgres-backed (via the <code>Promptly</code> datasource): <code>Requests per hour</code>,
+  <code>Tokens per hour (input + output)</code>, <code>New accounts per day</code>,
+  <code>Requests today</code>, <code>New accounts today</code>.
+- 4 Prometheus-backed: <code>llama.cpp: prompt/generation throughput (tok/s)</code>,
+  <code>llama.cpp: slot state</code>, <code>llama.cpp: decode() call rate</code>,
+  <code>llama.cpp: largest observed context (tokens)</code>. These match
+  <code>instance=~"pyrite.*"</code>, so each shows a series per currently-running
+  llama.cpp instance (production and/or either batch slot), labeled by
+  instance in the legend. They have data whenever any llama.cpp instance is
+  running, not just production.</p>
+<p>Focus of <code>homelab-monitoring-overview.json</code>/<code>gatekeeper-traffic-overview.json</code>:
+- scrape health
+- target counts up/down
+- scrape duration
+- postgres exporter health (including pyrite)
+- endpoint probe success</p>
 <h2 id="what-is-being-monitored-right-now">What is being monitored right now<a class="headerlink" href="#what-is-being-monitored-right-now" title="Permanent link">&para;</a></h2>
 <p>Host and container telemetry:
 - Gatekeeper host metrics via <code>node-exporter</code>
@@ -1948,7 +2034,8 @@
 - LogKeep postgres exporter
 - Pyrite postgres exporter over tailnet</p>
 <p>Service/application telemetry:
-- LogKeep production app metrics (<code>/metrics</code>)</p>
+- LogKeep production app metrics (<code>/metrics</code>)
+- llama.cpp production + batch instances on pyrite (<code>/metrics</code>)</p>
 <p>Availability and certificate probes:
 - HTTPS probe jobs via blackbox exporter (<code>ssl-certs</code>, <code>ssl-certs-reachable</code>)</p>
 <p>Logs:
@@ -1959,40 +2046,31 @@
   <code>vhost</code> (derived from nginx access log filename where available).
 - This supports per-service request volume and status code tracking for
   gatekeeper-hosted domains.
-- Confirmed current <code>vhost</code> label values include:
-  <code>admin</code>, <code>code</code>, <code>grafana</code>, <code>headplane</code>, <code>jupyter</code>, <code>logkeep</code>,
-  and <code>promptlyapi</code>.</p>
+- Current <code>vhost</code> label values include: <code>admin</code>, <code>code</code>, <code>grafana</code>,
+  <code>headplane</code>, <code>jupyter</code>, <code>logkeep</code>, and <code>promptlyapi</code>.</p>
 <h2 id="what-this-means-for-pageviews-and-api-requests">What this means for pageviews and API requests<a class="headerlink" href="#what-this-means-for-pageviews-and-api-requests" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Yes, traffic and request monitoring is available beyond database metrics.</li>
+<li>Traffic and request monitoring is available beyond database metrics.</li>
 <li>Prometheus handles infrastructure and exporter metrics (host health,
   container health, postgres exporters, scrape/probe metrics).</li>
 <li>Loki handles request-level log analytics (request counts, error rates,
   top endpoints, and per-vhost traffic patterns).</li>
-<li>If a service emits app metrics at <code>/metrics</code> (for example LogKeep),
-  Prometheus can also collect app-level request metrics directly.</li>
+<li>If a service emits app metrics at <code>/metrics</code> (for example LogKeep,
+  llama.cpp), Prometheus also collects app-level request metrics directly.</li>
 </ul>
 <p>Current limitations:
 - Request-level telemetry quality depends on nginx/app log format.
 - True product analytics (sessions, users, funnels) are not currently tracked.
 - Most services are monitored at reverse-proxy/log level unless they expose
   dedicated app metrics.</p>
-<h2 id="cleanup-tasks-queued">Cleanup tasks queued<a class="headerlink" href="#cleanup-tasks-queued" title="Permanent link">&para;</a></h2>
+<h2 id="open-tasks">Open tasks<a class="headerlink" href="#open-tasks" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Add pyrite host/container telemetry if desired (<code>node-exporter</code>, <code>cadvisor</code>,
    optional promtail) and wire to gatekeeper Prometheus/Loki.</li>
 <li>Add service-specific dashboards to match real jobs and remove obsolete panels.</li>
+<li>Restart production <code>llamacpp.service</code> on pyrite once the current overnight
+   batch job finishes, to restore the <code>llamacpp-pyrite</code> scrape target.</li>
 </ol>
-<h2 id="dashboards">Dashboards<a class="headerlink" href="#dashboards" title="Permanent link">&para;</a></h2>
-<p>New dashboard added in this repo:
-- <code>docs/machines/gatekeeper/configs/monitoring/grafana-dashboards/homelab-monitoring-overview.json</code>
-- <code>docs/machines/gatekeeper/configs/monitoring/grafana-dashboards/gatekeeper-traffic-overview.json</code></p>
-<p>Focus:
-- scrape health
-- target counts up/down
-- scrape duration
-- postgres exporter health (including pyrite)
-- endpoint probe success</p>
 
 
 

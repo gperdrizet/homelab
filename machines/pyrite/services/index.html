@@ -933,6 +933,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#llamacpp-batch-throughput-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llama.cpp batch throughput instances
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nixx" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1768,6 +1779,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#llamacpp-batch-throughput-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        llama.cpp batch throughput instances
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#nixx" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1855,8 +1877,8 @@ current homelab deployment path and operational dependencies.</p>
 <h2 id="llamacpp-inference-server">llama.cpp inference server<a class="headerlink" href="#llamacpp-inference-server" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/llama.cpp">gperdrizet/llama.cpp</a><br />
 <strong>Bind:</strong> <code>0.0.0.0:8502</code> (consumed by gatekeeper over tailnet at <code>100.64.0.2:8502</code>)<br />
-<strong>Model:</strong> <code>/home/siderealyear/llama.cpp/models/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf</code><br />
-<strong>GPU:</strong> 2x Tesla P100 (<code>CUDA_VISIBLE_DEVICES=1,2</code>); excluded from <code>seat0</code> so the desktop never renders on them<br />
+<strong>Model:</strong> <code>/opt/models/gpt-oss-20b-mxfp4.gguf</code><br />
+<strong>GPU:</strong> 2x Tesla P100 (<code>CUDA_VISIBLE_DEVICES=1,2</code>)<br />
 <strong>Backend for:</strong> Promptly API on gatekeeper (promptlyapi.com)</p>
 <p>Operational references:
 - systemd unit: <code>llamacpp.service</code> (binary <code>/opt/llama.cpp/build/bin/llama-server</code>)
@@ -1867,14 +1889,31 @@ current homelab deployment path and operational dependencies.</p>
 <h2 id="postgresql-server">PostgreSQL server<a class="headerlink" href="#postgresql-server" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a><br />
 <strong>Container:</strong> <code>student-postgres</code> (<code>pgvector/pgvector:pg16</code>, PostgreSQL 16.13)<br />
-<strong>Bind:</strong> <code>0.0.0.0:5432</code> (local) → <code>:54321</code> public via gatekeeper nginx TCP stream proxy<br />
+<strong>Bind:</strong> <code>100.64.0.2:5432</code> (tailnet only) → <code>:54321</code> public via gatekeeper nginx TCP stream proxy<br />
 <strong>Used by:</strong> external clients connecting to pyrite's database over the internet</p>
 <p>Operational references:
 - Compose source: <code>docker-compose.yml</code> in the postgreSQL-server repo
 - Auth/TLS config: <code>config/pg_hba.conf</code>, <code>config/postgresql.conf</code>
 - Admin surface: <code>make help</code> in the repo
-- Metrics: <code>postgres-exporter</code> container on pyrite (<code>:9187</code>), scraped by gatekeeper Prometheus over tailnet
+- Metrics: <code>postgres-exporter</code> container on pyrite (<code>100.64.0.2:9187</code>), scraped by gatekeeper Prometheus over tailnet
+- Also runs its own local <code>grafana</code> (<code>100.64.0.2:3000</code>) and <code>prometheus</code>
+  (<code>100.64.0.2:9090</code>) containers for the course project itself - separate
+  from the homelab's central Grafana/Prometheus on gatekeeper
 - Gatekeeper owns the public stream proxy (<code>:54321</code> → <code>100.64.0.2:5432</code>)</p>
+<h2 id="llamacpp-batch-throughput-instances">llama.cpp batch throughput instances<a class="headerlink" href="#llamacpp-batch-throughput-instances" title="Permanent link">&para;</a></h2>
+<p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/llama.cpp">gperdrizet/llama.cpp</a><br />
+<strong>Bind:</strong> <code>0.0.0.0:8503</code> / <code>0.0.0.0:8504</code> (consumed by gatekeeper over tailnet at <code>100.64.0.2:8503</code>/<code>:8504</code>)<br />
+<strong>GPU:</strong> <code>llamacpp-batch1</code> on GPU1 (Tesla P100), <code>llamacpp-batch2</code> on GPU2 (Tesla P100)<br />
+<strong>Purpose:</strong> overnight/offline batch inference jobs (many short requests), run
+instead of the production <code>llamacpp.service</code> when both GPUs are needed for a
+batch job - production is stopped for the duration.</p>
+<p>Operational references:
+- systemd units: <code>llamacpp-batch1.service</code>, <code>llamacpp-batch2.service</code>
+- Template: <code>utils/llamacpp-batch.service</code>; deploy/redeploy both with
+  <code>utils/deploy_batch_service.sh &lt;1|2|both&gt; [--restart]</code>
+- Health endpoints: <code>http://100.64.0.2:8503/health</code>, <code>http://100.64.0.2:8504/health</code>
+- Logs: <code>journalctl -u llamacpp-batch1.service -f</code> (and <code>-batch2</code>)
+- Metrics: scraped by gatekeeper Prometheus job <code>llamacpp-pyrite-batch</code></p>
 <h2 id="nixx">nixx<a class="headerlink" href="#nixx" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/nixx">gperdrizet/nixx</a><br />
 <strong>Ingress:</strong> nixx.perdrizet.org → gatekeeper → <code>100.64.0.2:8000</code> over tailnet<br />
