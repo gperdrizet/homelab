@@ -21,8 +21,16 @@ on pyrite** at `/mnt/arkk`)
     With the array now local to pyrite, backups of **pyrite host data** no
     longer have an independent target — a disk/fire event on pyrite takes both.
     Offsite (restic → B2/Wasabi) is now the priority gap. Backups of
-    gatekeeper databases over the network still work as documented. Verify
-    what is currently actually running and restate here.
+    gatekeeper databases over the network still work as documented.
+
+## What is actually running (verified 2026-11-19)
+
+| Job | Where | Detail |
+|-----|-------|--------|
+| `0 2 * * * /srv/backups/backup-databases.sh` | gatekeeper cron | `docker exec … pg_dump | gzip` for **logkeep + logkeep_staging** DBs; ~313 daily dumps retained on gatekeeper itself, no offsite copy, bench/feedback/bug-hunter DBs **not** covered |
+| `0 3 * * * /srv/infra/scripts/backup-healthcheck.sh` | gatekeeper cron | checks the above; log at `/var/log/backup-healthcheck.log` |
+| — | pyrite | **no restic, no cron backups** — host data + 15 TB array have zero backups |
+| — | ethics-gradient / the-educator | nothing; Minecraft world unprotected |
 
 ---
 

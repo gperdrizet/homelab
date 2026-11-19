@@ -27,7 +27,8 @@ client ─https─▶ gatekeeper nginx (promptlyapi.com)
 
 - `promptlyapi.com` + `www` → `127.0.0.1:8503`; `/register` rate-limited
   (signup zone `3r/m`, burst 2) against spam sign-ups.
-- `model.perdrizet.org` → redirect to promptlyapi.com.
+- `model.perdrizet.org` → **also proxies** to `127.0.0.1:8503`
+  (`conf.d/model.conf`) — a second public alias of the gateway, not a redirect.
 - Proxy read/send timeout 600 s (long generations).
 - Live config mirrored at
   [configs/nginx/conf.d/promptlyapi.conf](../machines/gatekeeper/configs/nginx/conf.d/promptlyapi.conf).

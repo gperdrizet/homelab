@@ -1,12 +1,16 @@
 # Minecraft (the-educator)
 
-PaperMC server on the-educator.
+PaperMC server on the-educator. Verified 2026-11-19.
 
 | Item | Value |
 |------|-------|
 | Service | `papermc.service` (systemd) — running |
-| Host | the-educator (`10.1.10.204`) |
-| Access | LAN; not exposed publicly, host not on tailnet yet |
+| User / workdir | `siderealyear` / `/opt/minecraft` |
+| Launch | `/usr/local/bin/start_papermc` |
+| Port | `25565` on `0.0.0.0` (java) |
+| Access | LAN only; not exposed publicly, host not on tailnet |
 
-Stub page — confirm port, version, world locations (likely under
-`/home/siderealyear/ark` or `big_itch`), and backup expectations.
+## TODO
+
+- World/backup: `/opt/minecraft` is local to the-educator; nothing backs it up.
+- Consider tailnet enrollment + exposing backup of the world to the array.

@@ -36,7 +36,9 @@ promptlyapi.com ─▶ gatekeeper nginx ─▶ model-gateway-api (:8503)
 - **Container:** `llama-cuda` (`ghcr.io/ggml-org/llama.cpp:server-cuda`)
 - **Network:** `llm-network` bridge; **no published host port** — reached only
   via LiteLLM
-- **Launch:** `--models-preset /config/presets.ini --models-max 1`
+- **Launch:** `--models-preset /config/presets.ini --models-max 1` — no
+  `--metrics`, so no Prometheus endpoint (gap; see
+  [monitoring](monitoring.md#what-is-not-monitored-holes))
 - **Config:** `/opt/llama/config` (presets.ini)
 - **Models:** `/mnt/fast_scratch/llama-models`
 - **GPU:** 2× Tesla P100 16 GB
@@ -46,7 +48,8 @@ promptlyapi.com ─▶ gatekeeper nginx ─▶ model-gateway-api (:8503)
 
 - **Container:** `llama-cuda` (same image)
 - **Bind:** `0.0.0.0:8080` (LAN + tailnet; see note)
-- **Launch:** `--models-preset /config/presets.ini --models-max 2`
+- **Launch:** `--models-preset /config/presets.ini --models-max 2` — also no
+  `--metrics`
 - Serves the light models LiteLLM splits off from pyrite (Qwen3.5-4B, BGE-M3).
 
 !!! warning "Bind scope"

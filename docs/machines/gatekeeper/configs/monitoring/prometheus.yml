@@ -128,3 +128,34 @@ scrape_configs:
         target_label: instance
       - target_label: __address__
         replacement: monitoring-blackbox-exporter:9115
+
+  # llama.cpp inference server (pyrite) - traffic through the gateway backend
+  - job_name: 'llamacpp-pyrite'
+    metrics_path: /metrics
+    authorization:
+      type: Bearer
+      credentials: 'x_E-yJR0E2VCq3tlVBV9ljFOSjroFH7Rqkq3p2u5sIM'
+    static_configs:
+      - targets: ['100.64.0.2:8502']
+        labels:
+          service: 'llamacpp'
+          instance: 'pyrite'
+          slot: 'production'
+
+  # llama.cpp batch throughput instances (pyrite) - only up while a batch job is running
+  - job_name: 'llamacpp-pyrite-batch'
+    metrics_path: /metrics
+    authorization:
+      type: Bearer
+      credentials: 'x_E-yJR0E2VCq3tlVBV9ljFOSjroFH7Rqkq3p2u5sIM'
+    static_configs:
+      - targets: ['100.64.0.2:8503']
+        labels:
+          service: 'llamacpp'
+          instance: 'pyrite-batch1'
+          slot: 'batch'
+      - targets: ['100.64.0.2:8504']
+        labels:
+          service: 'llamacpp'
+          instance: 'pyrite-batch2'
+          slot: 'batch'

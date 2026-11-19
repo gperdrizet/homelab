@@ -20,7 +20,7 @@ mirrored under
 | Containers (prod) | `bench-web`, `bench-celery`, `bench-celery-beat`, `bench-postgres`, `bench-redis`, `bench-postgres-exporter` |
 | Containers (staging) | `bench-*-staging` set |
 | Bind | prod `127.0.0.1:8010`, staging `127.0.0.1:8011` |
-| Ingress | bench.perdrizet.org, staging.perdrizet.org |
+| Ingress | bench.perdrizet.org |
 
 ## Bug Hunter (prod + staging)
 
@@ -45,7 +45,9 @@ mirrored under
 
 ## Staging endpoints
 
-- `staging.perdrizet.org` — auth-gated staging endpoint (`100.64.0.1:8003`)
+- `staging.perdrizet.org` — **logkeep staging slot** (`upstream
+  logkeep_staging`, `conf.d/staging.conf`; nginx mirror shows `100.64.0.1:8003`
+  path), not bench staging as an older note claimed
 - `site-staging.perdrizet.org` — static staging root
 
 TODO (stub-level): per-app repos, deploy pipelines, and backup schedules are

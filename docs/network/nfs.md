@@ -2,11 +2,18 @@
 
 Audited 2026-11-18. **pyrite is the NFS server**; `arkk` is decommissioned.
 
-## Exports
+## Exports (from `/etc/exports` on pyrite, verified 2026-11-19)
 
-| Host | Volume | Mount point (server) | Exported to |
-|------|--------|----------------------|-------------|
-| pyrite | `/dev/md127` (15 TB RAID5, xfs — formerly arkk's array) | `/mnt/arkk` | LAN (`/etc/exports`; exact options to re-verify with `exportfs -v` — needs root) |
+| Export | Clients | Options |
+|--------|---------|---------|
+| `/mnt/arkk` (15 TB RAID5, xfs — formerly arkk's array) | `10.1.10.0/24` | `rw,async,no_subtree_check,no_root_squash` |
+| `/mnt/fast_scratch` (2.7 TB bcache) | `10.1.10.0/24` | `rw,async,no_subtree_check,no_root_squash` |
+
+!!! warning
+    `no_root_squash` + `async` on both: any root on a LAN client can write as
+    real root, and writes are not crash-safe. Acceptable on a trusted home LAN
+    but worth an explicit decision. Exporting all of `fast_scratch` may also be
+    broader than intended.
 
 ## Local (non-NFS) storage
 
