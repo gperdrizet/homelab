@@ -7,10 +7,11 @@ VPS running public-facing services, nginx reverse proxy, Tailscale exit node, an
 ## Hardware
 
 **Provider:** Ionos VPS  
-**Public IP:** 74.208.107.78  
-**OS:** Ubuntu (LTS)  
+**CPU:** 4 vCPU (AMD EPYC-Milan)  
 **RAM:** 8 GB  
-**Disk:** SSD (provider-managed)  
+**Disk:** 240 GB (provider-managed)  
+**OS:** Ubuntu 22.04 LTS  
+**Public IP:** 74.208.107.78  
 **SSH port:** 44441  
 
 ---
@@ -18,10 +19,12 @@ VPS running public-facing services, nginx reverse proxy, Tailscale exit node, an
 ## Role
 
 - Public reverse proxy (nginx): terminates TLS for all services
-- Hosts multiple web applications in Docker (logkeep, bench, bug-hunter, feedback, model-gateway, nixx, etc.)
+- Hosts multiple web applications in Docker (logkeep, bench, bug-hunter, feedback, model-gateway)
 - Monitoring stack (Prometheus, Grafana, Loki, Alertmanager)
 - Tailscale exit node and Headscale control server
 - TCP proxy to pyrite's PostgreSQL (port 54321)
+
+Cross-host service view: [services inventory](../../services/README.md).
 
 ---
 

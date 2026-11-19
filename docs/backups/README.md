@@ -13,11 +13,24 @@ multiple backend support. One tool, consistent workflow across all sources.
 
 ## Backup targets
 
-**Primary target:** arkk RAID array (NFS-mounted on pyrite, or direct via network from gatekeeper)  
+**Primary target:** the 15 TB RAID array (formerly `arkk`, now a **local array
+on pyrite** at `/mnt/arkk`)  
 **Offsite target:** TBD; research in progress (Backblaze B2, Wasabi S3, or similar)
 
-> **Note:** arkk is currently offline (drive replacement + resilvering in progress).
-> Backup jobs will resume once arkk is restored. See [machines/arkk/README.md](../machines/arkk/README.md).
+!!! warning "Backup topology changed"
+    With the array now local to pyrite, backups of **pyrite host data** no
+    longer have an independent target — a disk/fire event on pyrite takes both.
+    Offsite (restic → B2/Wasabi) is now the priority gap. Backups of
+    gatekeeper databases over the network still work as documented.
+
+## What is actually running (verified 2026-11-19)
+
+| Job | Where | Detail |
+|-----|-------|--------|
+| `0 2 * * * /srv/backups/backup-databases.sh` | gatekeeper cron | `docker exec … pg_dump | gzip` for **logkeep + logkeep_staging** DBs; ~313 daily dumps retained on gatekeeper itself, no offsite copy, bench/feedback/bug-hunter DBs **not** covered |
+| `0 3 * * * /srv/infra/scripts/backup-healthcheck.sh` | gatekeeper cron | checks the above; log at `/var/log/backup-healthcheck.log` |
+| — | pyrite | **no restic, no cron backups** — host data + 15 TB array have zero backups |
+| — | ethics-gradient / the-educator | nothing; Minecraft world unprotected |
 
 ---
 

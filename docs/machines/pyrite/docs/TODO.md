@@ -1,3 +1,7 @@
+!!! note
+    Reviewed during the 2026-11 docs restructure; verify each item still
+    applies before working it.
+
 # Pyrite platform TODO
 
 Open platform-level tasks after consolidation.

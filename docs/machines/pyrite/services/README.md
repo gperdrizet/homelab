@@ -1,3 +1,11 @@
+!!! note "Partially superseded"
+    Cross-host service pages now live under [services/](../../../services/README.md).
+    The llama.cpp section below is **stale** (systemd unit replaced by the
+    llama-cuda container + LiteLLM router — see
+    [services/inference.md](../../../services/inference.md)). Content here is
+    being migrated; treat this page as source only where a service page does
+    not yet exist.
+
 # Services on pyrite
 
 This page documents the services running on pyrite that are accessible from

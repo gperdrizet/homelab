@@ -4,76 +4,65 @@ Quick orientation for coding agents working in this repository.
 
 ## Purpose
 
-This repo stores infrastructure docs, configs, and runbooks for a multi-machine homelab:
-- gatekeeper: public VPS and ingress plane
-- pyrite: workstation and compute plane
-- arkk: NAS and storage plane
+This repo stores infrastructure docs, configs, and runbooks for a
+multi-machine homelab:
 
-## Reusable machine documentation model
+- **gatekeeper**: IONOS VPS — public ingress, app hosting, monitoring, Headscale
+- **pyrite**: ML/AI workhorse — llama.cpp + LiteLLM router, PostgreSQL, 15 TB storage
+- **ethics-gradient**: desktop workstation — utility/embedding inference
+- **the-educator**: HTPC + Minecraft server
+- **hugo**: RPi 0 W spare
 
-Each machine directory should follow this structure:
+`arkk` (old NAS) is decommissioned → `docs/archive/arkk/`. Its RAID array is
+now local to pyrite.
 
-1. README.md
-- machine identity, role, network identity, and quick links
+## Structure (service-first)
 
-2. docs/
-- platform-baseline.md: canonical decisions and current posture
-- boot-and-startup.md: boot critical path and service ordering
-- wayland-and-av.md or equivalent UI/AV notes where relevant
-- remote-access.md: SSH, tunnel, and remote control model
-- troubleshooting.md: symptom to fix notes
-- change-log.md: important machine-level transitions
-- TODO.md: open platform tasks
+Docs are organized so a service page travels with the service, not the machine:
 
-3. services/
-- README.md: currently hosted services and ingress model
-- TODO.md: service roadmap only (no workstation tuning tasks)
+1. `docs/services/` — one page per service (host, ports, ingress, repo,
+   dependencies). `services/README.md` is the master inventory; keep it first.
+2. `docs/machines/<host>/README.md` — hardware, OS, network identity, role.
+   Machine pages link to service pages instead of restating ports/paths.
+3. `docs/machines/<host>/docs|guides/` — platform posture, runbooks, guides.
+4. `docs/network/` — LAN, tailnet, NFS.
+5. `docs/operations/`, `docs/backups/`, `docs/secrets/`, `docs/docker-images/`
+   — cross-cutting concerns.
+6. `docs/machines/gatekeeper/{configs,compose,scripts}/` — live-file mirrors
+   (nginx, monitoring, compose). This pattern kept gatekeeper docs honest —
+   prefer mirroring real files over hand-maintained prose.
+7. `docs/archive/` — decommissioned hardware; banner-marked, not in nav.
 
-4. guides/
-- app or tool install guides specific to that machine
-
-## Repository map
-
-- docs/machines/: machine-specific operational state
-- docs/network/: topology and tailnet design
-- docs/backups/: backup strategy and scripts
-- docs/secrets/: secret handling strategy, templates only in git
-- docs/docker-images/: external image dependency notes
-- docs/: MkDocs site content for published documentation
+`mkdocs.yml` nav must list every non-archived page (avoid orphan warnings).
 
 ## Authoring conventions
 
-1. Single source of truth:
-- keep platform internals in machine docs/
-- keep service inventory in machine services/
-
-2. Keep secrets out of git:
-- commit .env.template files only
-- store real credentials in Vaultwarden
-
-3. Prefer tailnet private paths:
-- services should be private-by-default
-- public ingress should terminate on gatekeeper
-
-4. Document every operational change with:
-- decision
-- apply steps
-- verify steps
-- revert path
+1. **Verified-date stamp**: audit pages against live state and note the date.
+2. **Single source per fact**: ports/ingress only on the service page;
+   hardware only on the machine page.
+3. **Keep secrets out of git**: commit `.env.template` files only; real values
+   live in Vaultwarden.
+4. **Prefer tailnet private paths**: services bind tailnet/localhost; public
+   ingress terminates on gatekeeper only.
+5. **Document operational changes** with: decision, apply steps, verify steps,
+   revert path.
+6. **Stub honestly**: a short page marked "stub — TODO" beats a long stale one.
 
 ## Current infrastructure notes
 
-- gatekeeper hosts public nginx ingress and most containerized app stacks
-- pyrite hosts core compute and data services consumed via tailnet
-- arkk remains the storage target and recovery-in-progress node
+- Inference chain: promptlyapi.com → gatekeeper nginx → model-gateway-api
+  (`:8503`) → LiteLLM router (pyrite `:8502`) → llama-cuda containers on
+  pyrite (bridge network, no host port) and ethics-gradient (`:8080`).
+- NFS: pyrite exports `/mnt/arkk` (the old arkk RAID) to the LAN.
+- Headscale (gatekeeper) is the tailnet control plane; `tailscale status` on
+  any enrolled machine is the live device list.
 
 ## Fast orientation links
 
-- Root overview: README.md
-- Gatekeeper service/domain inventory: docs/machines/gatekeeper/docs/services.md
-- Gatekeeper infra layout: docs/machines/gatekeeper/docs/infrastructure-layout.md
-- Pyrite overview: docs/machines/pyrite/README.md
-- Pyrite platform docs: docs/machines/pyrite/docs/
+- Site home: `docs/index.md`
+- Service inventory: `docs/services/README.md`
+- Machine overview: `docs/machines.md`
+- Gatekeeper deploy layout: `docs/machines/gatekeeper/docs/infrastructure-layout.md`
 
 ## External repos in this ecosystem
 

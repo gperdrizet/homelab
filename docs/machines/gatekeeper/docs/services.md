@@ -1,3 +1,9 @@
+!!! note "Superseded as the master inventory"
+    The cross-host service inventory now lives at
+    [services/README.md](../../../services/README.md). This page remains the
+    gatekeeper-specific detail view; update both when services change, or
+    fold into the services pages once verified.
+
 # Gatekeeper service inventory
 
 Current-state inventory for gatekeeper (74.208.107.78).

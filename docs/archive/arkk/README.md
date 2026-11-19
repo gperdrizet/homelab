@@ -1,3 +1,9 @@
+!!! danger "ARCHIVED — machine decommissioned"
+    `arkk` no longer exists. Its 15 TB RAID5 array was moved into pyrite
+    (`/dev/md127` → `/mnt/arkk`) and NFS is now served by pyrite. Current
+    state: [network/nfs.md](../../network/nfs.md). This page is kept for
+    hardware history and the RAID recovery notes only.
+
 # arkk
 
 NAS and RAID storage server, physically located in the home office alongside pyrite.

@@ -13,47 +13,62 @@ docs_dir: docs
 
 nav:
   - Home: index.md
+  - Services:
+      - Inventory: services/README.md
+      - Promptly API: services/promptly-api.md
+      - LLM inference: services/inference.md
+      - PostgreSQL: services/postgres.md
+      - Monitoring: services/monitoring.md
+      - Headscale tailnet control: services/headscale.md
+      - JupyterLab: services/jupyterlab.md
+      - Web apps: services/web-apps.md
+      - Minecraft: services/minecraft.md
   - Machines:
       - Overview: machines.md
       - Gatekeeper:
           - Overview: machines/gatekeeper/README.md
-          - Services and Ports: machines/gatekeeper/docs/services.md
-          - Infrastructure Layout: machines/gatekeeper/docs/infrastructure-layout.md
-          - Backups: machines/gatekeeper/docs/backup-improvements.md
-          - Incidents and Resilience: machines/gatekeeper/docs/incidents.md
-          - Tailnet Setup: machines/gatekeeper/tailnet/README.md
-          - Tailnet Manual Steps: machines/gatekeeper/tailnet/docs/manual-steps.md
-          - Nginx Configuration: machines/gatekeeper/configs/nginx/README.md
+          - Incidents and resilience: machines/gatekeeper/docs/incidents.md
+          - Backup improvements: machines/gatekeeper/docs/backup-improvements.md
       - Pyrite:
           - Overview: machines/pyrite/README.md
-          - Platform Baseline: machines/pyrite/docs/platform-baseline.md
-          - Boot and Startup: machines/pyrite/docs/boot-and-startup.md
+          - Platform baseline: machines/pyrite/docs/platform-baseline.md
+          - Boot and startup: machines/pyrite/docs/boot-and-startup.md
           - Wayland and AV: machines/pyrite/docs/wayland-and-av.md
-          - Remote Access: machines/pyrite/docs/remote-access.md
+          - Remote access: machines/pyrite/docs/remote-access.md
           - Troubleshooting: machines/pyrite/docs/troubleshooting.md
-          - Services: machines/pyrite/services/README.md
-          - Services TODO: machines/pyrite/services/TODO.md
           - Guides:
-              - OBS Audio: machines/pyrite/guides/obs-audio.md
-              - OBS Video: machines/pyrite/guides/obs-video.md
-              - Zed Install: machines/pyrite/guides/zed-install.md
-              - Google Cloud Remote Dev: machines/pyrite/guides/google-cloud-remote-dev.md
-              - ML Workstation Build Plan: machines/pyrite/guides/ml-workstation-build-plan.md
-          - Platform TODO: machines/pyrite/docs/TODO.md
-      - Arkk:
-          - Overview: machines/arkk/README.md
-          - RAID Recovery Runbook: machines/arkk/RAID_RECOVERY.md
+              - bcache: machines/pyrite/guides/bcache.md
+              - OBS audio: machines/pyrite/guides/obs-audio.md
+              - OBS video: machines/pyrite/guides/obs-video.md
+              - Zed install: machines/pyrite/guides/zed-install.md
+              - Google Cloud remote dev: machines/pyrite/guides/google-cloud-remote-dev.md
+              - ML workstation build plan: machines/pyrite/guides/ml-workstation-build-plan.md
+      - Ethics-gradient: machines/ethics-gradient/README.md
+      - The-educator: machines/the-educator/README.md
+      - Hugo: machines/hugo/README.md
   - Network:
       - Overview: network/README.md
-      - LAN and Direct Link: network/lan.md
+      - LAN and addressing: network/lan.md
       - Tailnet and Headscale: network/tailnet.md
+      - NFS: network/nfs.md
   - Operations:
       - Overview: operations.md
       - Backups: backups/README.md
-      - Monitoring Inventory: operations/monitoring-inventory.md
       - Secrets: secrets/README.md
       - Docker Images: docker-images/README.md
+  - Reference:
+      - Gatekeeper deploy layout: machines/gatekeeper/docs/infrastructure-layout.md
+      - Gatekeeper tailnet setup: machines/gatekeeper/tailnet/README.md
+      - Gatekeeper tailnet manual steps: machines/gatekeeper/tailnet/docs/manual-steps.md
+      - Nginx configuration: machines/gatekeeper/configs/nginx/README.md
+      - Monitoring inventory (2026-09 snapshot): operations/monitoring-inventory.md
   - Agent Orientation: agents.md
+
+not_in_nav: |
+  /archive/*
+  /machines/gatekeeper/docs/services.md
+  /machines/pyrite/services/*
+  /machines/pyrite/docs/TODO.md
 
 markdown_extensions:
   - admonition

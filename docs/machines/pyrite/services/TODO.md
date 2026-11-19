@@ -1,3 +1,7 @@
+!!! note
+    Reviewed during the 2026-11 docs restructure; several items were resolved
+    by the llama-cuda/LiteLLM migration. Verify before working.
+
 # Pyrite service roadmap todo
 
 Focused backlog for services to host on pyrite and the shared infrastructure work needed to run them reliably.
