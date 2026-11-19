@@ -35,21 +35,26 @@ Pushing to `main` triggers the publish workflow, which runs `mkdocs gh-deploy --
 
 | Machine    | Role                                    | Location       | Status  |
 |------------|-----------------------------------------|----------------|---------|
-| [gatekeeper](docs/machines/gatekeeper/) | VPS: public-facing services, reverse proxy, monitoring | Ionos cloud (74.208.107.78) | Active |
-| [pyrite](docs/machines/pyrite/)     | Desktop: primary dev and compute machine | Home office    | Active  |
-| [arkk](docs/machines/arkk/)       | NAS: RAID storage server, NFS          | Home office    | Active |
+| [gatekeeper](docs/machines/gatekeeper/) | VPS: public-facing services, reverse proxy, monitoring, tailnet control | Ionos cloud (74.208.107.78) | Active |
+| [pyrite](docs/machines/pyrite/)     | ML/AI workhorse: inference, router, PostgreSQL, 15 TB storage | Home office    | Active  |
+| [ethics-gradient](docs/machines/ethics-gradient/) | Desktop workstation; utility/embedding inference | Home office    | Active |
+| [the-educator](docs/machines/the-educator/) | HTPC, Minecraft server | Home | Active |
+| [hugo](docs/machines/hugo/) | Raspberry Pi 0 W, spare | Home | Active |
 
-## Core services on pyrite
+`arkk` (old NAS) is decommissioned; its RAID array now runs inside pyrite.
+Historical docs: [docs/archive/arkk/](docs/archive/arkk/README.md).
 
-These are the primary services hosted on pyrite for the broader homelab stack.
-See [docs/machines/pyrite/services/README.md](docs/machines/pyrite/services/README.md) for full details.
+## Services
 
-| Service | Port | Access path | Notes |
-|---------|------|-------------|-------|
-| llama.cpp | 8502 | API access via promptlyapi.com on gatekeeper nginx | Inference backend for model-gateway |
-| PostgreSQL | 5432 | Public via gatekeeper TCP stream proxy on 54321 | Primary remote database service |
-| nixx | 8000 | Reverse proxied at nixx.perdrizet.org via gatekeeper | Personal assistant and memory system |
-| JupyterLab | 47302 | Reverse proxied at jupyter.perdrizet.org via gatekeeper | Containerized remote notebook service on pyrite |
+The full cross-host service inventory is in
+[docs/services/](docs/services/README.md). Headlines:
+
+| Service | Host | Access path |
+|---------|------|-------------|
+| Promptly API | gatekeeper | promptlyapi.com → LiteLLM router (pyrite `:8502`) → llama.cpp containers |
+| PostgreSQL | pyrite | tailnet `:5432`; public via gatekeeper TCP stream proxy `:54321` |
+| JupyterLab | pyrite | jupyter.perdrizet.org → `100.64.0.2:47302` |
+| Web apps (logkeep, bench, bug-hunter, feedback) | gatekeeper | `*.perdrizet.org` |
 
 ## Network
 
@@ -65,7 +70,8 @@ Status: implemented and in active use.
 
 ## Backups
 
-See [docs/backups/](docs/backups/): restic-based backup strategy targeting arkk RAID array.
+See [docs/backups/](docs/backups/): restic-based backup strategy targeting the
+15 TB array (now local to pyrite — offsite coverage is the open gap).
 
 Status: partially implemented. Existing database backups are running; full restic coverage is still being completed.
 

@@ -1,60 +1,57 @@
 # pyrite
 
-Primary development and compute workstation in the home office.
-
+ML/AI workhorse and core services host, in the home office. Audited live
+2026-11-18.
 
 ## Hardware profile
 
 **Platform:** Supermicro X9SRA-3  
-**CPU:** Intel Xeon E5-2697 v2 (12-core)  
+**CPU:** Intel Xeon E5-2697 v2 (12c/24t)  
 **RAM:** 256 GB  
-**GPU:** NVIDIA GTX 1070 + 2x Tesla P100 16 GB
-**Storage:** 3.7 GB RAID0 + 1 TB NVMe SSD bcache device  
+**GPU:** 2× Tesla P100 16 GB (the old GTX 1070 now lives in ethics-gradient)  
+**Storage:**
+
+| Device | Size | Mount | Notes |
+|--------|------|-------|-------|
+| `/dev/sde2` (ext4) | 440 GB | `/` | root — **91–93 % full, watch this** |
+| `/dev/bcache0` | 2.7 TB | `/mnt/fast_scratch` | NVMe-cached scratch; llama models at `llama-models/`. See [bcache guide](guides/bcache.md) |
+| `/dev/md127` (RAID5, xfs) | 15 TB | `/mnt/arkk` | array formerly in `arkk`, now local; exported over NFS |
+
 **OS:** Ubuntu 24.04 LTS
 
-**Network:**
-- LAN connectivity in home office
-- Tailscale client: 100.64.0.2
-- Direct link NFS client to arkk RAID
+## Network
 
+- LAN: `10.1.10.200` (static)
+- Tailscale: `100.64.0.2` — canonical private service address
+- NFS **server** for `/mnt/arkk` (clients: hugo, formerly arkk-plane)
 
 ## Role
 
-- Primary developer desktop (VS Code, Zed, Python, Docker)
-- GPU compute host for local AI and inference workflows
-- Host for core services consumed by gatekeeper over tailnet
-
+- Primary inference host: llama.cpp container + **LiteLLM router** on `:8502`
+  → [inference service page](../../services/inference.md)
+- Multi-tenant PostgreSQL — [postgres](../../services/postgres.md)
+- JupyterLab — [jupyterlab](../../services/jupyterlab.md)
+- Lab-internal Prometheus + Grafana — [monitoring](../../services/monitoring.md)
+- OpenClaw gateway + caddy (`openclaw.perdrizet.org`)
+- Long-running hobby dashboards (`jobsearch-dashboard` :8790, `jobapp` VNC :6080)
+  — tailnet only, stub-level docs
+- Storage plane for the fleet (15 TB RAID5 + fast_scratch)
 
 ## Access model
 
-- Tailscale is the canonical private network path.
-- Public ingress terminates on gatekeeper, then proxies to pyrite via 100.64.0.2.
+- Tailscale is the canonical private path; public ingress terminates on
+  gatekeeper and proxies to `100.64.0.2`.
+- Most service containers deliberately bind `100.64.0.2` (tailnet-only).
+  LiteLLM binds `0.0.0.0:8502` on purpose (LAN + tailnet); the main llama-cuda
+  container publishes **no** host port.
 
+## Operational notes
 
-## Core services
-
-| Service | Bind | Ingress path | Status |
-|---------|------|--------------|--------|
-| llama.cpp | `0.0.0.0:8502` | promptlyapi.com via gatekeeper API | active (systemd) |
-| llama.cpp (batch1/batch2) | `0.0.0.0:8503`/`:8504` | scraped by gatekeeper Prometheus over tailnet | active when running overnight batch jobs (systemd), otherwise stopped |
-| PostgreSQL (postgreSQL-server) | `100.64.0.2:5432` | gatekeeper stream proxy `:54321` | active (docker) |
-| nixx | `100.64.0.2:8000` | nixx.perdrizet.org | enabled, **inactive** |
-| JupyterLab | `100.64.0.2:47302` | jupyter.perdrizet.org | active (docker + systemd, image `gperdrizet/datascience-nvidia:6.0.1`) |
-| postgres-exporter | `:9187` | scraped by gatekeeper Prometheus over tailnet | active (docker) |
-
-See [services/README.md](services/README.md) for per-service detail (ports,
-units, models, dependencies).
-
-Monitoring scope: pyrite exports PostgreSQL metrics via `postgres-exporter`
-on `:9187` and llama.cpp metrics via each server's built-in `/metrics`
-endpoint (production on `:8502`, batch instances on `:8503`/`:8504`). Central
-dashboards, alerting, and long-term metric storage are hosted on gatekeeper.
-
-Service repo references:
-- https://github.com/gperdrizet/llama.cpp
-- https://github.com/gperdrizet/postgreSQL-server
-- https://github.com/gperdrizet/nixx
-
+- Root disk is chronically tight (~93 %): prune docker images/build cache
+  regularly; models belong on `/mnt/fast_scratch`.
+- `tailscale`, `caddy`, `docker`, `nvidia-persistenced`, NFS stack run as
+  systemd services; `actions.runner.gperdrizet-docker-images` registers this
+  host as a GitHub Actions runner for the docker-images repo.
 
 ## Documentation map
 
@@ -66,19 +63,16 @@ Service repo references:
 - [docs/troubleshooting.md](docs/troubleshooting.md): known issues and fixes
 - [docs/TODO.md](docs/TODO.md): remaining platform tasks
 
-### Service docs
-
-- [services/README.md](services/README.md): pyrite service inventory
-- [services/TODO.md](services/TODO.md): service roadmap and follow-up tasks
-
 ### Workstation and media guides
 
 - [docs/wayland-and-av.md](docs/wayland-and-av.md): Wayland, OBS, Chrome, Zoom behavior
 - [guides/obs-audio.md](guides/obs-audio.md): OBS virtual microphone, audio routing, and filter chain
 - [guides/obs-video.md](guides/obs-video.md): OBS video capture, NVENC tuning, and plugin notes
-
-### Build and development guides
-
+- [guides/bcache.md](guides/bcache.md): bcache setup and maintenance
 - [guides/zed-install.md](guides/zed-install.md): Zed editor setup notes
 - [guides/google-cloud-remote-dev.md](guides/google-cloud-remote-dev.md): optional VS Code remote workflow for Google Cloud VMs
 - [guides/ml-workstation-build-plan.md](guides/ml-workstation-build-plan.md): future workstation hardware planning reference
+
+### JupyterLab deployment files
+
+- [services/jupyterlab/](services/jupyterlab/README.md) — compose + systemd + server config (infrastructure wiring kept here on purpose)
