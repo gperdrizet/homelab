@@ -129,33 +129,62 @@ scrape_configs:
       - target_label: __address__
         replacement: monitoring-blackbox-exporter:9115
 
-  # llama.cpp inference server (pyrite) - traffic through the gateway backend
-  - job_name: 'llamacpp-pyrite'
-    metrics_path: /metrics
-    authorization:
-      type: Bearer
-      credentials: 'x_E-yJR0E2VCq3tlVBV9ljFOSjroFH7Rqkq3p2u5sIM'
+  # --- inference traffic (monitored at the Promptly gateway, not per-node)
+  # All gateway (promptlyapi.com) inference traffic flows through the LiteLLM
+  # router on pyrite; its dedicated metrics endpoint exposes per-model
+  # request/token/latency/TTFT/cost metrics for the whole inference path.
+  # 2026-11-19: per-node llama.cpp scrape jobs (and the 8181 tailnet proxy)
+  # removed on purpose - monitor at the gateway, not the model hosts.
+  - job_name: 'litellm-router'
+    metrics_path: /metrics/
     static_configs:
-      - targets: ['100.64.0.2:8502']
+      - targets: ['100.64.0.2:8505']
         labels:
-          service: 'llamacpp'
+          service: 'litellm'
           instance: 'pyrite'
-          slot: 'production'
 
-  # llama.cpp batch throughput instances (pyrite) - only up while a batch job is running
-  - job_name: 'llamacpp-pyrite-batch'
-    metrics_path: /metrics
-    authorization:
-      type: Bearer
-      credentials: 'x_E-yJR0E2VCq3tlVBV9ljFOSjroFH7Rqkq3p2u5sIM'
+  # --- hardware / containers (exporters deployed 2026-11-19)
+  - job_name: 'node-exporter-lan'
     static_configs:
-      - targets: ['100.64.0.2:8503']
+      - targets: ['100.64.0.2:9100', '100.64.0.5:9100']
         labels:
-          service: 'llamacpp'
-          instance: 'pyrite-batch1'
-          slot: 'batch'
-      - targets: ['100.64.0.2:8504']
+          service: 'node-exporter'
+
+  - job_name: 'smartctl-pyrite'
+    static_configs:
+      - targets: ['100.64.0.2:9633']
         labels:
-          service: 'llamacpp'
-          instance: 'pyrite-batch2'
-          slot: 'batch'
+          service: 'smartctl'
+          instance: 'pyrite'
+
+  - job_name: 'cadvisor-lan'
+    static_configs:
+      - targets: ['100.64.0.2:8180', '100.64.0.5:8180']
+        labels:
+          service: 'cadvisor'
+
+  - job_name: 'dcgm-gpu-pyrite'
+    static_configs:
+      - targets: ['100.64.0.2:9400']
+        labels:
+          service: 'gpu'
+          instance: 'pyrite'
+
+  - job_name: 'blackbox-tailnet'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+          - '100.64.0.2:8502'
+          - '100.64.0.2:5432'
+          - '100.64.0.2:47302'
+          - '100.64.0.5:8080'
+          - '10.1.10.204:25565'
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: monitoring-blackbox-exporter:9115

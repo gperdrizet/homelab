@@ -1,0 +1,32 @@
+# ethics-gradient exporters — central plane scrapes these over tailnet.
+# Deploy target: ~/monitoring/docker-compose.yml (repo is source of truth).
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: obs-node-exporter
+    restart: unless-stopped
+    pid: host
+    privileged: true
+    network_mode: host
+    command:
+      - '--path.rootfs=/host'
+      - '--web.listen-address=100.64.0.5:9100'
+    volumes:
+      - /:/host:ro,rslave
+      - /dev:/dev:ro
+      - /run/udev:/run/udev:ro
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: obs-cadvisor
+    restart: unless-stopped
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "100.64.0.5:8180:8080"
