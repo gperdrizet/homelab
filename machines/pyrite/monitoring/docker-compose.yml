@@ -1,0 +1,64 @@
+# pyrite hardware/container exporters — central plane scrapes these over tailnet.
+# Deploy target on pyrite: ~/monitoring/docker-compose.yml (repo is source of truth).
+# All bound to the tailnet interface only. See docs/services/monitoring.md.
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: obs-node-exporter
+    restart: unless-stopped
+    pid: host
+    privileged: true
+    network_mode: host
+    command:
+      - '--path.rootfs=/host'
+      - '--collector.mdadm'
+      - '--collector.thermal_zone'
+      - '--collector.nfsd'
+      - '--collector.bcache'
+      - '--web.listen-address=100.64.0.2:9100'
+    volumes:
+      - /:/host:ro,rslave
+      - /dev:/dev:ro
+      - /run/udev:/run/udev:ro
+
+  smartctl-exporter:
+    image: prometheuscommunity/smartctl-exporter:latest
+    container_name: obs-smartctl-exporter
+    restart: unless-stopped
+    privileged: true
+    devices:
+      - /dev
+    command:
+      - '--smartctl.path=/usr/bin/smartctl'
+      - '--smartctl.interval=21600s'
+      - '--web.listen-address=100.64.0.2:9633'
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: obs-cadvisor
+    restart: unless-stopped
+    privileged: true
+    devices:
+      - /dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    ports:
+      - "100.64.0.2:8180:8080"
+
+  dcgm-exporter:
+    image: nvcr.io/nvidia/k8s/dcgm-exporter:latest
+    container_name: obs-dcgm-exporter
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, utility, compute]
+    ports:
+      - "100.64.0.2:9400:9400"
