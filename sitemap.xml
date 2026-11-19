@@ -17,6 +17,14 @@
          <lastmod>2026-11-19</lastmod>
     </url>
     <url>
+         <loc>https://gperdrizet.github.io/homelab/archive/arkk/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/archive/arkk/RAID_RECOVERY/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
          <loc>https://gperdrizet.github.io/homelab/backups/</loc>
          <lastmod>2026-11-19</lastmod>
     </url>
@@ -25,11 +33,7 @@
          <lastmod>2026-11-19</lastmod>
     </url>
     <url>
-         <loc>https://gperdrizet.github.io/homelab/machines/arkk/</loc>
-         <lastmod>2026-11-19</lastmod>
-    </url>
-    <url>
-         <loc>https://gperdrizet.github.io/homelab/machines/arkk/RAID_RECOVERY/</loc>
+         <loc>https://gperdrizet.github.io/homelab/machines/ethics-gradient/</loc>
          <lastmod>2026-11-19</lastmod>
     </url>
     <url>
@@ -62,6 +66,10 @@
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/machines/gatekeeper/tailnet/docs/manual-steps/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/machines/hugo/</loc>
          <lastmod>2026-11-19</lastmod>
     </url>
     <url>
@@ -154,6 +162,42 @@
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/secrets/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/headscale/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/inference/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/jupyterlab/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/minecraft/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/monitoring/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/postgres/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/promptly-api/</loc>
+         <lastmod>2026-11-19</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/web-apps/</loc>
          <lastmod>2026-11-19</lastmod>
     </url>
 </urlset>

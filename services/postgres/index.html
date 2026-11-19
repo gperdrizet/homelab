@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://gperdrizet.github.io/homelab/machines/arkk/">
+        <link rel="canonical" href="https://gperdrizet.github.io/homelab/services/postgres/">
       
       
-        <link rel="prev" href="../pyrite/docs/TODO/">
+        <link rel="prev" href="../inference/">
       
       
-        <link rel="next" href="RAID_RECOVERY/">
+        <link rel="next" href="../monitoring/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - homelab docs</title>
+        <title>PostgreSQL - homelab docs</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#arkk" class="md-skip">
+        <a href="#postgresql" class="md-skip">
           Skip to content
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              PostgreSQL
             
           </span>
         </div>
@@ -256,6 +256,18 @@
     
       
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
       
         
       
@@ -274,8 +286,403 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Services
+  
+
+    
+  </span>
+  
+  
+
+            </a>
             
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Services
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../promptly-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Promptly API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-pyrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment (pyrite)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consumers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backups
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../headscale/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Headscale tailnet control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jupyterlab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    JupyterLab
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web-apps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../minecraft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minecraft
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../machines/ethics-gradient/" class="md-nav__link ">
+              
   
   
   <span class="md-ellipsis">
@@ -289,11 +696,17 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -310,7 +723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../machines/" class="md-nav__link">
         
   
   
@@ -348,16 +761,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
     
@@ -366,11 +769,11 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../gatekeeper/" class="md-nav__link ">
+            <a href="../../machines/gatekeeper/" class="md-nav__link ">
               
   
   
@@ -388,14 +791,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -414,14 +817,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../gatekeeper/docs/services/" class="md-nav__link">
+      <a href="../../machines/gatekeeper/docs/incidents/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Services and Ports
+    Incidents and resilience
   
 
     
@@ -442,154 +845,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../gatekeeper/docs/infrastructure-layout/" class="md-nav__link">
+      <a href="../../machines/gatekeeper/docs/backup-improvements/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Infrastructure Layout
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gatekeeper/docs/backup-improvements/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Backups
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gatekeeper/docs/incidents/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Incidents and Resilience
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gatekeeper/tailnet/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tailnet Setup
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gatekeeper/tailnet/docs/manual-steps/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tailnet Manual Steps
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../gatekeeper/configs/nginx/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Nginx Configuration
+    Backup improvements
   
 
     
@@ -636,12 +899,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
     
     
     
@@ -650,11 +907,11 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../pyrite/" class="md-nav__link ">
+            <a href="../../machines/pyrite/" class="md-nav__link ">
               
   
   
@@ -672,14 +929,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -698,14 +955,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/platform-baseline/" class="md-nav__link">
+      <a href="../../machines/pyrite/docs/platform-baseline/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Platform Baseline
+    Platform baseline
   
 
     
@@ -726,14 +983,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/boot-and-startup/" class="md-nav__link">
+      <a href="../../machines/pyrite/docs/boot-and-startup/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Boot and Startup
+    Boot and startup
   
 
     
@@ -754,7 +1011,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/wayland-and-av/" class="md-nav__link">
+      <a href="../../machines/pyrite/docs/wayland-and-av/" class="md-nav__link">
         
   
   
@@ -782,14 +1039,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/remote-access/" class="md-nav__link">
+      <a href="../../machines/pyrite/docs/remote-access/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Remote Access
+    Remote access
   
 
     
@@ -810,7 +1067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/troubleshooting/" class="md-nav__link">
+      <a href="../../machines/pyrite/docs/troubleshooting/" class="md-nav__link">
         
   
   
@@ -837,64 +1094,10 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../pyrite/services/" class="md-nav__link">
+    
+    
+      
         
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Services
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pyrite/services/TODO/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Services TODO
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
       
         
       
@@ -914,10 +1117,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_7" >
         
           
-          <label class="md-nav__link" for="__nav_2_3_9" id="__nav_2_3_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_3_7" id="__nav_3_3_7_label" tabindex="0">
             
   
   
@@ -935,8 +1138,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_3_9">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -953,14 +1156,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/guides/obs-audio/" class="md-nav__link">
+      <a href="../../machines/pyrite/guides/bcache/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    OBS Audio
+    bcache
   
 
     
@@ -981,14 +1184,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/guides/obs-video/" class="md-nav__link">
+      <a href="../../machines/pyrite/guides/obs-audio/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    OBS Video
+    OBS audio
   
 
     
@@ -1009,14 +1212,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/guides/zed-install/" class="md-nav__link">
+      <a href="../../machines/pyrite/guides/obs-video/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Zed Install
+    OBS video
   
 
     
@@ -1037,14 +1240,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/guides/google-cloud-remote-dev/" class="md-nav__link">
+      <a href="../../machines/pyrite/guides/zed-install/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Google Cloud Remote Dev
+    Zed install
   
 
     
@@ -1065,14 +1268,42 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/guides/ml-workstation-build-plan/" class="md-nav__link">
+      <a href="../../machines/pyrite/guides/google-cloud-remote-dev/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    ML Workstation Build Plan
+    Google Cloud remote dev
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machines/pyrite/guides/ml-workstation-build-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ML workstation build plan
   
 
     
@@ -1094,6 +1325,16 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+            
               
                 
   
@@ -1101,14 +1342,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../pyrite/docs/TODO/" class="md-nav__link">
+      <a href="../../machines/the-educator/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Platform TODO
+    The-educator
   
 
     
@@ -1122,80 +1363,6 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Arkk
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link md-nav__link--active" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Arkk
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
               
                 
   
@@ -1203,14 +1370,14 @@
   
   
     <li class="md-nav__item">
-      <a href="RAID_RECOVERY/" class="md-nav__link">
+      <a href="../../machines/hugo/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    RAID Recovery Runbook
+    Hugo
   
 
     
@@ -1219,14 +1386,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -1250,6 +1409,8 @@
       
         
           
+        
+      
         
       
         
@@ -1264,7 +1425,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1286,14 +1447,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1319,7 +1480,7 @@
   <span class="md-ellipsis">
     
   
-    LAN and Direct Link
+    LAN and addressing
   
 
     
@@ -1361,6 +1522,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network/nfs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NFS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1387,8 +1576,6 @@
       
         
       
-        
-      
     
     
     
@@ -1397,7 +1584,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1419,14 +1606,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1473,34 +1660,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../operations/monitoring-inventory/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Monitoring Inventory
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../secrets/" class="md-nav__link">
         
   
@@ -1537,6 +1696,195 @@
     
   
     Docker Images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../machines/gatekeeper/tailnet/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machines/gatekeeper/docs/infrastructure-layout/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gatekeeper deploy layout
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machines/gatekeeper/tailnet/docs/manual-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gatekeeper tailnet manual steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../machines/gatekeeper/configs/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nginx configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operations/monitoring-inventory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring inventory (2026-09 snapshot)
   
 
     
@@ -1611,10 +1959,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hardware" class="md-nav__link">
+  <a href="#deployment-pyrite" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hardware
+        Deployment (pyrite)
       
     </span>
   </a>
@@ -1622,10 +1970,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#role" class="md-nav__link">
+  <a href="#public-access" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Role
+        Public access
       
     </span>
   </a>
@@ -1633,10 +1981,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#network-current" class="md-nav__link">
+  <a href="#consumers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Network (current)
+        Consumers
       
     </span>
   </a>
@@ -1644,32 +1992,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#nfs-exports" class="md-nav__link">
+  <a href="#backups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        NFS Exports
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#scripts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Scripts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#see-also" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        See also
+        Backups
       
     </span>
   </a>
@@ -1696,75 +2022,50 @@
   
 
 
-<h1 id="arkk">arkk<a class="headerlink" href="#arkk" title="Permanent link">&para;</a></h1>
-<p>NAS and RAID storage server, physically located in the home office alongside pyrite.</p>
-<p><strong>Status: ACTIVE</strong> — mdadm array is assembled and healthy (<code>[UUUUU]</code>), mounted
-at <code>/mnt/arkk</code>, and exported over NFS.</p>
-<hr />
-<h2 id="hardware">Hardware<a class="headerlink" href="#hardware" title="Permanent link">&para;</a></h2>
-<p><strong>Form factor:</strong> dish rack, top level<br />
-<strong>CPU:</strong> AMD A8-3870 APU with Radeon HD Graphics<br />
-<strong>RAM:</strong> 8 GB Corsair Vengeance 1333 MT/s (4 x 2GB)
-<strong>Storage (RAID array):</strong>
-- 5 × 4 TB Seagate IronWolf (MN: ST4000VN008-2DR1) via mdadm (RAID5, <code>/dev/md0</code>, xfs)
-- <strong>Current state:</strong> healthy <code>[UUUUU]</code> (5/5), mounted read-write at <code>/mnt/arkk</code></p>
-<p><strong>OS:</strong> Ubuntu Server 20.04.6 LTS<br />
-<strong>Network:</strong>
-- LAN gigabit Ethernet (<code>10.1.10.201</code>)
-- Dedicated link to pyrite: <code>pyrite-link</code> = <code>192.168.2.1</code> (arkk) ↔ <code>192.168.2.2</code> (pyrite)
-- NFS: <code>/mnt/arkk</code> exported read-write to pyrite and LAN clients
-- Tailscale: not active on arkk</p>
-<hr />
-<h2 id="role">Role<a class="headerlink" href="#role" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Primary backup target for gatekeeper databases and application data</li>
-<li>Primary backup target for pyrite documents, photos, and project files</li>
-<li>NFS server: exposes storage to pyrite over the dedicated direct link</li>
-<li>Secondary NFS path available to LAN hosts on <code>10.1.10.0/24</code></li>
-</ul>
-<hr />
-<h2 id="network-current">Network (current)<a class="headerlink" href="#network-current" title="Permanent link">&para;</a></h2>
+<h1 id="postgresql">PostgreSQL<a class="headerlink" href="#postgresql" title="Permanent link">&para;</a></h1>
+<p>Multi-tenant PostgreSQL on pyrite, tailnet-scoped, with one public path via
+gatekeeper. <strong>Repo:</strong>
+<a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a>.</p>
+<h2 id="deployment-pyrite">Deployment (pyrite)<a class="headerlink" href="#deployment-pyrite" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Interface</th>
-<th>Address</th>
-<th>Notes</th>
+<th>Container</th>
+<th>Image</th>
+<th>Bind</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>LAN</td>
-<td>10.1.10.201</td>
-<td>Router-connected, SSH access</td>
+<td>student-postgres</td>
+<td><code>pgvector/pgvector:pg16</code></td>
+<td><code>100.64.0.2:5432</code> (tailnet only)</td>
 </tr>
 <tr>
-<td>pyrite-link</td>
-<td>192.168.2.1/24</td>
-<td>Direct link to pyrite (192.168.2.2)</td>
+<td>pgadmin</td>
+<td><code>dpage/pgadmin4:8.14</code></td>
+<td><code>100.64.0.2:8088</code></td>
 </tr>
 <tr>
-<td>lan-data</td>
-<td>10.1.10.202</td>
-<td>Secondary LAN interface</td>
+<td>postgres-exporter</td>
+<td><code>prometheuscommunity/postgres-exporter</code></td>
+<td><code>100.64.0.2:9187</code></td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="nfs-exports">NFS Exports<a class="headerlink" href="#nfs-exports" title="Permanent link">&para;</a></h2>
-<p>Current exports:
-- <code>/mnt/arkk</code> -&gt; <code>192.168.2.2</code> (pyrite, read-write)
-- <code>/mnt/arkk</code> -&gt; <code>10.1.10.0/24</code> (LAN hosts, read-write)</p>
-<hr />
-<h2 id="scripts">Scripts<a class="headerlink" href="#scripts" title="Permanent link">&para;</a></h2>
-<p>Utility scripts and selection lists used for backup operations are in
-<code>scripts/</code>. Keep these aligned with current mount paths and target hosts.</p>
-<hr />
-<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<h2 id="public-access">Public access<a class="headerlink" href="#public-access" title="Permanent link">&para;</a></h2>
+<p>gatekeeper nginx <strong>stream</strong> proxy: public <code>:54321</code> → <code>100.64.0.2:5432</code>.</p>
+<h2 id="consumers">Consumers<a class="headerlink" href="#consumers" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../../backups/">backups/README.md</a>: restic backup strategy</li>
-<li><a href="../../network/lan/">network/lan.md</a>: LAN and direct-link configuration</li>
+<li>Promptly model-gateway uses its own local DB on gatekeeper
+  (<code>model-gateway-db</code>), <strong>not</strong> this server.</li>
+<li>Bench, bug-hunter, logkeep, feedback each run private postgres containers on
+  gatekeeper (see <a href="../web-apps/">web apps</a>).</li>
 </ul>
+<p>This server is for student/multi-tenant workloads and direct tailnet clients.</p>
+<h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">&para;</a></h2>
+<p>TODO: confirm current dump schedule for <code>student-postgres</code> (old backup docs
+target the decommissioned arkk).</p>
 
 
 
