@@ -2012,14 +2012,17 @@ current homelab deployment path and operational dependencies.</p>
 - Logs: <code>journalctl -u llamacpp.service -f</code>
 - Public access is mediated by gatekeeper/Promptly; not directly exposed.</p>
 <h2 id="postgresql-server">PostgreSQL server<a class="headerlink" href="#postgresql-server" title="Permanent link">&para;</a></h2>
-<p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a><br />
-<strong>Container:</strong> <code>student-postgres</code> (<code>pgvector/pgvector:pg16</code>, PostgreSQL 16.13)<br />
-<strong>Bind:</strong> <code>100.64.0.2:5432</code> (tailnet only) → <code>:54321</code> public via gatekeeper nginx TCP stream proxy<br />
-<strong>Used by:</strong> external clients connecting to pyrite's database over the internet</p>
+<p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a> (deployed at <code>/opt/postgreSQL-server</code> on pyrite)<br />
+<strong>Containers:</strong> <code>postgres</code> (<code>pgvector/pgvector:pg16</code>, PostgreSQL 16), <code>pgadmin</code> (<code>dpage/pgadmin4:9.19</code>), <code>postgres-exporter</code>
+<strong>Bind:</strong> <code>100.64.0.2:5432</code> (tailnet only) → <code>:54321</code> public via gatekeeper nginx TCP stream proxy; pgAdmin on <code>100.64.0.2:8088</code> (tailnet only)<br />
+<strong>Used by:</strong> external clients connecting to pyrite's database over the internet; the main multi-tenant DB with per-student databases and roles</p>
 <p>Operational references:
-- Compose source: <code>docker-compose.yml</code> in the postgreSQL-server repo
-- Auth/TLS config: <code>config/pg_hba.conf</code>, <code>config/postgresql.conf</code>
-- Admin surface: <code>make help</code> in the repo
+- Compose source: <code>docker-compose.yml</code> in <code>/opt/postgreSQL-server</code> (env from the repo's <code>.env</code>, template <code>.env.template</code>)
+- Container renamed from <code>student-postgres</code> → <code>postgres</code> during the 2026-11-20 deployment; <code>student-postgres</code> is a historical name
+- PGDATA: <code>/mnt/fast_scratch/postgreSQL-server/data/postgres</code> (RAID-0 scratch)
+- Auth/TLS config: <code>config/pg_hba.conf</code>, <code>config/postgresql.conf</code> (all network paths scram-sha-256; a <code>0.0.0.0/0</code> catch-all exists intentionally so the public proxy's client addresses authenticate with passwords only)
+- Admin surface: <code>make help</code> in the repo; pgAdmin (<code>100.64.0.2:8088</code>)
+- Backups: daily cron <code>0 3 * * *</code> runs <code>scripts/backup.sh</code> (<code>pg_dumpall | gzip</code>, 30-day retention) → <code>/mnt/arkk/postgreSQL-server/backups/</code>
 - Metrics: <code>postgres-exporter</code> container on pyrite (<code>100.64.0.2:9187</code>), scraped by gatekeeper Prometheus over tailnet (job <code>pyrite-postgres-exporter</code>); dashboard <code>postgres-main-overview</code> on the central Grafana
 - The project's local <code>prometheus</code> + <code>grafana</code> containers were removed 2026-11-19; all observability lives on gatekeeper
 - Gatekeeper owns the public stream proxy (<code>:54321</code> → <code>100.64.0.2:5432</code>)</p>

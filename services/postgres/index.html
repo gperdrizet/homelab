@@ -2049,6 +2049,8 @@
 gatekeeper. <strong>Repo:</strong>
 <a href="https://github.com/gperdrizet/postgreSQL-server">gperdrizet/postgreSQL-server</a>.</p>
 <h2 id="deployment-pyrite">Deployment (pyrite)<a class="headerlink" href="#deployment-pyrite" title="Permanent link">&para;</a></h2>
+<p>Deployed from the repo at <strong><code>/opt/postgreSQL-server</code></strong> on pyrite
+(<code>docker-compose.yml</code>, host <code>.env</code> from <code>.env.template</code>).</p>
 <table>
 <thead>
 <tr>
@@ -2059,14 +2061,14 @@ gatekeeper. <strong>Repo:</strong>
 </thead>
 <tbody>
 <tr>
-<td>student-postgres</td>
+<td>postgres</td>
 <td><code>pgvector/pgvector:pg16</code></td>
 <td><code>100.64.0.2:5432</code> (tailnet only)</td>
 </tr>
 <tr>
 <td>pgadmin</td>
-<td><code>dpage/pgadmin4:8.14</code></td>
-<td><code>100.64.0.2:8088</code></td>
+<td><code>dpage/pgadmin4:9.19</code></td>
+<td><code>100.64.0.2:8088</code> (tailnet only)</td>
 </tr>
 <tr>
 <td>postgres-exporter</td>
@@ -2075,6 +2077,8 @@ gatekeeper. <strong>Repo:</strong>
 </tr>
 </tbody>
 </table>
+<p>The container was named <code>student-postgres</code> until the 2026-11-20 deployment;
+the name is historical, the role is the same.</p>
 <h2 id="public-access">Public access<a class="headerlink" href="#public-access" title="Permanent link">&para;</a></h2>
 <p>gatekeeper nginx <strong>stream</strong> proxy: public <code>:54321</code> → <code>100.64.0.2:5432</code>.</p>
 <h2 id="consumers">Consumers<a class="headerlink" href="#consumers" title="Permanent link">&para;</a></h2>
@@ -2084,15 +2088,21 @@ gatekeeper. <strong>Repo:</strong>
 <li>Bench, bug-hunter, logkeep, feedback each run private postgres containers on
   gatekeeper (see <a href="../web-apps/">web apps</a>).</li>
 </ul>
-<p>This server is the main multi-tenant database and serves multiple projects
-(the container name <code>student-postgres</code> is historical).</p>
+<p>This server is the main multi-tenant database: per-student databases and login
+roles (55 student roles as of 2026-11-20), reachable from the internet through
+the public proxy below, guarded by scram-sha-256 passwords. <code>pg_hba.conf</code> has
+an intentional <code>0.0.0.0/0</code> scram catch-all so proxied client addresses can
+authenticate; local socket access is <code>trust</code>.</p>
 <h2 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h2>
 <p><code>postgres-exporter</code> is scraped by the central Prometheus on gatekeeper (job
 <code>pyrite-postgres-exporter</code>); dashboard <code>postgres-main-overview</code> on the central
 Grafana. The project's local Prometheus/Grafana were removed 2026-11-19.</p>
 <h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">&para;</a></h2>
-<p>TODO: confirm current dump schedule for <code>student-postgres</code> (old backup docs
-target the decommissioned arkk).</p>
+<p>Daily at 03:00 via pyrite cron: <code>scripts/backup.sh</code> in the deployment repo
+(<code>pg_dumpall -U admin | gzip</code>, 30-day retention) →
+<code>/mnt/arkk/postgreSQL-server/backups/</code>; log appended to
+<code>/mnt/arkk/postgreSQL-server/backups/backup.log</code>. Verified 2026-11-20:
+<code>full_backup_2026-11-20_00-30-11.sql.gz</code> present.</p>
 
 
 

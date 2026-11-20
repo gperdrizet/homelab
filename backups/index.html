@@ -2020,9 +2020,9 @@ gatekeeper databases over the network still work as documented.</p>
 <td>checks the above; log at <code>/var/log/backup-healthcheck.log</code></td>
 </tr>
 <tr>
-<td>—</td>
-<td>pyrite</td>
-<td><strong>no restic, no cron backups</strong> — host data + 15 TB array have zero backups</td>
+<td><code>0 3 * * * /opt/postgreSQL-server/scripts/backup.sh</code></td>
+<td>pyrite cron</td>
+<td><code>pg_dumpall \| gzip</code> of the multi-tenant postgres DB (30-day retention) → <code>/mnt/arkk/postgreSQL-server/backups/</code>; log at <code>/mnt/arkk/postgreSQL-server/backups/backup.log</code>. <strong>No restic and no other cron backups on pyrite</strong> — host data + 15 TB array otherwise have zero backups</td>
 </tr>
 <tr>
 <td>—</td>

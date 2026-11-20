@@ -84,7 +84,7 @@ services:
     env_file:
       - ../.env.production
     environment:
-      DATA_SOURCE_NAME: "postgresql://bench:AzCHy9Zrt9-rQx84YaA0@bench-postgres:5432/bench?sslmode=disable"
+      DATA_SOURCE_NAME: "${POSTGRES_EXPORTER_DSN}"
     ports:
       - "127.0.0.1:9188:9187"
     depends_on:

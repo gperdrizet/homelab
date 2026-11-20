@@ -1995,7 +1995,7 @@
 <td><code>docker-compose.core.yml</code>, <code>docker-compose.monitoring.yml</code></td>
 </tr>
 <tr>
-<td>App compose files (logkeep, bench, btcpay)</td>
+<td>App compose files (logkeep, bench)</td>
 <td><code>compose/</code></td>
 </tr>
 <tr>
@@ -2034,7 +2034,8 @@
   <code>code.perdrizet.org</code> -&gt; <code>100.64.0.2:47301</code> (OpenVSCode path is no longer part
   of the active pyrite service model).</li>
 <li>Public PostgreSQL path:
-  nginx TCP stream <code>:54321</code> -&gt; <code>100.64.0.2:5432</code>.</li>
+  nginx TCP stream <code>:54321</code> -&gt; <code>100.64.0.2:5432</code>
+  (pyrite <code>postgres</code> container; deployment at <code>/opt/postgreSQL-server</code>).</li>
 <li>Secrets policy:
   no secret values in git; follow <a href="../../secrets/">../../secrets/README.md</a>.</li>
 </ul>

@@ -1,0 +1,82 @@
+services:
+  bench-web:
+    container_name: bench-web-staging
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8011:8000"
+    env_file:
+      - ../.env.staging
+    depends_on:
+      bench-postgres-staging:
+        condition: service_healthy
+      bench-redis-staging:
+        condition: service_started
+    networks:
+      - bench-staging-network
+
+  bench-postgres-staging:
+    container_name: bench-postgres-staging
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - bench-postgres-staging-data:/var/lib/postgresql/data
+    env_file:
+      - ../.env.staging
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bench"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bench-staging-network
+
+  bench-redis-staging:
+    container_name: bench-redis-staging
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks:
+      - bench-staging-network
+
+  bench-celery-staging:
+    container_name: bench-celery-staging
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: celery -A bootcamp worker -l info
+    restart: unless-stopped
+    env_file:
+      - ../.env.staging
+    depends_on:
+      bench-postgres-staging:
+        condition: service_healthy
+      bench-redis-staging:
+        condition: service_started
+    networks:
+      - bench-staging-network
+
+  bench-celery-beat-staging:
+    container_name: bench-celery-beat-staging
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: celery -A bootcamp beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    restart: unless-stopped
+    env_file:
+      - ../.env.staging
+    depends_on:
+      bench-postgres-staging:
+        condition: service_healthy
+      bench-redis-staging:
+        condition: service_started
+    networks:
+      - bench-staging-network
+
+volumes:
+  bench-postgres-staging-data:
+
+networks:
+  bench-staging-network:
+    driver: bridge

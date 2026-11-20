@@ -2116,14 +2116,23 @@ mirrored under
 </tr>
 <tr>
 <td>Bind</td>
-<td>prod <code>127.0.0.1:8010</code>, staging <code>127.0.0.1:8011</code></td>
+<td>prod <code>127.0.0.1:8010</code>, staging <code>127.0.0.1:8011</code>; exporter <code>127.0.0.1:9188</code> (prod only)</td>
 </tr>
 <tr>
 <td>Ingress</td>
 <td>bench.perdrizet.org</td>
 </tr>
+<tr>
+<td>DB</td>
+<td>own <code>bench-postgres</code> / <code>bench-postgres-staging</code> containers on a docker bridge, <strong>no published host ports</strong>; DSNs from on-host <code>.env.production</code> / <code>.env.staging</code> (passwords never in the repo)</td>
+</tr>
+<tr>
+<td>Deploy source</td>
+<td><code>/opt/bench/docker</code> on gatekeeper; compose mirrors in <a href="../../machines/gatekeeper/compose/bench-docker-compose.yml">compose/</a> (<code>bench-docker-compose.yml</code> dev, <code>.prod.yml</code>, <code>.staging.yml</code> — synced to live 2026-11-20)</td>
+</tr>
 </tbody>
 </table>
+<p>The VPS host port <code>127.0.0.1:5432</code> belongs to logkeep's postgres, not bench.</p>
 <h2 id="bug-hunter-prod-staging">Bug Hunter (prod + staging)<a class="headerlink" href="#bug-hunter-prod-staging" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

@@ -2040,7 +2040,7 @@ fold into the services pages once verified.</p>
 <td>54321</td>
 <td>TCP</td>
 <td>nginx stream proxy</td>
-<td>public PostgreSQL proxy to <code>100.64.0.2:5432</code></td>
+<td>public PostgreSQL proxy to <code>100.64.0.2:5432</code> (pyrite <code>postgres</code> container, formerly <code>student-postgres</code>)</td>
 </tr>
 </tbody>
 </table>
@@ -2236,7 +2236,9 @@ fold into the services pages once verified.</p>
 <ul>
 <li>gatekeeper tailnet IP: <code>100.64.0.1</code></li>
 <li>pyrite tailnet IP: <code>100.64.0.2</code></li>
-<li>PostgreSQL public proxy path: <code>:54321</code> -&gt; <code>100.64.0.2:5432</code></li>
+<li>PostgreSQL public proxy path: <code>:54321</code> -&gt; <code>100.64.0.2:5432</code>
+  (backend: pyrite <code>postgres</code> container from <code>/opt/postgreSQL-server</code>; auth is
+  postgres scram-sha-256 only, <code>limit_conn 5</code> per IP)</li>
 <li>Jupyter ingress path: <code>jupyter.perdrizet.org</code> -&gt; <code>100.64.0.2:47302</code></li>
 </ul>
 <h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
