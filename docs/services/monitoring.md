@@ -86,7 +86,7 @@ full) and ethics-gradient** since before this change.
 | LogKeep Traffic Monitoring | repo-provisioned | |
 | **Promptly: gateway traffic** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/promptly-traffic-dashboard.json) | 5 SQL panels (gateway usage DB) + 4 **live** litellm panels: requests/h, tokens/h, avg TTFT, failures (all by model) |
 | **PostgreSQL: main database (pyrite)** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json) | migrated from the removed pyrite-local Grafana; every query pinned to `job="pyrite-postgres-exporter"` |
-| **Pyrite: storage** (uid `pyrite-storage`) | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-storage-dashboard.json) | 16 panels: fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age |
+| **Pyrite: System Resources** (uid `pyrite-system-resources`) | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-system-resources-dashboard.json) | 29 panels: CPU (usage by mode, load avg, RAM, swap), GPU (util/memory/temp/power, 2x P100 via DCGM 4.x metric names), storage (fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit/free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age). Renamed from the storage-only `pyrite-storage` dashboard 2026-11-19 |
 
 Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).
@@ -122,3 +122,12 @@ reconciled.
   I/O, bcache, mdadm, S.M.A.R.T.); every query validated against live central
   Prometheus before deploy. Documented pyrite storage layout (RAID-5 `/mnt/arkk`,
   bcache `md0`+NVMe `/mnt/fast_scratch`) in the ops inventory.
+- 2026-11-19 (later): generalized the storage dashboard to
+  `pyrite-system-resources` per owner request — 29 panels now covering CPU
+  (usage by mode, load, RAM, swap), GPU (2x P100: util/memory/temp/power via
+  DCGM 4.x metric names), and the original storage section. All 36 expressions
+  pre-validated against live central Prometheus; old uid `pyrite-storage`
+  deleted from Grafana on file removal. Also found the dcgm-exporter is
+  healthy — the earlier "no GPU metrics" impression came from querying legacy
+  3.x metric names (`DCGM_FI_DEV_GPU_UTIL` etc.) that no longer exist in
+  dcgm-exporter 4.x.

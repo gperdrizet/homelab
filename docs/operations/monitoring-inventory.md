@@ -158,11 +158,19 @@ Provisioned dashboards (`/srv/infra/configs/grafana-dashboards/`):
 - `logkeep-dashboard.json`
 - `postgres-main-overview.json` (aka "PostgreSQL: main database (pyrite)",
   uid `postgres-main-overview`)
-- `pyrite-storage-dashboard.json` (aka "Pyrite: storage (arkk RAID-5,
-  fast_scratch bcache, SMART)", uid `pyrite-storage`) — 16 panels: filesystem
-  usage/capacity, per-device read/write rate, I/O utilization, bcache hit
-  ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temperature, disk age
-  (added 2026-11-19)
+- `pyrite-system-resources-dashboard.json` (aka "Pyrite: System Resources
+  (CPU / RAM / GPU / Storage)", uid `pyrite-system-resources`) — 29 panels:
+  top stats (CPU/RAM/GPU0/GPU1 util, RAID degraded, SMART, fs usage, load
+  avg, SMART error logs), CPU usage by mode + load avg, memory + swap, GPU
+  util/memory/temp/power, then the original storage section (fs
+  capacity, per-device read/write, I/O utilization, bcache hit/free/dirty/
+  bypass, mdadm state, S.M.A.R.T. temp + disk age). Renamed from the
+  storage-only dashboard 2026-11-19; all 36 expressions pre-validated live
+  before deploy; old uid `pyrite-storage` removed from Grafana (deletion
+  allowed by the file provider). Note: DCGM metrics use the 4.x names
+  (`*_UTIL_RATIO` 0–1, `*_TEMP_CELSIUS`, `*_FB_*_BYTES`,
+  `DCGM_FI_DEV_BOARD_POWER_WATTS`) — the legacy `DCGM_FI_DEV_GPU_UTIL` /
+  `DCGM_FI_DEV_FB_USED` names no longer exist.
 
 The promptly dashboard has 9 panels:
 - 5 Postgres-backed (via the `Promptly` datasource): `Requests per hour`,
