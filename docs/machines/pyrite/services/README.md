@@ -62,10 +62,8 @@ Operational references:
 - Compose source: `docker-compose.yml` in the postgreSQL-server repo
 - Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf`
 - Admin surface: `make help` in the repo
-- Metrics: `postgres-exporter` container on pyrite (`100.64.0.2:9187`), scraped by gatekeeper Prometheus over tailnet
-- Also runs its own local `grafana` (`100.64.0.2:3000`) and `prometheus`
-  (`100.64.0.2:9090`) containers for the course project itself - separate
-  from the homelab's central Grafana/Prometheus on gatekeeper
+- Metrics: `postgres-exporter` container on pyrite (`100.64.0.2:9187`), scraped by gatekeeper Prometheus over tailnet (job `pyrite-postgres-exporter`); dashboard `postgres-main-overview` on the central Grafana
+- The project's local `prometheus` + `grafana` containers were removed 2026-11-19; all observability lives on gatekeeper
 - Gatekeeper owns the public stream proxy (`:54321` → `100.64.0.2:5432`)
 
 
@@ -84,7 +82,7 @@ Operational references:
   `utils/deploy_batch_service.sh <1|2|both> [--restart]`
 - Health endpoints: `http://100.64.0.2:8503/health`, `http://100.64.0.2:8504/health`
 - Logs: `journalctl -u llamacpp-batch1.service -f` (and `-batch2`)
-- Metrics: scraped by gatekeeper Prometheus job `llamacpp-pyrite-batch`
+- Metrics: not scraped (the old `llamacpp-pyrite-batch` job was removed 2026-11-19; inference is monitored at the LiteLLM router)
 
 
 ## nixx

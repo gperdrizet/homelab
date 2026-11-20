@@ -37,8 +37,8 @@ promptlyapi.com ─▶ gatekeeper nginx ─▶ model-gateway-api (:8503)
 - **Network:** `llm-network` bridge; **no published host port** — reached only
   via LiteLLM
 - **Launch:** `--models-preset /config/presets.ini --models-max 1` — no
-  `--metrics`, so no Prometheus endpoint (gap; see
-  [monitoring](monitoring.md#what-is-not-monitored-holes))
+  `--metrics`; by design, inference is monitored at the LiteLLM router level
+  ([monitoring](monitoring.md))
 - **Config:** `/opt/llama/config` (presets.ini)
 - **Models:** `/mnt/fast_scratch/llama-models`
 - **GPU:** 2× Tesla P100 16 GB

@@ -31,7 +31,8 @@ ML/AI workhorse and core services host, in the home office. Audited live
   → [inference service page](../../services/inference.md)
 - Multi-tenant PostgreSQL — [postgres](../../services/postgres.md)
 - JupyterLab — [jupyterlab](../../services/jupyterlab.md)
-- Lab-internal Prometheus + Grafana — [monitoring](../../services/monitoring.md)
+- Exporters for the central monitoring stack (node, cadvisor, dcgm, smartctl,
+  postgres-exporter) — [monitoring](../../services/monitoring.md)
 - OpenClaw gateway + caddy (`openclaw.perdrizet.org`)
 - Long-running hobby dashboards (`jobsearch-dashboard` :8790, `jobapp` VNC :6080)
   — tailnet only, stub-level docs

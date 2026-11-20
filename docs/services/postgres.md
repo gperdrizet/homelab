@@ -23,7 +23,14 @@ gatekeeper nginx **stream** proxy: public `:54321` → `100.64.0.2:5432`.
 - Bench, bug-hunter, logkeep, feedback each run private postgres containers on
   gatekeeper (see [web apps](web-apps.md)).
 
-This server is for student/multi-tenant workloads and direct tailnet clients.
+This server is the main multi-tenant database and serves multiple projects
+(the container name `student-postgres` is historical).
+
+## Monitoring
+
+`postgres-exporter` is scraped by the central Prometheus on gatekeeper (job
+`pyrite-postgres-exporter`); dashboard `postgres-main-overview` on the central
+Grafana. The project's local Prometheus/Grafana were removed 2026-11-19.
 
 ## Backups
 

@@ -27,7 +27,6 @@ are marked.
 | llama.cpp inference (main) | [inference](inference.md) | pyrite | `llama-cuda` container, `llm-network` only (no host port) |
 | llama.cpp inference (utility) | [inference](inference.md) | ethics-gradient | `0.0.0.0:8080` |
 | PostgreSQL + pgAdmin | [postgres](postgres.md) | pyrite | `100.64.0.2:5432`, pgAdmin `100.64.0.2:8088` |
-| Prometheus + Grafana (lab) | [monitoring](monitoring.md) | pyrite | `100.64.0.2:9090` / `100.64.0.2:3000` |
 | Jobsearch dashboard | (stub) | pyrite | `100.64.0.2:8790` |
 | Jobapp (VNC) | (stub) | pyrite | `100.64.0.2:6080` |
 | NFS server `/mnt/arkk` | [nfs](../network/nfs.md) | pyrite | LAN `10.1.10.0/24` |

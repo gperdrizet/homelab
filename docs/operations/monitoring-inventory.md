@@ -1,18 +1,21 @@
 # Monitoring Inventory (Gatekeeper + Pyrite)
 
-Snapshot date: 2026-09-09
+Snapshot date: 2026-11-19 (live-checked: Prometheus target API, container
+inventory on both hosts)
 
 ## Monitoring architecture
 
-- Central metrics, dashboards, alerting, and logs run on gatekeeper.
-- Pyrite exposes exporter endpoints (`pyrite-postgres-exporter`,
-  `llamacpp-pyrite`, `llamacpp-pyrite-batch`) and is scraped over tailnet.
-- Pyrite also runs a separate local Grafana/Prometheus/postgres-exporter
-  stack. It is **not** part of the homelab monitoring plane - it belongs to
-  the unrelated `postgreSQL-server` teaching/demo project
-  (https://github.com/gperdrizet/postgreSQL-server, deployed at
-  `~/postgreSQL-server` on pyrite). It is bound to the tailnet IP
-  (`100.64.0.2`) only, not the LAN.
+- Single plane: central metrics, dashboards, alerting, and logs run on
+  gatekeeper. There is no other Prometheus or Grafana in the fleet.
+- Pyrite and ethics-gradient expose tailnet-bound exporter endpoints only and
+  are scraped by the gatekeeper Prometheus.
+- The `postgreSQL-server` project's local prometheus/grafana pair (the last
+  silo, on `100.64.0.2:9090`/`:3000`) was removed 2026-11-19; its
+  postgres-exporter was already part of the central plane and its dashboard
+  migrated to the central Grafana (`postgres-main-overview`).
+- Inference is monitored at the gateway: the LiteLLM router on pyrite
+  (`100.64.0.2:8505`) is the single inference scrape target. No per-node
+  llama.cpp scraping (owner decision).
 
 ## How the monitoring stack works
 
@@ -21,8 +24,9 @@ Snapshot date: 2026-09-09
   - nginx and container logs are written to files/json logs
 2. Collection:
   - Prometheus scrapes metrics on a fixed interval (15s)
-  - Promtail tails logs and pushes them to Loki
-  - Blackbox exporter probes HTTPS endpoints for reachability/TLS health
+  - Promtail tails logs and pushes them to Loki (gatekeeper logs only)
+  - Blackbox exporter probes HTTPS endpoints for reachability/TLS health and
+    tailnet TCP ports for liveness
 3. Storage and query:
   - Prometheus stores time-series metrics (30-day retention)
   - Loki stores structured logs for log/traffic queries
@@ -56,23 +60,26 @@ Live config paths (host-side, mounted into the containers):
 - Grafana datasources: `/srv/infra/configs/grafana-datasources.yml`
 - Grafana dashboards: `/srv/infra/configs/grafana-dashboards/`
 
-## Pyrite monitoring-related services
+## Pyrite / ethics-gradient monitoring-related services
 
 Active exporters, scraped over tailnet:
-- `pyrite-postgres-exporter` on `100.64.0.2:9187`
-- `llamacpp-pyrite` (llama.cpp's built-in `/metrics`) on `100.64.0.2:8502` -
-  the **production** `llamacpp.service`. This is intentionally stopped
-  whenever a batch/offline inference job needs both GPUs, at which point this
-  target goes down. Restart `llamacpp.service` on pyrite once the batch job
-  finishes to bring it back.
-- `llamacpp-pyrite-batch` scrapes the two overnight batch throughput
-  instances: `pyrite-batch1` (`100.64.0.2:8503`) and `pyrite-batch2`
-  (`100.64.0.2:8504`). These are only up while a batch job is running.
 
-Not part of the homelab monitoring plane (separate project, see above):
-- local `prometheus` (tailnet-bound, `postgreSQL-server` project)
-- local `grafana` (tailnet-bound, `postgreSQL-server` project)
-- local `postgres-exporter` (tailnet-bound, `postgreSQL-server` project)
+pyrite (`100.64.0.2`):
+- `obs-node-exporter` on `:9100` — host CPU/RAM/disk, mdadm (RAID) counters
+- `obs-cadvisor` on `:8180` — containers
+- `obs-dcgm-exporter` on `:9400` — 2× Tesla P100 (util, temps, memory)
+- `obs-smartctl-exporter` on `:9633` — S.M.A.R.T. on all disks incl. the 15 TB array
+- `postgres-exporter` on `:9187` — the main multi-tenant PostgreSQL
+- `litellm-router` on `:8505` — dedicated metrics port (no auth, tailnet-only
+  publish); inference metrics for all Promptly traffic
+
+ethics-gradient (`100.64.0.5`):
+- `obs-node-exporter` on `:9100`
+- `obs-cadvisor` on `:8180`
+- its model server (`:8080`) gets a blackbox TCP liveness probe only
+
+Compose sources: [machines/pyrite/monitoring/](../machines/pyrite/monitoring/)
+and [machines/ethics-gradient/monitoring/](../machines/ethics-gradient/monitoring/).
 
 ## Grafana datasources
 
@@ -93,30 +100,27 @@ connection itself. Both must be kept in sync if either datasource is edited.
 
 ## Active Prometheus scrape inventory (gatekeeper)
 
-Active jobs:
+Active jobs (all targets up as of 2026-11-19):
 - `prometheus`
-- `node-exporter`
-- `cadvisor`
+- `node-exporter` (gatekeeper)
+- `cadvisor` (gatekeeper)
 - `nginx`
 - `headscale`
 - `logkeep-postgres-exporter`
 - `bench-postgres-exporter`
-- `pyrite-postgres-exporter`
-- `llamacpp-pyrite`
-- `llamacpp-pyrite-batch`
-- `logkeep-production`
+- `pyrite-postgres-exporter` (`100.64.0.2:9187`)
+- `litellm-router` (`100.64.0.2:8505`, `metrics_path: /metrics/`)
+- `node-exporter-lan` (`100.64.0.2:9100`, `100.64.0.5:9100`)
+- `cadvisor-lan` (`100.64.0.2:8180`, `100.64.0.5:8180`)
+- `dcgm-gpu-pyrite` (`100.64.0.2:9400`)
+- `smartctl-pyrite` (`100.64.0.2:9633`)
+- `blackbox-tailnet` (TCP: pyrite:8502/5432/47302, ethics:8080, the-educator:25565)
 - `ssl-certs`
 - `ssl-certs-reachable`
 
-Target health notes:
-- All targets are up except `llamacpp-pyrite`, which tracks whether the
-  production `llamacpp.service` on pyrite is running (see above - it is
-  intentionally stopped during batch inference jobs).
-- `llamacpp-pyrite` and `llamacpp-pyrite-batch` both authenticate with the
-  same Bearer API key (from `~/llama.cpp/.env` on pyrite) and scrape
-  `/metrics`. Targets carry a `slot` label (`production` or `batch`) and a
-  distinct `instance` label per running server
-  (`pyrite`/`pyrite-batch1`/`pyrite-batch2`).
+Removed 2026-11-19: `llamacpp-pyrite`, `llamacpp-pyrite-batch`,
+`llamacpp-ethics` (pre-migration llama.cpp `/metrics` scrapers; inference is
+now covered by `litellm-router`).
 
 ## Dashboards
 
@@ -127,18 +131,20 @@ Provisioned dashboards (`/srv/infra/configs/grafana-dashboards/`):
   uid `promptly-gateway-traffic`)
 - `homelab-monitoring-overview.json`
 - `logkeep-dashboard.json`
+- `postgres-main-overview.json` (aka "PostgreSQL: main database (pyrite)",
+  uid `postgres-main-overview`)
 
 The promptly dashboard has 9 panels:
 - 5 Postgres-backed (via the `Promptly` datasource): `Requests per hour`,
   `Tokens per hour (input + output)`, `New accounts per day`,
   `Requests today`, `New accounts today`.
-- 4 Prometheus-backed: `llama.cpp: prompt/generation throughput (tok/s)`,
-  `llama.cpp: slot state`, `llama.cpp: decode() call rate`,
-  `llama.cpp: largest observed context (tokens)`. These match
-  `instance=~"pyrite.*"`, so each shows a series per currently-running
-  llama.cpp instance (production and/or either batch slot), labeled by
-  instance in the legend. They have data whenever any llama.cpp instance is
-  running, not just production.
+- 4 Prometheus-backed (litellm, replaced the dead llama.cpp panels
+  2026-11-19): `Inference requests per hour (by model)` (on
+  `litellm_deployment_total_requests_total`, label `model_group`),
+  `Tokens per hour (by model)` (input + output, label `model`),
+  `Time to first token (avg seconds, by model)`, `Failed inference requests
+  (per 15m, by model)`. Note the label mismatch between metric families
+  (`model_group` vs `model`).
 
 Focus of `homelab-monitoring-overview.json`/`gatekeeper-traffic-overview.json`:
 - scrape health
@@ -147,27 +153,36 @@ Focus of `homelab-monitoring-overview.json`/`gatekeeper-traffic-overview.json`:
 - postgres exporter health (including pyrite)
 - endpoint probe success
 
+The `postgres-main-overview` dashboard queries are all pinned to
+`job="pyrite-postgres-exporter"` because three postgres exporters run in
+Prometheus (main DB, logkeep, bench).
+
 ## What is being monitored right now
 
 Host and container telemetry:
-- Gatekeeper host metrics via `node-exporter`
-- Gatekeeper container metrics via `cadvisor`
-- Gatekeeper nginx metrics via `nginx-exporter`
+- Gatekeeper host + containers (node-exporter, cadvisor)
+- Pyrite host (incl. RAID counters), 2× P100 GPUs, all disks (SMART), containers
+- Ethics-gradient host + containers
 
 Database telemetry:
+- Main multi-tenant PostgreSQL on pyrite (over tailnet)
 - Bench postgres exporter
 - LogKeep postgres exporter
-- Pyrite postgres exporter over tailnet
+
+Inference:
+- LiteLLM router: per-model request counters, input/output tokens, TTFT,
+  latency, failure rates — the full Promptly path (gateway → router → hosts)
 
 Service/application telemetry:
 - LogKeep production app metrics (`/metrics`)
-- llama.cpp production + batch instances on pyrite (`/metrics`)
+- Headscale control plane
 
 Availability and certificate probes:
 - HTTPS probe jobs via blackbox exporter (`ssl-certs`, `ssl-certs-reachable`)
+- TCP liveness: LiteLLM, pyrite postgres, ethics model server, Minecraft
 
 Logs:
-- Loki + promtail on gatekeeper
+- Loki + promtail on gatekeeper (gatekeeper logs only)
 
 HTTP/API traffic:
 - Nginx access logs are collected by promtail and stored in Loki.
@@ -182,22 +197,25 @@ HTTP/API traffic:
 
 - Traffic and request monitoring is available beyond database metrics.
 - Prometheus handles infrastructure and exporter metrics (host health,
-  container health, postgres exporters, scrape/probe metrics).
+  container health, GPU/disk health, postgres exporters, inference,
+  scrape/probe metrics).
 - Loki handles request-level log analytics (request counts, error rates,
   top endpoints, and per-vhost traffic patterns).
 - If a service emits app metrics at `/metrics` (for example LogKeep,
-  llama.cpp), Prometheus also collects app-level request metrics directly.
+  LiteLLM), Prometheus also collects app-level request metrics directly.
 
 Current limitations:
 - Request-level telemetry quality depends on nginx/app log format.
 - True product analytics (sessions, users, funnels) are not currently tracked.
+- Loki does not ship logs from pyrite/ethics-gradient.
 - Most services are monitored at reverse-proxy/log level unless they expose
   dedicated app metrics.
 
 ## Open tasks
 
-1. Add pyrite host/container telemetry if desired (`node-exporter`, `cadvisor`,
-   optional promtail) and wire to gatekeeper Prometheus/Loki.
-2. Add service-specific dashboards to match real jobs and remove obsolete panels.
-3. Restart production `llamacpp.service` on pyrite once the current overnight
-   batch job finishes, to restore the `llamacpp-pyrite` scrape target.
+1. Alert rules for the new targets: inference alive/TTFT/failure rate,
+   pyrite root disk (~93 %), pyrite RAID/SMART, GPU temps, ethics host,
+   backup freshness. (Metrics exist; rules don't.)
+2. Ship pyrite/ethics logs to Loki if log coverage there matters.
+3. Reconcile the Grafana admin password: `GF_SECURITY_ADMIN_PASSWORD` in
+   `/srv/infra/.env` no longer matches the initialized DB (API returns 401).

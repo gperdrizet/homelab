@@ -1,70 +1,61 @@
 # Monitoring
 
 Full observability audit, 2026-11-19 (live-checked: Prometheus target API,
-Grafana API, container inventory on both hosts).
+container inventory on both hosts). Updated 2026-11-19 evening after the
+centralization pass.
 
-## Architecture (as-is)
+## Architecture
 
-**Central plane — gatekeeper** (compose:
+**Single plane — gatekeeper** (compose:
 [docker-compose.monitoring.yml](../machines/gatekeeper/docker-compose.monitoring.yml),
 live configs in `/srv/infra/configs/`, repo mirror:
-[configs/monitoring/](../machines/gatekeeper/configs/monitoring/)):
+[configs/monitoring/](../machines/gatekeeper/configs/monitoring/) — the mirror
+is authoritative; edit repo → scp → `curl -X POST :9090/-/reload`).
 
 | Component | Bind | Notes |
 |-----------|------|-------|
 | Prometheus (30 d retention) | `127.0.0.1:9090` | 15 s scrape; `--web.enable-lifecycle` on |
-| Grafana | `127.0.0.1:3000` | public via grafana.perdrizet.org; SMTP notifications |
+| Grafana | `127.0.0.1:3000` | public via grafana.perdrizet.org; SMTP notifications; dashboards file-provisioned from `/srv/infra/configs/grafana-dashboards/` |
 | Alertmanager | `127.0.0.1:9093` | email routing (critical 4 h repeat / warning 12 h); real config host-only, [example in repo](../machines/gatekeeper/configs/monitoring/alertmanager.example.yml) |
 | Loki + Promtail | `127.0.0.1:3100` | tails `/var/log` + docker container logs **on gatekeeper only** |
 | exporters | internal | node, cadvisor, nginx, blackbox — **all gatekeeper-local** |
 
-**Silo — pyrite** ([postgreSQL-server teaching demo](https://github.com/gperdrizet/postgreSQL-server)):
-its own `prometheus` (`100.64.0.2:9090`) + `grafana` (`100.64.0.2:3000`) +
-postgres-exporter, scraping only itself + postgres. Deliberately separate;
-leave it alone, but it monitors **nothing homelab-relevant**.
+**pyrite / ethics-gradient** run exporters only (compose files:
+[pyrite/monitoring/](../machines/pyrite/monitoring/),
+[ethics-gradient/monitoring/](../machines/ethics-gradient/monitoring/)) —
+everything is scraped by the gatekeeper Prometheus; there is no local
+collection or display. The postgreSQL-server project's local `prometheus` +
+`grafana` pair was removed 2026-11-19 (its `postgres-exporter` was already
+scraped centrally; its dashboard migrated to the central Grafana as
+`postgres-main-overview`).
 
-## What Prometheus actually scrapes (live target API, 2026-11-19)
-
-**Up:**
+## What Prometheus scrapes (live target API, 2026-11-19 evening — all targets up)
 
 | Job | Target | Covers |
 |-----|--------|--------|
-| prometheus | gatekeeper | self |
-| node-exporter | gatekeeper | host CPU/RAM/disk |
-| cadvisor | gatekeeper | containers |
-| nginx | gatekeeper | request rates |
+| prometheus / node-exporter / cadvisor / nginx | gatekeeper | host, containers, Caddy request rates |
 | headscale | gatekeeper:9099 | tailnet control |
 | logkeep-production | logkeep:8000 | app metrics |
-| logkeep-postgres-exporter / bench-postgres-exporter | gatekeeper | app DBs |
-| pyrite-postgres-exporter | `100.64.0.2:9187` | pyrite PostgreSQL ✓ |
-| ssl-certs / ssl-certs-reachable | blackbox ×7 | 7 public HTTPS endpoints |
+| logkeep/bench-postgres-exporter | gatekeeper | app DBs |
+| **pyrite-postgres-exporter** | `100.64.0.2:9187` | main multi-tenant PostgreSQL |
+| **litellm-router** | `100.64.0.2:8505` (`/metrics/`) | **all Promptly inference**: per-model requests, tokens in/out, TTFT, latency, failures |
+| **node-exporter-lan** | `100.64.0.2:9100`, `100.64.0.5:9100` | pyrite + ethics host CPU/RAM/disk, mdadm (RAID) counters |
+| **cadvisor-lan** | `100.64.0.2:8180`, `100.64.0.5:8180` | pyrite + ethics containers |
+| **dcgm-gpu-pyrite** | `100.64.0.2:9400` | 2× P100 util/temps/memory |
+| **smartctl-pyrite** | `100.64.0.2:9633` | S.M.A.R.T. on all pyrite disks incl. the 15 TB array |
+| **blackbox-tailnet** | 5 TCP probes | pyrite:8502 (LiteLLM), :5432 (postgres), :47302; ethics:8080 (model server); the-educator:25565 (Minecraft) |
+| ssl-certs / ssl-certs-reachable | blackbox ×7 | 7 public HTTPS endpoints + cert expiry |
 
-**Down (dead config — remove):**
-
-| Job | Target | Why dead |
-|-----|--------|----------|
-| llamacpp-pyrite | `100.64.0.2:8502/metrics` | port 8502 is now LiteLLM; no `/metrics` |
-| llamacpp-pyrite-batch ×2 | `:8503`, `:8504` | old batch llama.cpp systemd units deleted |
-
-## What is NOT monitored (holes)
-
-| Gap | Detail |
-|-----|--------|
-| **LLM inference stack** | Nothing in the promptly chain emits or scrapes metrics: model-gateway-api has no `/metrics` (404); LiteLLM runs with Prometheus metrics **disabled** (`/metrics` 404; needs `metrics: true` in `/opt/litellm/config.json`); both llama-cuda containers run **without `--metrics`** (llama.cpp flag). The Grafana "Promptly: gateway traffic" dashboard has 4 llama.cpp panels that have shown no data since the container migration — its SQL panels (PostgreSQL model-gateway usage DB) are the only live ones. |
-| **pyrite hardware** | No node_exporter → no CPU/RAM/disk-temperature visibility on the most load-bearing machine (root disk chronically ~93 % and nobody gets paged). |
-| **pyrite GPUs** | No GPU exporter for the 2× P100s (dcgm-exporter or `nvml` exporter). |
-| **pyrite containers** | No cadvisor on pyrite; central alert rules that use `container_*` only ever see gatekeeper. |
-| **ethics-gradient** | Nothing at all: no node_exporter, no cadvisor, its llama-cuda has no metrics. |
-| **NFS / the 15 TB array** | No `nfsd`/`nfs` node_exporter collectors enabled, no RAID/`md` or SMART collectors verified. |
-| **Minecraft (the-educator)** | Unmonitored; not enrolled in tailnet. |
-| **Logs beyond gatekeeper** | Loki collects only gatekeeper local/container logs; nothing ships from pyrite. |
-| **Backups** | No metric or blackbox-style check for backup freshness; alert rule exists only as a commented-out stub. |
+Policy: inference is monitored **at the gateway** (the LiteLLM router) — no
+per-node llama.cpp scrapers or proxies. The ethics model server gets a TCP
+liveness probe only.
 
 ## Alerts (alert-rules.yml)
 
 Live: app-down (logkeep), CPU/RAM/disk thresholds, pg down/connections,
 container health (**gatekeeper names only**: logkeep/bench/headplane), SSL
-expiry. **Nothing** fires for promptly inference, pyrite hardware, or ethics.
+expiry. **Still nothing** fires for promptly inference, pyrite hardware, or
+ethics — the metrics exist now, the rules do not. This is the main open item.
 
 ## Dashboards (live Grafana, 2026-11-19)
 
@@ -74,45 +65,33 @@ expiry. **Nothing** fires for promptly inference, pyrite hardware, or ethics.
 | Gatekeeper Traffic Overview | repo-provisioned | |
 | LogKeep Production Monitoring | repo-provisioned | |
 | LogKeep Traffic Monitoring | repo-provisioned | |
-| Promptly: gateway traffic | **UI-only** → now exported to repo mirror | 5 SQL panels (live) + 4 llama.cpp panels (dead until inference metrics exist) |
+| **Promptly: gateway traffic** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/promptly-traffic-dashboard.json) | 5 SQL panels (gateway usage DB) + 4 **live** litellm panels: requests/h, tokens/h, avg TTFT, failures (all by model) |
+| **PostgreSQL: main database (pyrite)** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json) | migrated from the removed pyrite-local Grafana; every query pinned to `job="pyrite-postgres-exporter"` |
 
 Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).
 
-## Config drift found
+Note: the `GF_SECURITY_ADMIN_PASSWORD` in `/srv/infra/.env` does **not** work
+against the live Grafana API (401) — the DB was initialized with a different
+admin password. API verification of dashboards isn't possible until that's
+reconciled.
 
-- Gatekeeper live `prometheus.yml` ≠ repo mirror (mirror lacked the dead
-  llamacpp jobs) → mirror re-synced from live 2026-11-19.
-- `alertmanager.yml` existed only on the host → redacted example now in repo.
-  It contains a plaintext SMTP password (host file only — rotate + move to env
-  file, tracked outside git).
-- "Promptly: gateway traffic" existed only in Grafana → exported to
-  [grafana-dashboards/](../machines/gatekeeper/configs/monitoring/grafana-dashboards/).
+## Open holes
 
-## Target state (proposal — pending owner go-ahead)
+| Gap | Detail |
+|-----|--------|
+| **Alert rules** | No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART, GPU temp, ethics host down, backup freshness. Metrics all exist. |
+| **Logs beyond gatekeeper** | Loki collects gatekeeper only; nothing ships from pyrite/ethics. |
+| **Minecraft (the-educator)** | TCP liveness only; host not on tailnet, no node metrics. |
+| **Backups** | No freshness check anywhere. |
 
-Centralize on the gatekeeper plane; pyrite keeps only the teaching stack.
+## History
 
-1. **Emit**
-   - Add `--metrics` to both llama-cuda containers (⚠ brief container restart).
-   - Enable Prometheus metrics in LiteLLM config (`metrics: true`).
-   - model-gateway: no metrics endpoint today; LiteLLM + llama.cpp coverage is
-     probably sufficient — skip unless we want per-key counters from the gateway.
-2. **Expose from pyrite** — new tailnet-bound exporter set (compose group):
-   node_exporter (`:9101`? keep :9100 free — pick 910x plan), cadvisor,
-   dcgm-exporter (P100), enable node `mdadm`+`smartctl` collectors for the
-   RAID, optional `nfs` collector + nginx… (pyrite has no nginx; skip).
-3. **Expose from ethics-gradient** — node_exporter + cadvisor.
-4. **Scrape** — replace the 3 dead `llamacpp-*` jobs with:
-   `litellm` (100.64.0.2:8502/metrics), `llamacpp-pyrite` (in-network exec or
-   bind a metrics port), `llamacpp-ethics` (100.64.0.5:8080/metrics),
-   `pyrite-node`, `pyrite-cadvisor`, `pyrite-gpu`, `ethics-node`,
-   `ethics-cadvisor`.
-5. **Alert** — inference-alive (`up{job=~"litellm|llamacpp.*"}`), pyrite root
-   disk (the 93 % problem), pyrite RAID/SMART, GPU temp/util, ethics host,
-   backup-freshness push metric.
-6. **Dashboard** — extend homelab-overview (or new "Inference" dashboard) with
-   LiteLLM + llama.cpp + hardware panels; fix the dead panels in the Promptly
-   dashboard.
-7. **Hygiene** — delete dead scrape jobs, keep repo mirror authoritative
-   (edit in repo → copy to `/srv/infra` → `curl -X POST :9090/-/reload`).
+- 2026-11-19 (morning): audit wrote this page; dead `llamacpp-*` jobs found;
+  pyrite/ethics exporter sets deployed; LiteLLM Prometheus callback enabled
+  (dedicated tailnet-only metrics port 8505).
+- 2026-11-19 (evening): per owner direction — dropped the dead `llamacpp-*`
+  scrape jobs and any per-node inference scraping; `litellm-router` job is the
+  single inference target. Removed the pyrite-local prometheus/grafana silo;
+  migrated its dashboard. Promptly dashboard's 4 dead panels replaced with
+  verified litellm queries.
