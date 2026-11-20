@@ -1,10 +1,12 @@
+# TEMPLATE - rendered to alertmanager.yml by scripts/render-alertmanager.sh
+# Values come from /srv/infra/.env (the single credential store). Do not edit the rendered file.
 global:
   # SMTP configuration for email alerts
   # Port 587 uses STARTTLS
   smtp_smarthost: 'smtp.ionos.com:587'
-  smtp_from: 'george@perdrizet.org'
-  smtp_auth_username: 'george@perdrizet.org'
-  smtp_auth_password: '5724SBlackstone'
+  smtp_from: '${SMTP_FROM}'
+  smtp_auth_username: '${SMTP_USER}'
+  smtp_auth_password: '${SMTP_PASSWORD}'
   smtp_require_tls: true
 
 # Route alerts to appropriate receivers
@@ -20,7 +22,7 @@ route:
         severity: critical
       receiver: 'email-critical'
       repeat_interval: 4h
-    
+
     # Warning alerts - batch and send less frequently
     - match:
         severity: warning

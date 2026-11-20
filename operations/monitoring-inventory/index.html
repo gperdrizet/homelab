@@ -1876,6 +1876,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Gatekeeper monitoring stack (containers)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#credential-storage-single-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credential storage (single location)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2083,6 +2100,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Gatekeeper monitoring stack (containers)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#credential-storage-single-location" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Credential storage (single location)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2261,8 +2295,28 @@ inventory on both hosts)</p>
 - <code>bench-postgres-exporter</code></p>
 <p>Live config paths (host-side, mounted into the containers):
 - Prometheus: <code>/srv/infra/configs/prometheus.yml</code>
-- Alertmanager: <code>/srv/infra/configs/alertmanager.yml</code>
-- Alert rules: <code>/srv/infra/configs/alert-rules.yml</code>
+- Alertmanager: <code>/srv/infra/configs/alertmanager.yml</code> — <strong>rendered artifact</strong>
+  (see credential storage below); template:
+  <code>/srv/infra/configs/alertmanager.yml.template</code>
+- Alert rules: <code>/srv/infra/configs/alert-rules.yml</code></p>
+<h3 id="credential-storage-single-location">Credential storage (single location)<a class="headerlink" href="#credential-storage-single-location" title="Permanent link">&para;</a></h3>
+<p>All live credential values live in one file: <strong><code>/srv/infra/.env</code></strong>
+(<code>chmod 600</code>, owner <code>siderealyear</code>). Nothing else stores secrets:
+- Compose substitution reads it for <code>GRAFANA_ADMIN_PASSWORD</code> (Grafana admin).
+- Alertmanager (distroless image, and its config parser does <strong>not</strong> expand
+  <code>$VAR</code>) gets SMTP credentials baked into the rendered
+  <code>/srv/infra/configs/alertmanager.yml</code> by
+  <code>/srv/infra/scripts/render-alertmanager.sh</code> (envsubst over the template).
+  Workflow: edit <code>/srv/infra/.env</code>, run the render script, the container
+  hot-reloads the mount within ~30 s (or restart the container).
+- The rendered file is <code>chmod 644</code> (the container runs as <code>nobody</code>) and is a
+  derived artifact — never hand-edit it. Repo mirror of the template:
+  <a href="../../machines/gatekeeper/configs/alertmanager.yml.template">configs/alertmanager.yml.template</a>;
+  render script: <a href="../../machines/gatekeeper/scripts/render-alertmanager.sh">scripts/render-alertmanager.sh</a>.
+- History: an older plaintext SMTP password sat inline in the live yml while
+  the <code>.env</code> SMTP keys were empty, and the repo mirrored the yml <em>with</em> the
+  dead secret (removed 2026-11-19). The IONOS app password behind the current
+  values was generated 2026-11-19 after 2FA was enabled on the IONOS account.
 - Grafana datasources: <code>/srv/infra/configs/grafana-datasources.yml</code>
 - Grafana dashboards: <code>/srv/infra/configs/grafana-dashboards/</code></p>
 <h2 id="pyrite-ethics-gradient-monitoring-related-services">Pyrite / ethics-gradient monitoring-related services<a class="headerlink" href="#pyrite-ethics-gradient-monitoring-related-services" title="Permanent link">&para;</a></h2>

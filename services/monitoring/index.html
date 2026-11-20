@@ -2098,7 +2098,7 @@ is authoritative; edit repo → scp → <code>curl -X POST :9090/-/reload</code>
 <tr>
 <td>Alertmanager</td>
 <td><code>127.0.0.1:9093</code></td>
-<td>email routing (critical 4 h repeat / warning 12 h); real config host-only, <a href="../../machines/gatekeeper/configs/monitoring/alertmanager.example.yml">example in repo</a></td>
+<td>email routing (critical 4 h repeat / warning 12 h); config rendered from the <a href="../../machines/gatekeeper/configs/alertmanager.yml.template">repo template</a> by <a href="../../machines/gatekeeper/scripts/render-alertmanager.sh">render-alertmanager.sh</a> — SMTP credential values live only in host <code>/srv/infra/.env</code></td>
 </tr>
 <tr>
 <td>Loki + Promtail</td>
@@ -2315,7 +2315,7 @@ reconciled.</p>
 <tbody>
 <tr>
 <td><strong>Alert rules</strong></td>
-<td>Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing.) SMART was actually broken until the <code>user: root</code> fix, 2026-11-19.</td>
+<td>Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing, now actually delivered: SMTP credential fixed 2026-11-19.) SMART was actually broken until the <code>user: root</code> fix, 2026-11-19.</td>
 </tr>
 <tr>
 <td><strong>Logs beyond gatekeeper</strong></td>
@@ -2357,6 +2357,20 @@ reconciled.</p>
   healthy — the earlier "no GPU metrics" impression came from querying legacy
   3.x metric names (<code>DCGM_FI_DEV_GPU_UTIL</code> etc.) that no longer exist in
   dcgm-exporter 4.x.</li>
+<li>2026-11-19 (SMTP fix): email alerts had been silently failing since at
+  least 2026-11-16 — IONOS started rejecting the inline SMTP password (535
+  on every attempt) after 2FA was enabled on the IONOS account. Owner
+  generated an app password. Consolidated credential storage: all live
+  values now live only in host <code>/srv/infra/.env</code> (<code>chmod 600</code>); the
+  plaintext inline value in <code>alertmanager.yml</code> and the repo's
+  secret-bearing mirror of it were removed (the mirror had held the old
+  password since the docs migration). Because the distroless alertmanager
+  image and its config parser do not expand <code>$VAR</code>, the live yml is now a
+  <strong>rendered artifact</strong>: <code>scripts/render-alertmanager.sh</code> (envsubst) bakes
+  values from <code>.env</code> into the mounted file, which the container hot-reloads.
+  Verified end-to-end: raw STARTTLS login succeeded with the <code>.env</code>
+  credential, and a test alert through the Alertmanager API delivered with
+  no 535s in the logs.</li>
 </ul>
 
 
