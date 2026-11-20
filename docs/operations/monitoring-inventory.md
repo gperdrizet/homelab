@@ -172,12 +172,31 @@ now covered by `litellm-router`).
 ## Dashboards
 
 Provisioned dashboards (`/srv/infra/configs/grafana-dashboards/`):
-- `gatekeeper-traffic-overview.json`
-- `traffic-monitoring.json`
+- `gatekeeper-traffic-overview.json` (aka "Gatekeeper: system resources",
+  uid `gatekeeper-traffic-overview`) — 19 panels: 12 host system-resources
+  panels (node-exporter: CPU/RAM/fs/load stats, CPU by mode, memory
+  total/available/used, swap, root-filesystem size & used, disk I/O read/
+  write & utilization on `vda`, network rx/tx on `eth0`, load 1/5/15)
+  followed by the original 7 Loki nginx-traffic panels (total 24 h, 4xx/
+  5xx 1 h, active vhosts, requests by vhost/status, top paths). Renamed
+  from "Gatekeeper Traffic Overview" and extended with host telemetry
+  2026-11-20 to mirror the pyrite system-resources dashboard; no
+  GPU/RAID/bcache/SMART (single-disk VPS) and no per-container panels —
+  gatekeeper's cadvisor only exposes host systemd cgroups.
+- `logkeep-dashboard.json` (aka "LogKeep Production Monitoring",
+  uid `logkeep-production-monitoring`) — 11 panels: 5 stats (app up, PG
+  exporter up, total requests 24 h, 5xx 1 h, active users) + 6
+timeseries (request rate, API latency p95/avg, requests by status/
+  method, top API endpoints, DB connections). Absorbed the former
+  `traffic-monitoring.json` ("LogKeep Traffic Monitoring", uid
+  `logkeep-traffic`) on 2026-11-20: every panel there was an exact
+  duplicate (request rate, total 24 h, 5xx 1 h, requests by status) or a
+  refinement of a kept panel (avg/p95 latency stats → the API Latency
+timeseries; endpoint views with/without 404s → one Top API Endpoints
+  panel), so it was deleted and the old uid removed from Grafana.
 - `promptly-traffic-dashboard.json` (aka "Promptly: gateway traffic",
   uid `promptly-gateway-traffic`)
 - `homelab-monitoring-overview.json`
-- `logkeep-dashboard.json`
 - `postgres-main-overview.json` (aka "PostgreSQL: main database (pyrite)",
   uid `postgres-main-overview`)
 - `pyrite-system-resources-dashboard.json` (aka "Pyrite: System Resources
@@ -206,7 +225,7 @@ The promptly dashboard has 9 panels:
   (per 15m, by model)`. Note the label mismatch between metric families
   (`model_group` vs `model`).
 
-Focus of `homelab-monitoring-overview.json`/`gatekeeper-traffic-overview.json`:
+Focus of `homelab-monitoring-overview.json`:
 - scrape health
 - target counts up/down
 - scrape duration
@@ -318,5 +337,7 @@ already receives.
    signal before `smart_status` flips — deliberately not added to keep the
    alert set minimal.)
 2. Ship pyrite/ethics logs to Loki if log coverage there matters.
-3. Reconcile the Grafana admin password: `GF_SECURITY_ADMIN_PASSWORD` in
-   `/srv/infra/.env` no longer matches the initialized DB (API returns 401).
+3. ~~Reconcile the Grafana admin password~~ — resolved 2026-11-20: the working
+   credential is `GRAFANA_ADMIN_PASSWORD` in `/srv/infra/.env` (HTTP 200 on the
+   API); the container's `GF_SECURITY_ADMIN_PASSWORD` env is a stale leftover
+   that 401s and should not be chased.

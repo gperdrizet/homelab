@@ -76,14 +76,13 @@ Note: the pre-existing generic `LowDiskSpace`/`CriticalDiskSpace` rules cover
 `/` on every node-exporter host; they have been **firing on pyrite (root ~93 %
 full) and ethics-gradient** since before this change.
 
-## Dashboards (live Grafana, 2026-11-19)
+## Dashboards (live Grafana, 2026-11-20)
 
 | Dashboard | Source of truth | Notes |
 |-----------|----------------|-------|
 | Homelab Monitoring Overview | repo-provisioned | |
-| Gatekeeper Traffic Overview | repo-provisioned | |
-| LogKeep Production Monitoring | repo-provisioned | |
-| LogKeep Traffic Monitoring | repo-provisioned | |
+| **Gatekeeper: system resources** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/gatekeeper-traffic-overview.json) | renamed from "Gatekeeper Traffic Overview" 2026-11-20; keeps the 7 Loki nginx-traffic panels and adds 12 node-exporter host panels (CPU/RAM/disk/net/swap/load). No per-container panels: gatekeeper's cadvisor only exposes host systemd cgroups |
+| **LogKeep Production Monitoring** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/logkeep-dashboard.json) | 11 panels; absorbed "LogKeep Traffic Monitoring" 2026-11-20 (all of that dashboard's panels were duplicates) — old uid `logkeep-traffic` removed |
 | **Promptly: gateway traffic** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/promptly-traffic-dashboard.json) | 5 SQL panels (gateway usage DB) + 4 **live** litellm panels: requests/h, tokens/h, avg TTFT, failures (all by model) |
 | **PostgreSQL: main database (pyrite)** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json) | migrated from the removed pyrite-local Grafana; every query pinned to `job="pyrite-postgres-exporter"` |
 | **Pyrite: System Resources** (uid `pyrite-system-resources`) | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-system-resources-dashboard.json) | 29 panels: CPU (usage by mode, load avg, RAM, swap), GPU (util/memory/temp/power, 2x P100 via DCGM 4.x metric names), storage (fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit/free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age). Renamed from the storage-only `pyrite-storage` dashboard 2026-11-19 |
@@ -91,10 +90,10 @@ full) and ethics-gradient** since before this change.
 Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).
 
-Note: the `GF_SECURITY_ADMIN_PASSWORD` in `/srv/infra/.env` does **not** work
-against the live Grafana API (401) — the DB was initialized with a different
-admin password. API verification of dashboards isn't possible until that's
-reconciled.
+Note: the working Grafana admin credential is `GRAFANA_ADMIN_PASSWORD` in
+`/srv/infra/.env` (confirmed 2026-11-20 against the live API). The
+container's `GF_SECURITY_ADMIN_PASSWORD` env is a stale leftover that 401s —
+don't chase it.
 
 ## Open holes
 

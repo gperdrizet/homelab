@@ -37,7 +37,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 4,
         "x": 0,
         "y": 0
       },
@@ -94,8 +94,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 6,
+        "w": 4,
+        "x": 4,
         "y": 0
       },
       "id": 2,
@@ -155,8 +155,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
+        "w": 4,
+        "x": 8,
         "y": 0
       },
       "id": 3,
@@ -216,8 +216,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 18,
+        "w": 4,
+        "x": 12,
         "y": 0
       },
       "id": 4,
@@ -242,6 +242,59 @@
         }
       ],
       "title": "5xx Responses (1h)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "value"
+      },
+      "targets": [
+        {
+          "expr": "sum(logkeep_active_users{environment=\"production\"})",
+          "refId": "A"
+        }
+      ],
+      "title": "Active Users",
       "type": "stat"
     },
     {
@@ -322,8 +375,8 @@
       "targets": [
         {
           "expr": "sum(rate(logkeep_requests_total[5m]))",
-          "legendFormat": "requests/sec",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "requests/sec"
         }
       ],
       "title": "Request Rate",
@@ -407,13 +460,13 @@
       "targets": [
         {
           "expr": "histogram_quantile(0.95, sum(rate(logkeep_request_duration_seconds_bucket[5m])) by (le)) * 1000",
-          "legendFormat": "p95 latency",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "p95 latency"
         },
         {
           "expr": "sum(rate(logkeep_request_duration_seconds_sum[5m])) / sum(rate(logkeep_request_duration_seconds_count[5m])) * 1000",
-          "legendFormat": "avg latency",
-          "refId": "B"
+          "refId": "B",
+          "legendFormat": "avg latency"
         }
       ],
       "title": "API Latency",
@@ -468,7 +521,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -482,7 +535,8 @@
       "options": {
         "legend": {
           "calcs": [
-            "lastNotNull"
+            "lastNotNull",
+            "max"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -496,8 +550,8 @@
       "targets": [
         {
           "expr": "sum by (status) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{status}}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{status}}"
         }
       ],
       "title": "Requests by Status",
@@ -552,7 +606,7 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "reqps"
         },
         "overrides": []
       },
@@ -562,11 +616,97 @@
         "x": 12,
         "y": 12
       },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (method) (rate(logkeep_requests_total[5m]))",
+          "refId": "A",
+          "legendFormat": "{{method}}"
+        }
+      ],
+      "title": "Requests by http method",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "tooltip": false,
+              "viz": false,
+              "legend": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
       "id": 8,
       "options": {
         "legend": {
           "calcs": [
-            "lastNotNull"
+            "lastNotNull",
+            "max"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -580,8 +720,8 @@
       "targets": [
         {
           "expr": "sum by (endpoint) (rate(logkeep_requests_total[5m]))",
-          "legendFormat": "{{endpoint}}",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "{{endpoint}}"
         }
       ],
       "title": "Top API Endpoints",
@@ -643,14 +783,15 @@
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 0,
+        "x": 12,
         "y": 20
       },
       "id": 9,
       "options": {
         "legend": {
           "calcs": [
-            "lastNotNull"
+            "lastNotNull",
+            "max"
           ],
           "displayMode": "table",
           "placement": "bottom",
@@ -664,65 +805,12 @@
       "targets": [
         {
           "expr": "pg_stat_database_numbackends{job=\"logkeep-postgres-exporter\",datname=\"logkeep\"}",
-          "legendFormat": "db connections",
-          "refId": "A"
+          "refId": "A",
+          "legendFormat": "db connections"
         }
       ],
       "title": "Database Connections",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 20
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "reduceOptions": {
-          "values": false,
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": ""
-        },
-        "textMode": "value"
-      },
-      "targets": [
-        {
-          "expr": "sum(logkeep_active_users{environment=\"production\"})",
-          "refId": "A"
-        }
-      ],
-      "title": "Active Users",
-      "type": "stat"
     }
   ],
   "refresh": "30s",
