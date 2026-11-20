@@ -16,7 +16,7 @@ is authoritative; edit repo → scp → `curl -X POST :9090/-/reload`).
 |-----------|------|-------|
 | Prometheus (30 d retention) | `127.0.0.1:9090` | 15 s scrape; `--web.enable-lifecycle` on |
 | Grafana | `127.0.0.1:3000` | public via grafana.perdrizet.org; SMTP notifications; dashboards file-provisioned from `/srv/infra/configs/grafana-dashboards/` |
-| Alertmanager | `127.0.0.1:9093` | email routing (critical 4 h repeat / warning 12 h); real config host-only, [example in repo](../machines/gatekeeper/configs/monitoring/alertmanager.example.yml) |
+| Alertmanager | `127.0.0.1:9093` | email routing (critical 4 h repeat / warning 12 h); config rendered from the [repo template](../machines/gatekeeper/configs/alertmanager.yml.template) by [render-alertmanager.sh](../machines/gatekeeper/scripts/render-alertmanager.sh) — SMTP credential values live only in host `/srv/infra/.env` |
 | Loki + Promtail | `127.0.0.1:3100` | tails `/var/log` + docker container logs **on gatekeeper only** |
 | exporters | internal | node, cadvisor, nginx, blackbox — **all gatekeeper-local** |
 
@@ -100,7 +100,7 @@ reconciled.
 
 | Gap | Detail |
 |-----|--------|
-| **Alert rules** | Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing.) SMART was actually broken until the `user: root` fix, 2026-11-19. |
+| **Alert rules** | Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing, now actually delivered: SMTP credential fixed 2026-11-19.) SMART was actually broken until the `user: root` fix, 2026-11-19. |
 | **Logs beyond gatekeeper** | Loki collects gatekeeper only; nothing ships from pyrite/ethics. |
 | **Minecraft (the-educator)** | TCP liveness only; host not on tailnet, no node metrics. |
 | **Backups** | No freshness check anywhere. |
@@ -131,3 +131,17 @@ reconciled.
   healthy — the earlier "no GPU metrics" impression came from querying legacy
   3.x metric names (`DCGM_FI_DEV_GPU_UTIL` etc.) that no longer exist in
   dcgm-exporter 4.x.
+- 2026-11-19 (SMTP fix): email alerts had been silently failing since at
+  least 2026-11-16 — IONOS started rejecting the inline SMTP password (535
+  on every attempt) after 2FA was enabled on the IONOS account. Owner
+  generated an app password. Consolidated credential storage: all live
+  values now live only in host `/srv/infra/.env` (`chmod 600`); the
+  plaintext inline value in `alertmanager.yml` and the repo's
+  secret-bearing mirror of it were removed (the mirror had held the old
+  password since the docs migration). Because the distroless alertmanager
+  image and its config parser do not expand `$VAR`, the live yml is now a
+  **rendered artifact**: `scripts/render-alertmanager.sh` (envsubst) bakes
+  values from `.env` into the mounted file, which the container hot-reloads.
+  Verified end-to-end: raw STARTTLS login succeeded with the `.env`
+  credential, and a test alert through the Alertmanager API delivered with
+  no 535s in the logs.

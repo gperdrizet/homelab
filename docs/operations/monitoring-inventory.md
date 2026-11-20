@@ -55,8 +55,30 @@ Service-specific exporters:
 
 Live config paths (host-side, mounted into the containers):
 - Prometheus: `/srv/infra/configs/prometheus.yml`
-- Alertmanager: `/srv/infra/configs/alertmanager.yml`
+- Alertmanager: `/srv/infra/configs/alertmanager.yml` — **rendered artifact**
+  (see credential storage below); template:
+  `/srv/infra/configs/alertmanager.yml.template`
 - Alert rules: `/srv/infra/configs/alert-rules.yml`
+
+### Credential storage (single location)
+
+All live credential values live in one file: **`/srv/infra/.env`**
+(`chmod 600`, owner `siderealyear`). Nothing else stores secrets:
+- Compose substitution reads it for `GRAFANA_ADMIN_PASSWORD` (Grafana admin).
+- Alertmanager (distroless image, and its config parser does **not** expand
+  `$VAR`) gets SMTP credentials baked into the rendered
+  `/srv/infra/configs/alertmanager.yml` by
+  `/srv/infra/scripts/render-alertmanager.sh` (envsubst over the template).
+  Workflow: edit `/srv/infra/.env`, run the render script, the container
+  hot-reloads the mount within ~30 s (or restart the container).
+- The rendered file is `chmod 644` (the container runs as `nobody`) and is a
+  derived artifact — never hand-edit it. Repo mirror of the template:
+  [configs/alertmanager.yml.template](../machines/gatekeeper/configs/alertmanager.yml.template);
+  render script: [scripts/render-alertmanager.sh](../machines/gatekeeper/scripts/render-alertmanager.sh).
+- History: an older plaintext SMTP password sat inline in the live yml while
+  the `.env` SMTP keys were empty, and the repo mirrored the yml *with* the
+  dead secret (removed 2026-11-19). The IONOS app password behind the current
+  values was generated 2026-11-19 after 2FA was enabled on the IONOS account.
 - Grafana datasources: `/srv/infra/configs/grafana-datasources.yml`
 - Grafana dashboards: `/srv/infra/configs/grafana-dashboards/`
 
