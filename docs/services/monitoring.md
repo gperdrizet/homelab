@@ -39,7 +39,7 @@ scraped centrally; its dashboard migrated to the central Grafana as
 | logkeep/bench-postgres-exporter | gatekeeper | app DBs |
 | **pyrite-postgres-exporter** | `100.64.0.2:9187` | main multi-tenant PostgreSQL |
 | **litellm-router** | `100.64.0.2:8505` (`/metrics/`) | **all Promptly inference**: per-model requests, tokens in/out, TTFT, latency, failures |
-| **node-exporter-lan** | `100.64.0.2:9100`, `100.64.0.5:9100` | pyrite + ethics host CPU/RAM/disk, mdadm (RAID) counters |
+| **node-exporter-lan** | `100.64.0.2:9100`, `100.64.0.5:9100` | pyrite + ethics host CPU/RAM, per-device disk I/O, filesystem capacity, mdadm (RAID) counters, bcache (pyrite, `--collector.bcache`) |
 | **cadvisor-lan** | `100.64.0.2:8180`, `100.64.0.5:8180` | pyrite + ethics containers |
 | **dcgm-gpu-pyrite** | `100.64.0.2:9400` | 2× P100 util/temps/memory |
 | **smartctl-pyrite** | `100.64.0.2:9633` | S.M.A.R.T. on all pyrite disks incl. the 15 TB array |
@@ -67,6 +67,7 @@ ethics — the metrics exist now, the rules do not. This is the main open item.
 | LogKeep Traffic Monitoring | repo-provisioned | |
 | **Promptly: gateway traffic** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/promptly-traffic-dashboard.json) | 5 SQL panels (gateway usage DB) + 4 **live** litellm panels: requests/h, tokens/h, avg TTFT, failures (all by model) |
 | **PostgreSQL: main database (pyrite)** | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json) | migrated from the removed pyrite-local Grafana; every query pinned to `job="pyrite-postgres-exporter"` |
+| **Pyrite: storage** (uid `pyrite-storage`) | [repo](../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-storage-dashboard.json) | 16 panels: fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age |
 
 Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).
@@ -80,7 +81,7 @@ reconciled.
 
 | Gap | Detail |
 |-----|--------|
-| **Alert rules** | No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART, GPU temp, ethics host down, backup freshness. Metrics all exist. |
+| **Alert rules** | No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART (`node_md_degraded`, `smartctl_device_smart_status`, reallocated/pending sectors), GPU temp, ethics host down, backup freshness. Metrics all exist (SMART was actually broken until the `user: root` fix, 2026-11-19 — see ops inventory). |
 | **Logs beyond gatekeeper** | Loki collects gatekeeper only; nothing ships from pyrite/ethics. |
 | **Minecraft (the-educator)** | TCP liveness only; host not on tailnet, no node metrics. |
 | **Backups** | No freshness check anywhere. |
@@ -95,3 +96,10 @@ reconciled.
   single inference target. Removed the pyrite-local prometheus/grafana silo;
   migrated its dashboard. Promptly dashboard's 4 dead panels replaced with
   verified litellm queries.
+- 2026-11-19 (night): discovered the pyrite smartctl exporter was blind (image
+  defaults to `USER=nobody`; device-file DAC bits aren't bypassed by
+  capabilities) — fixed with `user: root`, all 828 S.M.A.R.T. attribute series
+  now flowing. Added the `pyrite-storage` dashboard (fs capacity, per-device
+  I/O, bcache, mdadm, S.M.A.R.T.); every query validated against live central
+  Prometheus before deploy. Documented pyrite storage layout (RAID-5 `/mnt/arkk`,
+  bcache `md0`+NVMe `/mnt/fast_scratch`) in the ops inventory.

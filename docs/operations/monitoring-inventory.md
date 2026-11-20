@@ -65,10 +65,17 @@ Live config paths (host-side, mounted into the containers):
 Active exporters, scraped over tailnet:
 
 pyrite (`100.64.0.2`):
-- `obs-node-exporter` on `:9100` — host CPU/RAM/disk, mdadm (RAID) counters
+- `obs-node-exporter` on `:9100` — host CPU/RAM/disk, per-device I/O, filesystem
+  capacity, mdadm (RAID) counters, bcache (collected via
+  `--collector.mdadm --collector.bcache`; runs as user `nobody`)
 - `obs-cadvisor` on `:8180` — containers
 - `obs-dcgm-exporter` on `:9400` — 2× Tesla P100 (util, temps, memory)
-- `obs-smartctl-exporter` on `:9633` — S.M.A.R.T. on all disks incl. the 15 TB array
+- `obs-smartctl-exporter` on `:9633` — full S.M.A.R.T. on all 10 disks
+  (temperature, power-on hours, reallocated/pending sectors, error-log count).
+  Must run as `user: root` — the image defaults to `USER=nobody`, which cannot
+  open `/dev/sd*` (device-file DAC bits are not bypassed by capabilities,
+  even when privileged); discovered 2026-11-19 when only 2 of ~800 metrics
+  came through. Scans every 6 h (`--smartctl.interval=21600s`).
 - `postgres-exporter` on `:9187` — the main multi-tenant PostgreSQL
 - `litellm-router` on `:8505` — dedicated metrics port (no auth, tailnet-only
   publish); inference metrics for all Promptly traffic
@@ -80,6 +87,24 @@ ethics-gradient (`100.64.0.5`):
 
 Compose sources: [machines/pyrite/monitoring/](../machines/pyrite/monitoring/)
 and [machines/ethics-gradient/monitoring/](../machines/ethics-gradient/monitoring/).
+
+### Pyrite storage layout (what the exporters cover)
+
+- `/` — `sde2`, 440 GB ext4 (447 GB "FATTYDOVE" SSD). Was at ~93 % on
+  2026-11-19; watched by the storage dashboard.
+- `/mnt/arkk` — `md127`, **RAID-5 of 5× 3.6 TB** ST4000 (sda/sdc/sdg/sdh/sdi),
+  15 TB xfs, the main data volume and NFS export. mdadm metrics:
+  `node_md_state`, `node_md_degraded`, `node_md_disks`, `node_md_blocks_synced`.
+- `/mnt/fast_scratch` — `bcache0` (models + fast scratch): **bcache in front of
+  `md0`, a RAID-0 of 3× 1 TB** (sdb/sdd/sdf), with a **1 TB NVMe**
+  (nvme0n1, Sabrent Rocket Q) as the cache device. 2.7 TB ext4. bcache sysfs
+  (`/sys/fs/bcache`) is kernel-managed (no fstab entry needed). bcache metrics
+  (node-exporter `--collector.bcache`): hit/miss totals, `cache_available_percent`,
+  `dirty_data_bytes`, `bypassed_bytes_total`, `writeback_rate`.
+- Per-device I/O for all of the above: `node_disk_read_bytes_total`,
+  `node_disk_written_bytes_total`, `node_disk_io_time_seconds_total`,
+  `node_disk_io_now` (diskstats collector); filesystem size/avail for every
+  mount (filesystem collector).
 
 ## Grafana datasources
 
@@ -133,6 +158,11 @@ Provisioned dashboards (`/srv/infra/configs/grafana-dashboards/`):
 - `logkeep-dashboard.json`
 - `postgres-main-overview.json` (aka "PostgreSQL: main database (pyrite)",
   uid `postgres-main-overview`)
+- `pyrite-storage-dashboard.json` (aka "Pyrite: storage (arkk RAID-5,
+  fast_scratch bcache, SMART)", uid `pyrite-storage`) — 16 panels: filesystem
+  usage/capacity, per-device read/write rate, I/O utilization, bcache hit
+  ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temperature, disk age
+  (added 2026-11-19)
 
 The promptly dashboard has 9 panels:
 - 5 Postgres-backed (via the `Promptly` datasource): `Requests per hour`,
@@ -163,6 +193,17 @@ Host and container telemetry:
 - Gatekeeper host + containers (node-exporter, cadvisor)
 - Pyrite host (incl. RAID counters), 2× P100 GPUs, all disks (SMART), containers
 - Ethics-gradient host + containers
+
+Storage telemetry (pyrite):
+- Filesystem capacity/usage for `/`, `/mnt/arkk`, `/mnt/fast_scratch`
+  (`node_filesystem_*`)
+- Per-device read/write rates, I/O utilization, in-flight I/O
+  (`node_disk_*`, all members of both arrays + NVMe + root disk)
+- bcache: hit ratio, cache free %, dirty data (writeback), bypass rate
+  (`node_bcache_*`)
+- RAID: array state, degraded members, resync progress (`node_md_*`)
+- Full S.M.A.R.T. per disk: status, temperature, power-on hours, reallocated
+  and pending sectors, error-log count (`smartctl_device_*`)
 
 Database telemetry:
 - Main multi-tenant PostgreSQL on pyrite (over tailnet)
@@ -214,8 +255,10 @@ Current limitations:
 ## Open tasks
 
 1. Alert rules for the new targets: inference alive/TTFT/failure rate,
-   pyrite root disk (~93 %), pyrite RAID/SMART, GPU temps, ethics host,
-   backup freshness. (Metrics exist; rules don't.)
+   pyrite root disk (~93 %), pyrite RAID/SMART (e.g.
+   `node_md_degraded > 0`, `smartctl_device_smart_status != 1`, SMART
+   `attribute_value_type="raw"` reallocated/pending sector growth), GPU temps,
+   ethics host, backup freshness. (Metrics exist; rules don't.)
 2. Ship pyrite/ethics logs to Loki if log coverage there matters.
 3. Reconcile the Grafana admin password: `GF_SECURITY_ADMIN_PASSWORD` in
    `/srv/infra/.env` no longer matches the initialized DB (API returns 401).
