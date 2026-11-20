@@ -19,8 +19,12 @@ mirrored under
 |------|-------|
 | Containers (prod) | `bench-web`, `bench-celery`, `bench-celery-beat`, `bench-postgres`, `bench-redis`, `bench-postgres-exporter` |
 | Containers (staging) | `bench-*-staging` set |
-| Bind | prod `127.0.0.1:8010`, staging `127.0.0.1:8011` |
+| Bind | prod `127.0.0.1:8010`, staging `127.0.0.1:8011`; exporter `127.0.0.1:9188` (prod only) |
 | Ingress | bench.perdrizet.org |
+| DB | own `bench-postgres` / `bench-postgres-staging` containers on a docker bridge, **no published host ports**; DSNs from on-host `.env.production` / `.env.staging` (passwords never in the repo) |
+| Deploy source | `/opt/bench/docker` on gatekeeper; compose mirrors in [compose/](../machines/gatekeeper/compose/bench-docker-compose.yml) (`bench-docker-compose.yml` dev, `.prod.yml`, `.staging.yml` — synced to live 2026-11-20) |
+
+The VPS host port `127.0.0.1:5432` belongs to logkeep's postgres, not bench.
 
 ## Bug Hunter (prod + staging)
 

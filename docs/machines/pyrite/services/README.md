@@ -53,15 +53,18 @@ Operational references:
 
 ## PostgreSQL server
 
-**Repo:** [gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server)  
-**Container:** `student-postgres` (`pgvector/pgvector:pg16`, PostgreSQL 16.13)  
-**Bind:** `100.64.0.2:5432` (tailnet only) → `:54321` public via gatekeeper nginx TCP stream proxy  
-**Used by:** external clients connecting to pyrite's database over the internet
+**Repo:** [gperdrizet/postgreSQL-server](https://github.com/gperdrizet/postgreSQL-server) (deployed at `/opt/postgreSQL-server` on pyrite)  
+**Containers:** `postgres` (`pgvector/pgvector:pg16`, PostgreSQL 16), `pgadmin` (`dpage/pgadmin4:9.19`), `postgres-exporter`
+**Bind:** `100.64.0.2:5432` (tailnet only) → `:54321` public via gatekeeper nginx TCP stream proxy; pgAdmin on `100.64.0.2:8088` (tailnet only)  
+**Used by:** external clients connecting to pyrite's database over the internet; the main multi-tenant DB with per-student databases and roles
 
 Operational references:
-- Compose source: `docker-compose.yml` in the postgreSQL-server repo
-- Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf`
-- Admin surface: `make help` in the repo
+- Compose source: `docker-compose.yml` in `/opt/postgreSQL-server` (env from the repo's `.env`, template `.env.template`)
+- Container renamed from `student-postgres` → `postgres` during the 2026-11-20 deployment; `student-postgres` is a historical name
+- PGDATA: `/mnt/fast_scratch/postgreSQL-server/data/postgres` (RAID-0 scratch)
+- Auth/TLS config: `config/pg_hba.conf`, `config/postgresql.conf` (all network paths scram-sha-256; a `0.0.0.0/0` catch-all exists intentionally so the public proxy's client addresses authenticate with passwords only)
+- Admin surface: `make help` in the repo; pgAdmin (`100.64.0.2:8088`)
+- Backups: daily cron `0 3 * * *` runs `scripts/backup.sh` (`pg_dumpall | gzip`, 30-day retention) → `/mnt/arkk/postgreSQL-server/backups/`
 - Metrics: `postgres-exporter` container on pyrite (`100.64.0.2:9187`), scraped by gatekeeper Prometheus over tailnet (job `pyrite-postgres-exporter`); dashboard `postgres-main-overview` on the central Grafana
 - The project's local `prometheus` + `grafana` containers were removed 2026-11-19; all observability lives on gatekeeper
 - Gatekeeper owns the public stream proxy (`:54321` → `100.64.0.2:5432`)

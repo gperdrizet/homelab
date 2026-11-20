@@ -17,7 +17,7 @@ Last verified against runtime and nginx config: 2026-07-27
 | 80 | TCP | nginx | HTTP -> HTTPS redirects |
 | 443 | TCP | nginx | TLS termination for public domains |
 | 44441 | TCP | sshd | primary SSH listener |
-| 54321 | TCP | nginx stream proxy | public PostgreSQL proxy to `100.64.0.2:5432` |
+| 54321 | TCP | nginx stream proxy | public PostgreSQL proxy to `100.64.0.2:5432` (pyrite `postgres` container, formerly `student-postgres`) |
 
 ## Active HTTPS domains on nginx
 
@@ -84,6 +84,8 @@ Managed by `/srv/infra/docker-compose.monitoring.yml`.
 - gatekeeper tailnet IP: `100.64.0.1`
 - pyrite tailnet IP: `100.64.0.2`
 - PostgreSQL public proxy path: `:54321` -> `100.64.0.2:5432`
+  (backend: pyrite `postgres` container from `/opt/postgreSQL-server`; auth is
+  postgres scram-sha-256 only, `limit_conn 5` per IP)
 - Jupyter ingress path: `jupyter.perdrizet.org` -> `100.64.0.2:47302`
 
 ## Notes

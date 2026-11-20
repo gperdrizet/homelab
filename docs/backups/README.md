@@ -29,7 +29,7 @@ on pyrite** at `/mnt/arkk`)
 |-----|-------|--------|
 | `0 2 * * * /srv/backups/backup-databases.sh` | gatekeeper cron | `docker exec … pg_dump | gzip` for **logkeep + logkeep_staging** DBs; ~313 daily dumps retained on gatekeeper itself, no offsite copy, bench/feedback/bug-hunter DBs **not** covered |
 | `0 3 * * * /srv/infra/scripts/backup-healthcheck.sh` | gatekeeper cron | checks the above; log at `/var/log/backup-healthcheck.log` |
-| — | pyrite | **no restic, no cron backups** — host data + 15 TB array have zero backups |
+| `0 3 * * * /opt/postgreSQL-server/scripts/backup.sh` | pyrite cron | `pg_dumpall \| gzip` of the multi-tenant postgres DB (30-day retention) → `/mnt/arkk/postgreSQL-server/backups/`; log at `/mnt/arkk/postgreSQL-server/backups/backup.log`. **No restic and no other cron backups on pyrite** — host data + 15 TB array otherwise have zero backups |
 | — | ethics-gradient / the-educator | nothing; Minecraft world unprotected |
 
 ---

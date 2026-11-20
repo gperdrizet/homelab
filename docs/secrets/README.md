@@ -57,7 +57,7 @@ is deployed; today those secrets live in on-host `.env` files (or the app/servic
 | SSH keys | `~/.ssh/` + passphrase in Vaultwarden (planned) |
 | VPS `.env` files (API keys, DB passwords) | `.env` on server (Vaultwarden backup planned) |
 | GitHub Actions secrets | GitHub repo settings |
-| Stripe, BTCPay keys | Vaultwarden (planned) |
+| Stripe keys | Vaultwarden (planned) |
 | Grafana admin password | on-host `/srv/infra/.env` on gatekeeper (Vaultwarden planned) |
 
 ---

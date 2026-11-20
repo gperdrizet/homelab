@@ -64,6 +64,7 @@ Configured/limited-use endpoints retained in nginx:
 
 - Jupyter backend on pyrite: `100.64.0.2:47302`
 - PostgreSQL stream proxy: public `:54321` -> `100.64.0.2:5432`
+  (pyrite `postgres` container, deployment at `/opt/postgreSQL-server`)
 - Promptly API forwards model traffic to pyrite llama.cpp
 
 ## Notes

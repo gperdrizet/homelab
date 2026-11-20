@@ -40,7 +40,7 @@ All gatekeeper operational assets live in this repo:
 | Asset | Location |
 |-------|----------|
 | Core + monitoring compose files | `docker-compose.core.yml`, `docker-compose.monitoring.yml` |
-| App compose files (logkeep, bench, btcpay) | `compose/` |
+| App compose files (logkeep, bench) | `compose/` |
 | nginx, monitoring, alertmanager configs | `configs/` — see [nginx README](configs/nginx/README.md) |
 | Setup, deploy, health-check scripts | `scripts/` |
 | Headscale/Tailscale setup | [tailnet/README.md](tailnet/README.md) |
@@ -64,6 +64,7 @@ All gatekeeper operational assets live in this repo:
   `code.perdrizet.org` -> `100.64.0.2:47301` (OpenVSCode path is no longer part
   of the active pyrite service model).
 - Public PostgreSQL path:
-  nginx TCP stream `:54321` -> `100.64.0.2:5432`.
+  nginx TCP stream `:54321` -> `100.64.0.2:5432`
+  (pyrite `postgres` container; deployment at `/opt/postgreSQL-server`).
 - Secrets policy:
   no secret values in git; follow [../../secrets/README.md](../../secrets/README.md).
