@@ -26,10 +26,16 @@ services:
     container_name: obs-smartctl-exporter
     restart: unless-stopped
     privileged: true
-    devices:
-      - /dev
+    # Image defaults to USER=nobody, which cannot open /dev/sd* (device-file
+    # DAC bits are not bypassed by capabilities, even when privileged).
+    user: root
+    network_mode: host
+    volumes:
+      - /dev:/dev
+      - /run:/run
+      - /sys:/sys
     command:
-      - '--smartctl.path=/usr/bin/smartctl'
+      - '--smartctl.path=/usr/sbin/smartctl'
       - '--smartctl.interval=21600s'
       - '--web.listen-address=100.64.0.2:9633'
 

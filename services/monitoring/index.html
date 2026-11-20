@@ -2163,7 +2163,7 @@ scraped centrally; its dashboard migrated to the central Grafana as
 <tr>
 <td><strong>node-exporter-lan</strong></td>
 <td><code>100.64.0.2:9100</code>, <code>100.64.0.5:9100</code></td>
-<td>pyrite + ethics host CPU/RAM/disk, mdadm (RAID) counters</td>
+<td>pyrite + ethics host CPU/RAM, per-device disk I/O, filesystem capacity, mdadm (RAID) counters, bcache (pyrite, <code>--collector.bcache</code>)</td>
 </tr>
 <tr>
 <td><strong>cadvisor-lan</strong></td>
@@ -2240,6 +2240,11 @@ ethics — the metrics exist now, the rules do not. This is the main open item.<
 <td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json">repo</a></td>
 <td>migrated from the removed pyrite-local Grafana; every query pinned to <code>job="pyrite-postgres-exporter"</code></td>
 </tr>
+<tr>
+<td><strong>Pyrite: storage</strong> (uid <code>pyrite-storage</code>)</td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-storage-dashboard.json">repo</a></td>
+<td>16 panels: fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age</td>
+</tr>
 </tbody>
 </table>
 <p>Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
@@ -2259,7 +2264,7 @@ reconciled.</p>
 <tbody>
 <tr>
 <td><strong>Alert rules</strong></td>
-<td>No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART, GPU temp, ethics host down, backup freshness. Metrics all exist.</td>
+<td>No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART (<code>node_md_degraded</code>, <code>smartctl_device_smart_status</code>, reallocated/pending sectors), GPU temp, ethics host down, backup freshness. Metrics all exist (SMART was actually broken until the <code>user: root</code> fix, 2026-11-19 — see ops inventory).</td>
 </tr>
 <tr>
 <td><strong>Logs beyond gatekeeper</strong></td>
@@ -2285,6 +2290,13 @@ reconciled.</p>
   single inference target. Removed the pyrite-local prometheus/grafana silo;
   migrated its dashboard. Promptly dashboard's 4 dead panels replaced with
   verified litellm queries.</li>
+<li>2026-11-19 (night): discovered the pyrite smartctl exporter was blind (image
+  defaults to <code>USER=nobody</code>; device-file DAC bits aren't bypassed by
+  capabilities) — fixed with <code>user: root</code>, all 828 S.M.A.R.T. attribute series
+  now flowing. Added the <code>pyrite-storage</code> dashboard (fs capacity, per-device
+  I/O, bcache, mdadm, S.M.A.R.T.); every query validated against live central
+  Prometheus before deploy. Documented pyrite storage layout (RAID-5 <code>/mnt/arkk</code>,
+  bcache <code>md0</code>+NVMe <code>/mnt/fast_scratch</code>) in the ops inventory.</li>
 </ul>
 
 
