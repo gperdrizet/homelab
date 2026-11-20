@@ -2,7 +2,7 @@
 
 Audited 2026-11-18. **pyrite is the NFS server**; `arkk` is decommissioned.
 
-## Exports (from `/etc/exports` on pyrite, verified 2026-11-19)
+## Exports (from `/etc/exports` on pyrite, verified 2026-11-20 — file content matches this table exactly)
 
 | Export | Clients | Options |
 |--------|---------|---------|
@@ -35,7 +35,8 @@ Audited 2026-11-18. **pyrite is the NFS server**; `arkk` is decommissioned.
 1. the-educator: replace the dead `10.1.10.202` entry with
    `10.1.10.200:/mnt/arkk ... ,nofail` (or drop it if no longer wanted).
 2. hugo: verify the mount actually comes up (`mount /mnt/arkk`).
-3. Record `exportfs -v` output here for the authoritative export options.
+3. ~~Record `exportfs -v` output here~~ — `/etc/exports` re-read 2026-11-20 and
+   matches the table above verbatim.
 
 ## Historical
 
