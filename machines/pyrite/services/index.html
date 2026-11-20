@@ -2020,10 +2020,8 @@ current homelab deployment path and operational dependencies.</p>
 - Compose source: <code>docker-compose.yml</code> in the postgreSQL-server repo
 - Auth/TLS config: <code>config/pg_hba.conf</code>, <code>config/postgresql.conf</code>
 - Admin surface: <code>make help</code> in the repo
-- Metrics: <code>postgres-exporter</code> container on pyrite (<code>100.64.0.2:9187</code>), scraped by gatekeeper Prometheus over tailnet
-- Also runs its own local <code>grafana</code> (<code>100.64.0.2:3000</code>) and <code>prometheus</code>
-  (<code>100.64.0.2:9090</code>) containers for the course project itself - separate
-  from the homelab's central Grafana/Prometheus on gatekeeper
+- Metrics: <code>postgres-exporter</code> container on pyrite (<code>100.64.0.2:9187</code>), scraped by gatekeeper Prometheus over tailnet (job <code>pyrite-postgres-exporter</code>); dashboard <code>postgres-main-overview</code> on the central Grafana
+- The project's local <code>prometheus</code> + <code>grafana</code> containers were removed 2026-11-19; all observability lives on gatekeeper
 - Gatekeeper owns the public stream proxy (<code>:54321</code> → <code>100.64.0.2:5432</code>)</p>
 <h2 id="llamacpp-batch-throughput-instances">llama.cpp batch throughput instances<a class="headerlink" href="#llamacpp-batch-throughput-instances" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/llama.cpp">gperdrizet/llama.cpp</a><br />
@@ -2038,7 +2036,7 @@ batch job - production is stopped for the duration.</p>
   <code>utils/deploy_batch_service.sh &lt;1|2|both&gt; [--restart]</code>
 - Health endpoints: <code>http://100.64.0.2:8503/health</code>, <code>http://100.64.0.2:8504/health</code>
 - Logs: <code>journalctl -u llamacpp-batch1.service -f</code> (and <code>-batch2</code>)
-- Metrics: scraped by gatekeeper Prometheus job <code>llamacpp-pyrite-batch</code></p>
+- Metrics: not scraped (the old <code>llamacpp-pyrite-batch</code> job was removed 2026-11-19; inference is monitored at the LiteLLM router)</p>
 <h2 id="nixx">nixx<a class="headerlink" href="#nixx" title="Permanent link">&para;</a></h2>
 <p><strong>Repo:</strong> <a href="https://github.com/gperdrizet/nixx">gperdrizet/nixx</a><br />
 <strong>Ingress:</strong> nixx.perdrizet.org → gatekeeper → <code>100.64.0.2:8000</code> over tailnet<br />

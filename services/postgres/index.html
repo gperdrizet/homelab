@@ -480,6 +480,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#backups" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1992,6 +2003,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#backups" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2062,7 +2084,12 @@ gatekeeper. <strong>Repo:</strong>
 <li>Bench, bug-hunter, logkeep, feedback each run private postgres containers on
   gatekeeper (see <a href="../web-apps/">web apps</a>).</li>
 </ul>
-<p>This server is for student/multi-tenant workloads and direct tailnet clients.</p>
+<p>This server is the main multi-tenant database and serves multiple projects
+(the container name <code>student-postgres</code> is historical).</p>
+<h2 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h2>
+<p><code>postgres-exporter</code> is scraped by the central Prometheus on gatekeeper (job
+<code>pyrite-postgres-exporter</code>); dashboard <code>postgres-main-overview</code> on the central
+Grafana. The project's local Prometheus/Grafana were removed 2026-11-19.</p>
 <h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">&para;</a></h2>
 <p>TODO: confirm current dump schedule for <code>student-postgres</code> (old backup docs
 target the decommissioned arkk).</p>

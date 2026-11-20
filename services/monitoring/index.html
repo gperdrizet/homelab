@@ -475,10 +475,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture-as-is" class="md-nav__link">
+  <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture (as-is)
+        Architecture
       
     </span>
   </a>
@@ -486,21 +486,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-prometheus-actually-scrapes-live-target-api-2026-11-19" class="md-nav__link">
+  <a href="#what-prometheus-scrapes-live-target-api-2026-11-19-evening-all-targets-up" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Prometheus actually scrapes (live target API, 2026-11-19)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-not-monitored-holes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is NOT monitored (holes)
+        What Prometheus scrapes (live target API, 2026-11-19 evening — all targets up)
       
     </span>
   </a>
@@ -530,10 +519,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#config-drift-found" class="md-nav__link">
+  <a href="#open-holes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config drift found
+        Open holes
       
     </span>
   </a>
@@ -541,10 +530,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#target-state-proposal-pending-owner-go-ahead" class="md-nav__link">
+  <a href="#history" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Target state (proposal — pending owner go-ahead)
+        History
       
     </span>
   </a>
@@ -1992,10 +1981,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture-as-is" class="md-nav__link">
+  <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture (as-is)
+        Architecture
       
     </span>
   </a>
@@ -2003,21 +1992,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-prometheus-actually-scrapes-live-target-api-2026-11-19" class="md-nav__link">
+  <a href="#what-prometheus-scrapes-live-target-api-2026-11-19-evening-all-targets-up" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What Prometheus actually scrapes (live target API, 2026-11-19)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-not-monitored-holes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is NOT monitored (holes)
+        What Prometheus scrapes (live target API, 2026-11-19 evening — all targets up)
       
     </span>
   </a>
@@ -2047,10 +2025,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#config-drift-found" class="md-nav__link">
+  <a href="#open-holes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Config drift found
+        Open holes
       
     </span>
   </a>
@@ -2058,10 +2036,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#target-state-proposal-pending-owner-go-ahead" class="md-nav__link">
+  <a href="#history" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Target state (proposal — pending owner go-ahead)
+        History
       
     </span>
   </a>
@@ -2090,12 +2068,14 @@
 
 <h1 id="monitoring">Monitoring<a class="headerlink" href="#monitoring" title="Permanent link">&para;</a></h1>
 <p>Full observability audit, 2026-11-19 (live-checked: Prometheus target API,
-Grafana API, container inventory on both hosts).</p>
-<h2 id="architecture-as-is">Architecture (as-is)<a class="headerlink" href="#architecture-as-is" title="Permanent link">&para;</a></h2>
-<p><strong>Central plane — gatekeeper</strong> (compose:
+container inventory on both hosts). Updated 2026-11-19 evening after the
+centralization pass.</p>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<p><strong>Single plane — gatekeeper</strong> (compose:
 <a href="../../machines/gatekeeper/docker-compose.monitoring.yml">docker-compose.monitoring.yml</a>,
 live configs in <code>/srv/infra/configs/</code>, repo mirror:
-<a href="../machines/gatekeeper/configs/monitoring/">configs/monitoring/</a>):</p>
+<a href="../machines/gatekeeper/configs/monitoring/">configs/monitoring/</a> — the mirror
+is authoritative; edit repo → scp → <code>curl -X POST :9090/-/reload</code>).</p>
 <table>
 <thead>
 <tr>
@@ -2113,7 +2093,7 @@ live configs in <code>/srv/infra/configs/</code>, repo mirror:
 <tr>
 <td>Grafana</td>
 <td><code>127.0.0.1:3000</code></td>
-<td>public via grafana.perdrizet.org; SMTP notifications</td>
+<td>public via grafana.perdrizet.org; SMTP notifications; dashboards file-provisioned from <code>/srv/infra/configs/grafana-dashboards/</code></td>
 </tr>
 <tr>
 <td>Alertmanager</td>
@@ -2132,12 +2112,15 @@ live configs in <code>/srv/infra/configs/</code>, repo mirror:
 </tr>
 </tbody>
 </table>
-<p><strong>Silo — pyrite</strong> (<a href="https://github.com/gperdrizet/postgreSQL-server">postgreSQL-server teaching demo</a>):
-its own <code>prometheus</code> (<code>100.64.0.2:9090</code>) + <code>grafana</code> (<code>100.64.0.2:3000</code>) +
-postgres-exporter, scraping only itself + postgres. Deliberately separate;
-leave it alone, but it monitors <strong>nothing homelab-relevant</strong>.</p>
-<h2 id="what-prometheus-actually-scrapes-live-target-api-2026-11-19">What Prometheus actually scrapes (live target API, 2026-11-19)<a class="headerlink" href="#what-prometheus-actually-scrapes-live-target-api-2026-11-19" title="Permanent link">&para;</a></h2>
-<p><strong>Up:</strong></p>
+<p><strong>pyrite / ethics-gradient</strong> run exporters only (compose files:
+<a href="../machines/pyrite/monitoring/">pyrite/monitoring/</a>,
+<a href="../machines/ethics-gradient/monitoring/">ethics-gradient/monitoring/</a>) —
+everything is scraped by the gatekeeper Prometheus; there is no local
+collection or display. The postgreSQL-server project's local <code>prometheus</code> +
+<code>grafana</code> pair was removed 2026-11-19 (its <code>postgres-exporter</code> was already
+scraped centrally; its dashboard migrated to the central Grafana as
+<code>postgres-main-overview</code>).</p>
+<h2 id="what-prometheus-scrapes-live-target-api-2026-11-19-evening-all-targets-up">What Prometheus scrapes (live target API, 2026-11-19 evening — all targets up)<a class="headerlink" href="#what-prometheus-scrapes-live-target-api-2026-11-19-evening-all-targets-up" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -2148,24 +2131,9 @@ leave it alone, but it monitors <strong>nothing homelab-relevant</strong>.</p>
 </thead>
 <tbody>
 <tr>
-<td>prometheus</td>
+<td>prometheus / node-exporter / cadvisor / nginx</td>
 <td>gatekeeper</td>
-<td>self</td>
-</tr>
-<tr>
-<td>node-exporter</td>
-<td>gatekeeper</td>
-<td>host CPU/RAM/disk</td>
-</tr>
-<tr>
-<td>cadvisor</td>
-<td>gatekeeper</td>
-<td>containers</td>
-</tr>
-<tr>
-<td>nginx</td>
-<td>gatekeeper</td>
-<td>request rates</td>
+<td>host, containers, Caddy request rates</td>
 </tr>
 <tr>
 <td>headscale</td>
@@ -2178,95 +2146,60 @@ leave it alone, but it monitors <strong>nothing homelab-relevant</strong>.</p>
 <td>app metrics</td>
 </tr>
 <tr>
-<td>logkeep-postgres-exporter / bench-postgres-exporter</td>
+<td>logkeep/bench-postgres-exporter</td>
 <td>gatekeeper</td>
 <td>app DBs</td>
 </tr>
 <tr>
-<td>pyrite-postgres-exporter</td>
+<td><strong>pyrite-postgres-exporter</strong></td>
 <td><code>100.64.0.2:9187</code></td>
-<td>pyrite PostgreSQL ✓</td>
+<td>main multi-tenant PostgreSQL</td>
+</tr>
+<tr>
+<td><strong>litellm-router</strong></td>
+<td><code>100.64.0.2:8505</code> (<code>/metrics/</code>)</td>
+<td><strong>all Promptly inference</strong>: per-model requests, tokens in/out, TTFT, latency, failures</td>
+</tr>
+<tr>
+<td><strong>node-exporter-lan</strong></td>
+<td><code>100.64.0.2:9100</code>, <code>100.64.0.5:9100</code></td>
+<td>pyrite + ethics host CPU/RAM/disk, mdadm (RAID) counters</td>
+</tr>
+<tr>
+<td><strong>cadvisor-lan</strong></td>
+<td><code>100.64.0.2:8180</code>, <code>100.64.0.5:8180</code></td>
+<td>pyrite + ethics containers</td>
+</tr>
+<tr>
+<td><strong>dcgm-gpu-pyrite</strong></td>
+<td><code>100.64.0.2:9400</code></td>
+<td>2× P100 util/temps/memory</td>
+</tr>
+<tr>
+<td><strong>smartctl-pyrite</strong></td>
+<td><code>100.64.0.2:9633</code></td>
+<td>S.M.A.R.T. on all pyrite disks incl. the 15 TB array</td>
+</tr>
+<tr>
+<td><strong>blackbox-tailnet</strong></td>
+<td>5 TCP probes</td>
+<td>pyrite:8502 (LiteLLM), :5432 (postgres), :47302; ethics:8080 (model server); the-educator:25565 (Minecraft)</td>
 </tr>
 <tr>
 <td>ssl-certs / ssl-certs-reachable</td>
 <td>blackbox ×7</td>
-<td>7 public HTTPS endpoints</td>
+<td>7 public HTTPS endpoints + cert expiry</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Down (dead config — remove):</strong></p>
-<table>
-<thead>
-<tr>
-<th>Job</th>
-<th>Target</th>
-<th>Why dead</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>llamacpp-pyrite</td>
-<td><code>100.64.0.2:8502/metrics</code></td>
-<td>port 8502 is now LiteLLM; no <code>/metrics</code></td>
-</tr>
-<tr>
-<td>llamacpp-pyrite-batch ×2</td>
-<td><code>:8503</code>, <code>:8504</code></td>
-<td>old batch llama.cpp systemd units deleted</td>
-</tr>
-</tbody>
-</table>
-<h2 id="what-is-not-monitored-holes">What is NOT monitored (holes)<a class="headerlink" href="#what-is-not-monitored-holes" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Gap</th>
-<th>Detail</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>LLM inference stack</strong></td>
-<td>Nothing in the promptly chain emits or scrapes metrics: model-gateway-api has no <code>/metrics</code> (404); LiteLLM runs with Prometheus metrics <strong>disabled</strong> (<code>/metrics</code> 404; needs <code>metrics: true</code> in <code>/opt/litellm/config.json</code>); both llama-cuda containers run <strong>without <code>--metrics</code></strong> (llama.cpp flag). The Grafana "Promptly: gateway traffic" dashboard has 4 llama.cpp panels that have shown no data since the container migration — its SQL panels (PostgreSQL model-gateway usage DB) are the only live ones.</td>
-</tr>
-<tr>
-<td><strong>pyrite hardware</strong></td>
-<td>No node_exporter → no CPU/RAM/disk-temperature visibility on the most load-bearing machine (root disk chronically ~93 % and nobody gets paged).</td>
-</tr>
-<tr>
-<td><strong>pyrite GPUs</strong></td>
-<td>No GPU exporter for the 2× P100s (dcgm-exporter or <code>nvml</code> exporter).</td>
-</tr>
-<tr>
-<td><strong>pyrite containers</strong></td>
-<td>No cadvisor on pyrite; central alert rules that use <code>container_*</code> only ever see gatekeeper.</td>
-</tr>
-<tr>
-<td><strong>ethics-gradient</strong></td>
-<td>Nothing at all: no node_exporter, no cadvisor, its llama-cuda has no metrics.</td>
-</tr>
-<tr>
-<td><strong>NFS / the 15 TB array</strong></td>
-<td>No <code>nfsd</code>/<code>nfs</code> node_exporter collectors enabled, no RAID/<code>md</code> or SMART collectors verified.</td>
-</tr>
-<tr>
-<td><strong>Minecraft (the-educator)</strong></td>
-<td>Unmonitored; not enrolled in tailnet.</td>
-</tr>
-<tr>
-<td><strong>Logs beyond gatekeeper</strong></td>
-<td>Loki collects only gatekeeper local/container logs; nothing ships from pyrite.</td>
-</tr>
-<tr>
-<td><strong>Backups</strong></td>
-<td>No metric or blackbox-style check for backup freshness; alert rule exists only as a commented-out stub.</td>
-</tr>
-</tbody>
-</table>
+<p>Policy: inference is monitored <strong>at the gateway</strong> (the LiteLLM router) — no
+per-node llama.cpp scrapers or proxies. The ethics model server gets a TCP
+liveness probe only.</p>
 <h2 id="alerts-alert-rulesyml">Alerts (alert-rules.yml)<a class="headerlink" href="#alerts-alert-rulesyml" title="Permanent link">&para;</a></h2>
 <p>Live: app-down (logkeep), CPU/RAM/disk thresholds, pg down/connections,
 container health (<strong>gatekeeper names only</strong>: logkeep/bench/headplane), SSL
-expiry. <strong>Nothing</strong> fires for promptly inference, pyrite hardware, or ethics.</p>
+expiry. <strong>Still nothing</strong> fires for promptly inference, pyrite hardware, or
+ethics — the metrics exist now, the rules do not. This is the main open item.</p>
 <h2 id="dashboards-live-grafana-2026-11-19">Dashboards (live Grafana, 2026-11-19)<a class="headerlink" href="#dashboards-live-grafana-2026-11-19" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2298,51 +2231,61 @@ expiry. <strong>Nothing</strong> fires for promptly inference, pyrite hardware, 
 <td></td>
 </tr>
 <tr>
-<td>Promptly: gateway traffic</td>
-<td><strong>UI-only</strong> → now exported to repo mirror</td>
-<td>5 SQL panels (live) + 4 llama.cpp panels (dead until inference metrics exist)</td>
+<td><strong>Promptly: gateway traffic</strong></td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/promptly-traffic-dashboard.json">repo</a></td>
+<td>5 SQL panels (gateway usage DB) + 4 <strong>live</strong> litellm panels: requests/h, tokens/h, avg TTFT, failures (all by model)</td>
+</tr>
+<tr>
+<td><strong>PostgreSQL: main database (pyrite)</strong></td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/postgres-main-overview.json">repo</a></td>
+<td>migrated from the removed pyrite-local Grafana; every query pinned to <code>job="pyrite-postgres-exporter"</code></td>
 </tr>
 </tbody>
 </table>
 <p>Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).</p>
-<h2 id="config-drift-found">Config drift found<a class="headerlink" href="#config-drift-found" title="Permanent link">&para;</a></h2>
+<p>Note: the <code>GF_SECURITY_ADMIN_PASSWORD</code> in <code>/srv/infra/.env</code> does <strong>not</strong> work
+against the live Grafana API (401) — the DB was initialized with a different
+admin password. API verification of dashboards isn't possible until that's
+reconciled.</p>
+<h2 id="open-holes">Open holes<a class="headerlink" href="#open-holes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Alert rules</strong></td>
+<td>No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART, GPU temp, ethics host down, backup freshness. Metrics all exist.</td>
+</tr>
+<tr>
+<td><strong>Logs beyond gatekeeper</strong></td>
+<td>Loki collects gatekeeper only; nothing ships from pyrite/ethics.</td>
+</tr>
+<tr>
+<td><strong>Minecraft (the-educator)</strong></td>
+<td>TCP liveness only; host not on tailnet, no node metrics.</td>
+</tr>
+<tr>
+<td><strong>Backups</strong></td>
+<td>No freshness check anywhere.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="history">History<a class="headerlink" href="#history" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Gatekeeper live <code>prometheus.yml</code> ≠ repo mirror (mirror lacked the dead
-  llamacpp jobs) → mirror re-synced from live 2026-11-19.</li>
-<li><code>alertmanager.yml</code> existed only on the host → redacted example now in repo.
-  It contains a plaintext SMTP password (host file only — rotate + move to env
-  file, tracked outside git).</li>
-<li>"Promptly: gateway traffic" existed only in Grafana → exported to
-  <a href="../machines/gatekeeper/configs/monitoring/grafana-dashboards/">grafana-dashboards/</a>.</li>
+<li>2026-11-19 (morning): audit wrote this page; dead <code>llamacpp-*</code> jobs found;
+  pyrite/ethics exporter sets deployed; LiteLLM Prometheus callback enabled
+  (dedicated tailnet-only metrics port 8505).</li>
+<li>2026-11-19 (evening): per owner direction — dropped the dead <code>llamacpp-*</code>
+  scrape jobs and any per-node inference scraping; <code>litellm-router</code> job is the
+  single inference target. Removed the pyrite-local prometheus/grafana silo;
+  migrated its dashboard. Promptly dashboard's 4 dead panels replaced with
+  verified litellm queries.</li>
 </ul>
-<h2 id="target-state-proposal-pending-owner-go-ahead">Target state (proposal — pending owner go-ahead)<a class="headerlink" href="#target-state-proposal-pending-owner-go-ahead" title="Permanent link">&para;</a></h2>
-<p>Centralize on the gatekeeper plane; pyrite keeps only the teaching stack.</p>
-<ol>
-<li><strong>Emit</strong></li>
-<li>Add <code>--metrics</code> to both llama-cuda containers (⚠ brief container restart).</li>
-<li>Enable Prometheus metrics in LiteLLM config (<code>metrics: true</code>).</li>
-<li>model-gateway: no metrics endpoint today; LiteLLM + llama.cpp coverage is
-     probably sufficient — skip unless we want per-key counters from the gateway.</li>
-<li><strong>Expose from pyrite</strong> — new tailnet-bound exporter set (compose group):
-   node_exporter (<code>:9101</code>? keep :9100 free — pick 910x plan), cadvisor,
-   dcgm-exporter (P100), enable node <code>mdadm</code>+<code>smartctl</code> collectors for the
-   RAID, optional <code>nfs</code> collector + nginx… (pyrite has no nginx; skip).</li>
-<li><strong>Expose from ethics-gradient</strong> — node_exporter + cadvisor.</li>
-<li><strong>Scrape</strong> — replace the 3 dead <code>llamacpp-*</code> jobs with:
-   <code>litellm</code> (100.64.0.2:8502/metrics), <code>llamacpp-pyrite</code> (in-network exec or
-   bind a metrics port), <code>llamacpp-ethics</code> (100.64.0.5:8080/metrics),
-   <code>pyrite-node</code>, <code>pyrite-cadvisor</code>, <code>pyrite-gpu</code>, <code>ethics-node</code>,
-   <code>ethics-cadvisor</code>.</li>
-<li><strong>Alert</strong> — inference-alive (<code>up{job=~"litellm|llamacpp.*"}</code>), pyrite root
-   disk (the 93 % problem), pyrite RAID/SMART, GPU temp/util, ethics host,
-   backup-freshness push metric.</li>
-<li><strong>Dashboard</strong> — extend homelab-overview (or new "Inference" dashboard) with
-   LiteLLM + llama.cpp + hardware panels; fix the dead panels in the Promptly
-   dashboard.</li>
-<li><strong>Hygiene</strong> — delete dead scrape jobs, keep repo mirror authoritative
-   (edit in repo → copy to <code>/srv/infra</code> → <code>curl -X POST :9090/-/reload</code>).</li>
-</ol>
 
 
 

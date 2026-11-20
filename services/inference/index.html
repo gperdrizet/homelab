@@ -2100,8 +2100,8 @@
 <li><strong>Network:</strong> <code>llm-network</code> bridge; <strong>no published host port</strong> — reached only
   via LiteLLM</li>
 <li><strong>Launch:</strong> <code>--models-preset /config/presets.ini --models-max 1</code> — no
-  <code>--metrics</code>, so no Prometheus endpoint (gap; see
-  <a href="../monitoring/#what-is-not-monitored-holes">monitoring</a>)</li>
+  <code>--metrics</code>; by design, inference is monitored at the LiteLLM router level
+  (<a href="../monitoring/">monitoring</a>)</li>
 <li><strong>Config:</strong> <code>/opt/llama/config</code> (presets.ini)</li>
 <li><strong>Models:</strong> <code>/mnt/fast_scratch/llama-models</code></li>
 <li><strong>GPU:</strong> 2× Tesla P100 16 GB</li>
