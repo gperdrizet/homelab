@@ -252,13 +252,41 @@ Current limitations:
 - Most services are monitored at reverse-proxy/log level unless they expose
   dedicated app metrics.
 
+## Alert rules (`/srv/infra/configs/alert-rules.yml`)
+
+Live groups: `logkeep_alerts`, `container_health_alerts` (gatekeeper names
+only), `postgresql_alerts`, `ssl_certificate_alerts`, `traffic_alerts`, and
+**`pyrite_storage_alerts`** (added 2026-11-19, deliberately minimal — only hard
+failure / almost-full conditions, no resync-progress or per-attribute SMART
+noise):
+
+| Alert | Severity | Expression (simplified) | `for` |
+|-------|----------|-------------------------|-------|
+| `StorageVolumeNearlyFull` | warning | `/mnt/arkk` or `/mnt/fast_scratch` avail < 10 % | 30 m |
+| `StorageVolumeCritical` | critical | same, avail < 5 % | 10 m |
+| `RaidArrayDegraded` | critical | `node_md_degraded > 0` (member disk down) | 5 m |
+| `RaidArrayNotActive` | critical | `node_md_state{state="active"} == 0` (matters for the RAID-0 scratch array, which has no redundancy to degrade) | 5 m |
+| `DiskSmartFailed` | critical | `smartctl_device_smart_status != 1` (6 h SMART scan cadence) | 10 m |
+
+Routing: critical → `email-critical` (4 h repeat), warning → `email-alerts`
+(12 h repeat), both to george@perdrizet.org. Every expression was validated
+against live central Prometheus before deploy (all returned the expected
+empty result while healthy); group reloaded via `POST :9090/-/reload` and
+confirmed loaded with no evaluation errors.
+
+Pre-existing generic `LowDiskSpace`/`CriticalDiskSpace` rules cover `/` on
+every node-exporter host and have been **firing on pyrite (root ~93 % full)
+and ethics-gradient** — that is the existing root-disk coverage the owner
+already receives.
+
 ## Open tasks
 
-1. Alert rules for the new targets: inference alive/TTFT/failure rate,
-   pyrite root disk (~93 %), pyrite RAID/SMART (e.g.
-   `node_md_degraded > 0`, `smartctl_device_smart_status != 1`, SMART
-   `attribute_value_type="raw"` reallocated/pending sector growth), GPU temps,
-   ethics host, backup freshness. (Metrics exist; rules don't.)
+1. Alert rules for the *remaining* new targets: inference alive/TTFT/failure
+   rate, GPU temps, ethics host, backup freshness. (Storage rules live since
+   2026-11-19; root disk already covered by the generic rules. Optional
+   future: SMART `reallocated/pending sector` growth as an early-warning
+   signal before `smart_status` flips — deliberately not added to keep the
+   alert set minimal.)
 2. Ship pyrite/ethics logs to Loki if log coverage there matters.
 3. Reconcile the Grafana admin password: `GF_SECURITY_ADMIN_PASSWORD` in
    `/srv/infra/.env` no longer matches the initialized DB (API returns 401).

@@ -52,10 +52,29 @@ liveness probe only.
 
 ## Alerts (alert-rules.yml)
 
-Live: app-down (logkeep), CPU/RAM/disk thresholds, pg down/connections,
-container health (**gatekeeper names only**: logkeep/bench/headplane), SSL
-expiry. **Still nothing** fires for promptly inference, pyrite hardware, or
-ethics — the metrics exist now, the rules do not. This is the main open item.
+Live groups: `logkeep_alerts` (app down, CPU/RAM/disk thresholds, pg
+connections), `container_health_alerts` (**gatekeeper names only**:
+logkeep/bench/headplane), `postgresql_alerts` (down/connections),
+`ssl_certificate_alerts` (expiry + probe failures), `traffic_alerts`, and
+`pyrite_storage_alerts` (added 2026-11-19, deliberately minimal):
+
+| Alert | Severity | Fires when | For |
+|-------|----------|-----------|-----|
+| `StorageVolumeNearlyFull` | warning | `/mnt/arkk` or `/mnt/fast_scratch` < 10 % free | 30 m |
+| `StorageVolumeCritical` | critical | same, < 5 % free | 10 m |
+| `RaidArrayDegraded` | critical | `node_md_degraded > 0` (member disk down) | 5 m |
+| `RaidArrayNotActive` | critical | array not in `active` state (covers the RAID-0 scratch array, which has no redundancy to "degrade") | 5 m |
+| `DiskSmartFailed` | critical | `smartctl_device_smart_status != 1` (6 h scan cadence) | 10 m |
+
+Anti-spam by design: only hard failure / almost-full conditions, long `for`
+windows on slow-moving metrics, and the alertmanager repeat intervals
+(warning 12 h, critical 4 h). No resync-progress, per-attribute SMART, or
+I/O-rate alerts. **Still nothing** fires for promptly inference, GPU temps,
+ethics host, or backup freshness — those metrics exist, the rules don't.
+
+Note: the pre-existing generic `LowDiskSpace`/`CriticalDiskSpace` rules cover
+`/` on every node-exporter host; they have been **firing on pyrite (root ~93 %
+full) and ethics-gradient** since before this change.
 
 ## Dashboards (live Grafana, 2026-11-19)
 
@@ -81,7 +100,7 @@ reconciled.
 
 | Gap | Detail |
 |-----|--------|
-| **Alert rules** | No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART (`node_md_degraded`, `smartctl_device_smart_status`, reallocated/pending sectors), GPU temp, ethics host down, backup freshness. Metrics all exist (SMART was actually broken until the `user: root` fix, 2026-11-19 — see ops inventory). |
+| **Alert rules** | Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing.) SMART was actually broken until the `user: root` fix, 2026-11-19. |
 | **Logs beyond gatekeeper** | Loki collects gatekeeper only; nothing ships from pyrite/ethics. |
 | **Minecraft (the-educator)** | TCP liveness only; host not on tailnet, no node metrics. |
 | **Backups** | No freshness check anywhere. |
