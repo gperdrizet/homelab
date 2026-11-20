@@ -28,6 +28,12 @@ Daily-driver desktop workstation. Joined the fleet in 2026; audited live
 | Service | Bind | Notes |
 |---------|------|-------|
 | llama-cuda (llama.cpp container) | `0.0.0.0:8080` | `--models-preset /config/presets.ini --models-max 2` |
+| obs-node-exporter | `100.64.0.5:9100` | host metrics, scraped by central Prometheus (job `node-exporter-lan`) |
+| obs-cadvisor | `100.64.0.5:8180` | container metrics, scraped centrally (job `cadvisor-lan`) |
+
+Both `obs-*` exporters joined 2026-11-19 with the single-plane monitoring
+build-out — see [monitoring](../../services/monitoring.md). There is no local
+Prometheus/Grafana here.
 
 !!! warning
     The inference port is published on all interfaces. Consider rebinding to
