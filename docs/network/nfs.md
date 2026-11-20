@@ -1,6 +1,7 @@
 # Network file systems
 
-Audited 2026-11-18. **pyrite is the NFS server**; `arkk` is decommissioned.
+Audited 2026-11-18, re-verified 2026-11-20. **pyrite is the NFS server**;
+`arkk` is decommissioned.
 
 ## Exports (from `/etc/exports` on pyrite, verified 2026-11-20 — file content matches this table exactly)
 
@@ -28,15 +29,25 @@ Audited 2026-11-18. **pyrite is the NFS server**; `arkk` is decommissioned.
 | Client | fstab entry | Status |
 |--------|-------------|--------|
 | hugo | `10.1.10.200:/mnt/arkk /mnt/arkk nfs rw,hard,sync,noatime,nofail` | configured; **not currently mounted** |
-| the-educator | `10.1.10.202:/mnt/arkk ...` | **BROKEN — points at decommissioned arkk**, no `nofail`; can stall boot ~90 s. Should be repointed to `10.1.10.200` or removed. |
+| the-educator | `10.1.10.200:/mnt/arkk /home/siderealyear/arkk nfs ro,nofail` | **mounted (ro)** — repointed from dead `10.1.10.202` to pyrite on 2026-11-20; verified up as nfs4.2 (archive data window, not boot-critical) |
 
 ## Fix list
 
-1. the-educator: replace the dead `10.1.10.202` entry with
-   `10.1.10.200:/mnt/arkk ... ,nofail` (or drop it if no longer wanted).
+1. ~~the-educator: replace the dead `10.1.10.202` entry~~ — **done 2026-11-20**:
+   now `10.1.10.200:/mnt/arkk /home/siderealyear/arkk nfs ro,nofail`, mount
+   verified (nfs4.2).
 2. hugo: verify the mount actually comes up (`mount /mnt/arkk`).
 3. ~~Record `exportfs -v` output here~~ — `/etc/exports` re-read 2026-11-20 and
    matches the table above verbatim.
+
+## NFS servers besides pyrite
+
+`the-educator` also runs an NFS server (`nfs-server` unit, listening on
+2049): it exports its own local disks to the LAN —
+`/home/siderealyear/ark` and `/home/siderealyear/big_itch`, both
+`rw,no_root_squash,no_subtree_check,async`. No machine on the LAN currently
+mounts from it (checked 2026-11-20). Same `no_root_squash` + `async`
+caveats as the pyrite exports above apply.
 
 ## Historical
 
