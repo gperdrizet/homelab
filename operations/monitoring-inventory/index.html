@@ -2397,12 +2397,31 @@ connection itself. Both must be kept in sync if either datasource is edited.</p>
 now covered by <code>litellm-router</code>).</p>
 <h2 id="dashboards">Dashboards<a class="headerlink" href="#dashboards" title="Permanent link">&para;</a></h2>
 <p>Provisioned dashboards (<code>/srv/infra/configs/grafana-dashboards/</code>):
-- <code>gatekeeper-traffic-overview.json</code>
-- <code>traffic-monitoring.json</code>
+- <code>gatekeeper-traffic-overview.json</code> (aka "Gatekeeper: system resources",
+  uid <code>gatekeeper-traffic-overview</code>) — 19 panels: 12 host system-resources
+  panels (node-exporter: CPU/RAM/fs/load stats, CPU by mode, memory
+  total/available/used, swap, root-filesystem size &amp; used, disk I/O read/
+  write &amp; utilization on <code>vda</code>, network rx/tx on <code>eth0</code>, load 1/5/15)
+  followed by the original 7 Loki nginx-traffic panels (total 24 h, 4xx/
+  5xx 1 h, active vhosts, requests by vhost/status, top paths). Renamed
+  from "Gatekeeper Traffic Overview" and extended with host telemetry
+  2026-11-20 to mirror the pyrite system-resources dashboard; no
+  GPU/RAID/bcache/SMART (single-disk VPS) and no per-container panels —
+  gatekeeper's cadvisor only exposes host systemd cgroups.
+- <code>logkeep-dashboard.json</code> (aka "LogKeep Production Monitoring",
+  uid <code>logkeep-production-monitoring</code>) — 11 panels: 5 stats (app up, PG
+  exporter up, total requests 24 h, 5xx 1 h, active users) + 6
+timeseries (request rate, API latency p95/avg, requests by status/
+  method, top API endpoints, DB connections). Absorbed the former
+  <code>traffic-monitoring.json</code> ("LogKeep Traffic Monitoring", uid
+  <code>logkeep-traffic</code>) on 2026-11-20: every panel there was an exact
+  duplicate (request rate, total 24 h, 5xx 1 h, requests by status) or a
+  refinement of a kept panel (avg/p95 latency stats → the API Latency
+timeseries; endpoint views with/without 404s → one Top API Endpoints
+  panel), so it was deleted and the old uid removed from Grafana.
 - <code>promptly-traffic-dashboard.json</code> (aka "Promptly: gateway traffic",
   uid <code>promptly-gateway-traffic</code>)
 - <code>homelab-monitoring-overview.json</code>
-- <code>logkeep-dashboard.json</code>
 - <code>postgres-main-overview.json</code> (aka "PostgreSQL: main database (pyrite)",
   uid <code>postgres-main-overview</code>)
 - <code>pyrite-system-resources-dashboard.json</code> (aka "Pyrite: System Resources
@@ -2429,7 +2448,7 @@ now covered by <code>litellm-router</code>).</p>
   <code>Time to first token (avg seconds, by model)</code>, <code>Failed inference requests
   (per 15m, by model)</code>. Note the label mismatch between metric families
   (<code>model_group</code> vs <code>model</code>).</p>
-<p>Focus of <code>homelab-monitoring-overview.json</code>/<code>gatekeeper-traffic-overview.json</code>:
+<p>Focus of <code>homelab-monitoring-overview.json</code>:
 - scrape health
 - target counts up/down
 - scrape duration
@@ -2559,8 +2578,10 @@ already receives.</p>
    signal before <code>smart_status</code> flips — deliberately not added to keep the
    alert set minimal.)</li>
 <li>Ship pyrite/ethics logs to Loki if log coverage there matters.</li>
-<li>Reconcile the Grafana admin password: <code>GF_SECURITY_ADMIN_PASSWORD</code> in
-   <code>/srv/infra/.env</code> no longer matches the initialized DB (API returns 401).</li>
+<li>~~Reconcile the Grafana admin password~~ — resolved 2026-11-20: the working
+   credential is <code>GRAFANA_ADMIN_PASSWORD</code> in <code>/srv/infra/.env</code> (HTTP 200 on the
+   API); the container's <code>GF_SECURITY_ADMIN_PASSWORD</code> env is a stale leftover
+   that 401s and should not be chased.</li>
 </ol>
 
 

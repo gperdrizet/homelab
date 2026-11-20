@@ -508,10 +508,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboards-live-grafana-2026-11-19" class="md-nav__link">
+  <a href="#dashboards-live-grafana-2026-11-20" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashboards (live Grafana, 2026-11-19)
+        Dashboards (live Grafana, 2026-11-20)
       
     </span>
   </a>
@@ -2014,10 +2014,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#dashboards-live-grafana-2026-11-19" class="md-nav__link">
+  <a href="#dashboards-live-grafana-2026-11-20" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Dashboards (live Grafana, 2026-11-19)
+        Dashboards (live Grafana, 2026-11-20)
       
     </span>
   </a>
@@ -2251,7 +2251,7 @@ ethics host, or backup freshness — those metrics exist, the rules don't.</p>
 <p>Note: the pre-existing generic <code>LowDiskSpace</code>/<code>CriticalDiskSpace</code> rules cover
 <code>/</code> on every node-exporter host; they have been <strong>firing on pyrite (root ~93 %
 full) and ethics-gradient</strong> since before this change.</p>
-<h2 id="dashboards-live-grafana-2026-11-19">Dashboards (live Grafana, 2026-11-19)<a class="headerlink" href="#dashboards-live-grafana-2026-11-19" title="Permanent link">&para;</a></h2>
+<h2 id="dashboards-live-grafana-2026-11-20">Dashboards (live Grafana, 2026-11-20)<a class="headerlink" href="#dashboards-live-grafana-2026-11-20" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -2267,19 +2267,14 @@ full) and ethics-gradient</strong> since before this change.</p>
 <td></td>
 </tr>
 <tr>
-<td>Gatekeeper Traffic Overview</td>
-<td>repo-provisioned</td>
-<td></td>
+<td><strong>Gatekeeper: system resources</strong></td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/gatekeeper-traffic-overview.json">repo</a></td>
+<td>renamed from "Gatekeeper Traffic Overview" 2026-11-20; keeps the 7 Loki nginx-traffic panels and adds 12 node-exporter host panels (CPU/RAM/disk/net/swap/load). No per-container panels: gatekeeper's cadvisor only exposes host systemd cgroups</td>
 </tr>
 <tr>
-<td>LogKeep Production Monitoring</td>
-<td>repo-provisioned</td>
-<td></td>
-</tr>
-<tr>
-<td>LogKeep Traffic Monitoring</td>
-<td>repo-provisioned</td>
-<td></td>
+<td><strong>LogKeep Production Monitoring</strong></td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/logkeep-dashboard.json">repo</a></td>
+<td>11 panels; absorbed "LogKeep Traffic Monitoring" 2026-11-20 (all of that dashboard's panels were duplicates) — old uid <code>logkeep-traffic</code> removed</td>
 </tr>
 <tr>
 <td><strong>Promptly: gateway traffic</strong></td>
@@ -2300,10 +2295,10 @@ full) and ethics-gradient</strong> since before this change.</p>
 </table>
 <p>Datasources: Prometheus, Loki, PostgreSQL (→ logkeep db; the Promptly dashboard
 uses a second PG datasource pointing at the model-gateway usage db).</p>
-<p>Note: the <code>GF_SECURITY_ADMIN_PASSWORD</code> in <code>/srv/infra/.env</code> does <strong>not</strong> work
-against the live Grafana API (401) — the DB was initialized with a different
-admin password. API verification of dashboards isn't possible until that's
-reconciled.</p>
+<p>Note: the working Grafana admin credential is <code>GRAFANA_ADMIN_PASSWORD</code> in
+<code>/srv/infra/.env</code> (confirmed 2026-11-20 against the live API). The
+container's <code>GF_SECURITY_ADMIN_PASSWORD</code> env is a stale leftover that 401s —
+don't chase it.</p>
 <h2 id="open-holes">Open holes<a class="headerlink" href="#open-holes" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
