@@ -2292,9 +2292,9 @@ full) and ethics-gradient</strong> since before this change.</p>
 <td>migrated from the removed pyrite-local Grafana; every query pinned to <code>job="pyrite-postgres-exporter"</code></td>
 </tr>
 <tr>
-<td><strong>Pyrite: storage</strong> (uid <code>pyrite-storage</code>)</td>
-<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-storage-dashboard.json">repo</a></td>
-<td>16 panels: fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit ratio/cache free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age</td>
+<td><strong>Pyrite: System Resources</strong> (uid <code>pyrite-system-resources</code>)</td>
+<td><a href="../../machines/gatekeeper/configs/monitoring/grafana-dashboards/pyrite-system-resources-dashboard.json">repo</a></td>
+<td>29 panels: CPU (usage by mode, load avg, RAM, swap), GPU (util/memory/temp/power, 2x P100 via DCGM 4.x metric names), storage (fs usage/capacity, per-device read/write rates, I/O utilization, bcache hit/free/dirty/bypass, mdadm state, S.M.A.R.T. temp + disk age). Renamed from the storage-only <code>pyrite-storage</code> dashboard 2026-11-19</td>
 </tr>
 </tbody>
 </table>
@@ -2348,6 +2348,15 @@ reconciled.</p>
   I/O, bcache, mdadm, S.M.A.R.T.); every query validated against live central
   Prometheus before deploy. Documented pyrite storage layout (RAID-5 <code>/mnt/arkk</code>,
   bcache <code>md0</code>+NVMe <code>/mnt/fast_scratch</code>) in the ops inventory.</li>
+<li>2026-11-19 (later): generalized the storage dashboard to
+  <code>pyrite-system-resources</code> per owner request — 29 panels now covering CPU
+  (usage by mode, load, RAM, swap), GPU (2x P100: util/memory/temp/power via
+  DCGM 4.x metric names), and the original storage section. All 36 expressions
+  pre-validated against live central Prometheus; old uid <code>pyrite-storage</code>
+  deleted from Grafana on file removal. Also found the dcgm-exporter is
+  healthy — the earlier "no GPU metrics" impression came from querying legacy
+  3.x metric names (<code>DCGM_FI_DEV_GPU_UTIL</code> etc.) that no longer exist in
+  dcgm-exporter 4.x.</li>
 </ul>
 
 
