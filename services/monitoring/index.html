@@ -2196,10 +2196,61 @@ scraped centrally; its dashboard migrated to the central Grafana as
 per-node llama.cpp scrapers or proxies. The ethics model server gets a TCP
 liveness probe only.</p>
 <h2 id="alerts-alert-rulesyml">Alerts (alert-rules.yml)<a class="headerlink" href="#alerts-alert-rulesyml" title="Permanent link">&para;</a></h2>
-<p>Live: app-down (logkeep), CPU/RAM/disk thresholds, pg down/connections,
-container health (<strong>gatekeeper names only</strong>: logkeep/bench/headplane), SSL
-expiry. <strong>Still nothing</strong> fires for promptly inference, pyrite hardware, or
-ethics — the metrics exist now, the rules do not. This is the main open item.</p>
+<p>Live groups: <code>logkeep_alerts</code> (app down, CPU/RAM/disk thresholds, pg
+connections), <code>container_health_alerts</code> (<strong>gatekeeper names only</strong>:
+logkeep/bench/headplane), <code>postgresql_alerts</code> (down/connections),
+<code>ssl_certificate_alerts</code> (expiry + probe failures), <code>traffic_alerts</code>, and
+<code>pyrite_storage_alerts</code> (added 2026-11-19, deliberately minimal):</p>
+<table>
+<thead>
+<tr>
+<th>Alert</th>
+<th>Severity</th>
+<th>Fires when</th>
+<th>For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StorageVolumeNearlyFull</code></td>
+<td>warning</td>
+<td><code>/mnt/arkk</code> or <code>/mnt/fast_scratch</code> &lt; 10 % free</td>
+<td>30 m</td>
+</tr>
+<tr>
+<td><code>StorageVolumeCritical</code></td>
+<td>critical</td>
+<td>same, &lt; 5 % free</td>
+<td>10 m</td>
+</tr>
+<tr>
+<td><code>RaidArrayDegraded</code></td>
+<td>critical</td>
+<td><code>node_md_degraded &gt; 0</code> (member disk down)</td>
+<td>5 m</td>
+</tr>
+<tr>
+<td><code>RaidArrayNotActive</code></td>
+<td>critical</td>
+<td>array not in <code>active</code> state (covers the RAID-0 scratch array, which has no redundancy to "degrade")</td>
+<td>5 m</td>
+</tr>
+<tr>
+<td><code>DiskSmartFailed</code></td>
+<td>critical</td>
+<td><code>smartctl_device_smart_status != 1</code> (6 h scan cadence)</td>
+<td>10 m</td>
+</tr>
+</tbody>
+</table>
+<p>Anti-spam by design: only hard failure / almost-full conditions, long <code>for</code>
+windows on slow-moving metrics, and the alertmanager repeat intervals
+(warning 12 h, critical 4 h). No resync-progress, per-attribute SMART, or
+I/O-rate alerts. <strong>Still nothing</strong> fires for promptly inference, GPU temps,
+ethics host, or backup freshness — those metrics exist, the rules don't.</p>
+<p>Note: the pre-existing generic <code>LowDiskSpace</code>/<code>CriticalDiskSpace</code> rules cover
+<code>/</code> on every node-exporter host; they have been <strong>firing on pyrite (root ~93 %
+full) and ethics-gradient</strong> since before this change.</p>
 <h2 id="dashboards-live-grafana-2026-11-19">Dashboards (live Grafana, 2026-11-19)<a class="headerlink" href="#dashboards-live-grafana-2026-11-19" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2264,7 +2315,7 @@ reconciled.</p>
 <tbody>
 <tr>
 <td><strong>Alert rules</strong></td>
-<td>No rules for: inference alive/TTFT/failure rate, pyrite root disk (~93 %), pyrite RAID/SMART (<code>node_md_degraded</code>, <code>smartctl_device_smart_status</code>, reallocated/pending sectors), GPU temp, ethics host down, backup freshness. Metrics all exist (SMART was actually broken until the <code>user: root</code> fix, 2026-11-19 — see ops inventory).</td>
+<td>Storage alerts live (2026-11-19, see above). Still no rules for: inference alive/TTFT/failure rate, GPU temp, ethics host down, backup freshness. (Root disk on pyrite/ethics IS covered — and firing.) SMART was actually broken until the <code>user: root</code> fix, 2026-11-19.</td>
 </tr>
 <tr>
 <td><strong>Logs beyond gatekeeper</strong></td>

@@ -1962,6 +1962,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#alert-rules-srvinfraconfigsalert-rulesyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alert rules (/srv/infra/configs/alert-rules.yml)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#open-tasks" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2151,6 +2162,17 @@
     <span class="md-ellipsis">
       
         What this means for pageviews and API requests
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alert-rules-srvinfraconfigsalert-rulesyml" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alert rules (/srv/infra/configs/alert-rules.yml)
       
     </span>
   </a>
@@ -2409,13 +2431,71 @@ Prometheus (main DB, logkeep, bench).</p>
 - Loki does not ship logs from pyrite/ethics-gradient.
 - Most services are monitored at reverse-proxy/log level unless they expose
   dedicated app metrics.</p>
+<h2 id="alert-rules-srvinfraconfigsalert-rulesyml">Alert rules (<code>/srv/infra/configs/alert-rules.yml</code>)<a class="headerlink" href="#alert-rules-srvinfraconfigsalert-rulesyml" title="Permanent link">&para;</a></h2>
+<p>Live groups: <code>logkeep_alerts</code>, <code>container_health_alerts</code> (gatekeeper names
+only), <code>postgresql_alerts</code>, <code>ssl_certificate_alerts</code>, <code>traffic_alerts</code>, and
+<strong><code>pyrite_storage_alerts</code></strong> (added 2026-11-19, deliberately minimal — only hard
+failure / almost-full conditions, no resync-progress or per-attribute SMART
+noise):</p>
+<table>
+<thead>
+<tr>
+<th>Alert</th>
+<th>Severity</th>
+<th>Expression (simplified)</th>
+<th><code>for</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StorageVolumeNearlyFull</code></td>
+<td>warning</td>
+<td><code>/mnt/arkk</code> or <code>/mnt/fast_scratch</code> avail &lt; 10 %</td>
+<td>30 m</td>
+</tr>
+<tr>
+<td><code>StorageVolumeCritical</code></td>
+<td>critical</td>
+<td>same, avail &lt; 5 %</td>
+<td>10 m</td>
+</tr>
+<tr>
+<td><code>RaidArrayDegraded</code></td>
+<td>critical</td>
+<td><code>node_md_degraded &gt; 0</code> (member disk down)</td>
+<td>5 m</td>
+</tr>
+<tr>
+<td><code>RaidArrayNotActive</code></td>
+<td>critical</td>
+<td><code>node_md_state{state="active"} == 0</code> (matters for the RAID-0 scratch array, which has no redundancy to degrade)</td>
+<td>5 m</td>
+</tr>
+<tr>
+<td><code>DiskSmartFailed</code></td>
+<td>critical</td>
+<td><code>smartctl_device_smart_status != 1</code> (6 h SMART scan cadence)</td>
+<td>10 m</td>
+</tr>
+</tbody>
+</table>
+<p>Routing: critical → <code>email-critical</code> (4 h repeat), warning → <code>email-alerts</code>
+(12 h repeat), both to george@perdrizet.org. Every expression was validated
+against live central Prometheus before deploy (all returned the expected
+empty result while healthy); group reloaded via <code>POST :9090/-/reload</code> and
+confirmed loaded with no evaluation errors.</p>
+<p>Pre-existing generic <code>LowDiskSpace</code>/<code>CriticalDiskSpace</code> rules cover <code>/</code> on
+every node-exporter host and have been <strong>firing on pyrite (root ~93 % full)
+and ethics-gradient</strong> — that is the existing root-disk coverage the owner
+already receives.</p>
 <h2 id="open-tasks">Open tasks<a class="headerlink" href="#open-tasks" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Alert rules for the new targets: inference alive/TTFT/failure rate,
-   pyrite root disk (~93 %), pyrite RAID/SMART (e.g.
-   <code>node_md_degraded &gt; 0</code>, <code>smartctl_device_smart_status != 1</code>, SMART
-   <code>attribute_value_type="raw"</code> reallocated/pending sector growth), GPU temps,
-   ethics host, backup freshness. (Metrics exist; rules don't.)</li>
+<li>Alert rules for the <em>remaining</em> new targets: inference alive/TTFT/failure
+   rate, GPU temps, ethics host, backup freshness. (Storage rules live since
+   2026-11-19; root disk already covered by the generic rules. Optional
+   future: SMART <code>reallocated/pending sector</code> growth as an early-warning
+   signal before <code>smart_status</code> flips — deliberately not added to keep the
+   alert set minimal.)</li>
 <li>Ship pyrite/ethics logs to Loki if log coverage there matters.</li>
 <li>Reconcile the Grafana admin password: <code>GF_SECURITY_ADMIN_PASSWORD</code> in
    <code>/srv/infra/.env</code> no longer matches the initialized DB (API returns 401).</li>
