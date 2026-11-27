@@ -169,11 +169,19 @@
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
+         <loc>https://gperdrizet.github.io/homelab/services/forgejo/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
          <loc>https://gperdrizet.github.io/homelab/services/headscale/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>
          <loc>https://gperdrizet.github.io/homelab/services/inference/</loc>
+         <lastmod>2026-11-27</lastmod>
+    </url>
+    <url>
+         <loc>https://gperdrizet.github.io/homelab/services/jitsi-meet/</loc>
          <lastmod>2026-11-27</lastmod>
     </url>
     <url>

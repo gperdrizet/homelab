@@ -309,7 +309,13 @@
       ],
       "title": "Inference requests per hour (by model)",
       "type": "timeseries",
-      "description": "All inference requests through the LiteLLM router (the upstream of the Promptly gateway)."
+      "description": "All inference requests through the LiteLLM router (the upstream of the Promptly gateway).",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      }
     },
     {
       "datasource": {
@@ -345,7 +351,13 @@
       ],
       "title": "Tokens per hour (by model)",
       "type": "timeseries",
-      "description": "Input/output tokens per model, via the router."
+      "description": "Input/output tokens per model, via the router.",
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      }
     },
     {
       "datasource": {
@@ -372,7 +384,13 @@
       ],
       "title": "Time to first token (avg seconds, by model)",
       "type": "timeseries",
-      "description": "Average TTFT over a 15m window, per model."
+      "description": "Average TTFT over a 15m window, per model.",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      }
     },
     {
       "datasource": {
@@ -399,7 +417,79 @@
       ],
       "title": "Failed inference requests (per 15m, by model)",
       "type": "timeseries",
-      "description": "Empty means no failures in the window."
+      "description": "Empty means no failures in the window.",
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "id": 8,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum by (model) (rate(litellm_input_tokens_metric_total[1h])) / sum by (model) (rate(litellm_llm_api_time_to_first_token_metric_sum[1h]))",
+          "legendFormat": "{{model}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Prompt processing rate (input tok/s, by model)",
+      "type": "timeseries",
+      "description": "Average TTFT over a 15m window, per model.",
+      "gridPos": {
+        "x": 0,
+        "y": 32,
+        "w": 12,
+        "h": 8
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "PBFA97CFB590B2093"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "id": 8,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "expr": "sum by (litellm_model_name) (rate(litellm_deployment_latency_per_output_token_count[1h])) / sum by (litellm_model_name) (rate(litellm_deployment_latency_per_output_token_sum[1h]))",
+          "legendFormat": "{{model}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Generation rate (output tok/s, by model)",
+      "type": "timeseries",
+      "description": "Average TTFT over a 15m window, per model.",
+      "gridPos": {
+        "x": 12,
+        "y": 32,
+        "w": 12,
+        "h": 8
+      }
     }
   ],
   "refresh": "1m",

@@ -269,6 +269,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -501,6 +505,62 @@
     
   
     Web apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../services/jitsi-meet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jitsi Meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../services/forgejo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forgejo
   
 
     
@@ -1951,6 +2011,28 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#jitsi-meet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Jitsi Meet
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forgejo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forgejo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#other-apps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2017,7 +2099,8 @@ fold into the services pages once verified.</p>
 </div>
 <h1 id="gatekeeper-service-inventory">Gatekeeper service inventory<a class="headerlink" href="#gatekeeper-service-inventory" title="Permanent link">&para;</a></h1>
 <p>Current-state inventory for gatekeeper (74.208.107.78).</p>
-<p>Last verified against runtime and nginx config: 2026-11-20</p>
+<p>Last verified against runtime and nginx config: 2026-11-20;
+Jitsi Meet + Forgejo sections verified live 2026-11-27.</p>
 <h2 id="public-facing-ports">Public-facing ports<a class="headerlink" href="#public-facing-ports" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2052,6 +2135,18 @@ fold into the services pages once verified.</p>
 <td>TCP</td>
 <td>nginx stream proxy</td>
 <td>public PostgreSQL proxy to <code>100.64.0.2:5432</code> (pyrite <code>postgres</code> container, formerly <code>student-postgres</code>)</td>
+</tr>
+<tr>
+<td>2222</td>
+<td>TCP</td>
+<td>Forgejo</td>
+<td>git+ssh clones (container OpenSSH; <code>git.perdrizet.org:2222</code>)</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>UDP</td>
+<td>Jitsi JVB</td>
+<td>WebRTC media (<code>meet.perdrizet.org</code>; no TURN fallback)</td>
 </tr>
 </tbody>
 </table>
@@ -2149,6 +2244,18 @@ fold into the services pages once verified.</p>
 <td><code>100.64.0.2:47302</code></td>
 <td>active</td>
 <td>JupyterLab on pyrite</td>
+</tr>
+<tr>
+<td>meet.perdrizet.org</td>
+<td><code>127.0.0.1:9080</code></td>
+<td>active</td>
+<td>Jitsi Meet (JWT auth, members-only door); combined cert with git subdomain (SAN <code>git.perdrizet.org</code>)</td>
+</tr>
+<tr>
+<td>git.perdrizet.org</td>
+<td><code>127.0.0.1:3300</code></td>
+<td>active</td>
+<td>Forgejo web / Smart HTTP (LFS up to 1024m, buffering off)</td>
 </tr>
 <tr>
 <td>nixx.perdrizet.org</td>
@@ -2281,6 +2388,22 @@ fold into the services pages once verified.</p>
 <li><code>model-gateway-api-staging</code>, <code>model-gateway-db-staging</code>,
   <code>model-gateway-adminer-staging</code> — full bind matrix in
   <a href="../../../../services/promptly-api/">services/promptly-api.md</a></li>
+</ul>
+<h3 id="jitsi-meet">Jitsi Meet<a class="headerlink" href="#jitsi-meet" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>jitsi-meet-web-1</code>, <code>jitsi-meet-prosody-1</code>, <code>jitsi-meet-jicofo-1</code>,
+  <code>jitsi-meet-jvb-1</code> — upstream docker-jitsi-meet @ <code>stable-11509-1</code>, compose
+  project at <code>/opt/jitsi-meet</code> (local git, no remote); config tree
+  <code>/opt/jitsi-meet-config</code>; JWT MUC auth, no guests; public media udp/10000.
+  Details: <a href="../../../../services/jitsi-meet/">services/jitsi-meet.md</a></li>
+</ul>
+<h3 id="forgejo">Forgejo<a class="headerlink" href="#forgejo" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>forgejo</code> — <code>codeberg.org/forgejo/forgejo:15</code> (live 15.0.12), compose at
+  <code>/opt/forgejo</code> (github.com:gperdrizet/forgejo-setup); web <code>127.0.0.1:3300</code></li>
+<li>git+ssh public <code>2222</code>; PostgreSQL on pyrite (<code>forgejo_db</code> over
+  <code>100.64.0.2:5432</code>, TLS+scram). Details:
+  <a href="../../../../services/forgejo/">services/forgejo.md</a></li>
 </ul>
 <h3 id="other-apps">Other apps<a class="headerlink" href="#other-apps" title="Permanent link">&para;</a></h3>
 <ul>

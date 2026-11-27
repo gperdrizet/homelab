@@ -275,6 +275,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -507,6 +511,62 @@
     
   
     Web apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="jitsi-meet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jitsi Meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="forgejo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forgejo
   
 
     
@@ -1933,7 +1993,8 @@
 
 <h1 id="service-inventory">Service inventory<a class="headerlink" href="#service-inventory" title="Permanent link">&para;</a></h1>
 <p>Every running service, its host, ports, and ingress path. Audited against live
-containers/units on <strong>2026-11-20</strong>. Each service has its own page; stub pages
+containers/units on <strong>2026-11-20</strong>; Jitsi Meet and Forgejo added after live
+verification on <strong>2026-11-27</strong>. Each service has its own page; stub pages
 are marked.</p>
 <h2 id="public-services-ingress-on-gatekeeper-nginx">Public services (ingress on gatekeeper nginx)<a class="headerlink" href="#public-services-ingress-on-gatekeeper-nginx" title="Permanent link">&para;</a></h2>
 <table>
@@ -2016,6 +2077,20 @@ are marked.</p>
 <td>pyrite</td>
 <td><code>100.64.0.2:47302</code></td>
 <td>jupyter.perdrizet.org</td>
+</tr>
+<tr>
+<td>Jitsi Meet (JWT-auth)</td>
+<td><a href="jitsi-meet/">jitsi-meet</a></td>
+<td>gatekeeper</td>
+<td><code>127.0.0.1:9080</code>; media <code>0.0.0.0:10000/udp</code></td>
+<td>meet.perdrizet.org</td>
+</tr>
+<tr>
+<td>Forgejo (git hosting)</td>
+<td><a href="forgejo/">forgejo</a></td>
+<td>gatekeeper</td>
+<td><code>127.0.0.1:3300</code> (web); <code>0.0.0.0:2222</code> (git+ssh)</td>
+<td>git.perdrizet.org</td>
 </tr>
 <tr>
 <td>OpenClaw gateway</td>
@@ -2128,6 +2203,16 @@ are marked.</p>
 <td>54321</td>
 <td>TCP</td>
 <td>nginx stream proxy → pyrite PostgreSQL (<code>100.64.0.2:5432</code>)</td>
+</tr>
+<tr>
+<td>2222</td>
+<td>TCP</td>
+<td>Forgejo git+ssh (<code>forgejo.md</code>)</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>UDP</td>
+<td>Jitsi Meet JVB WebRTC media (<code>jitsi-meet.md</code>)</td>
 </tr>
 </tbody>
 </table>

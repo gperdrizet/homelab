@@ -275,6 +275,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -530,6 +534,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#planned-2026-11-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planned (2026-11-27)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#history" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -620,6 +635,62 @@
     
   
     Web apps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../jitsi-meet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Jitsi Meet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../forgejo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forgejo
   
 
     
@@ -2036,6 +2107,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#planned-2026-11-27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Planned (2026-11-27)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#history" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2325,6 +2407,25 @@ don't chase it.</p>
 <tr>
 <td><strong>Backups</strong></td>
 <td>No freshness check anywhere.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="planned-2026-11-27">Planned (2026-11-27)<a class="headerlink" href="#planned-2026-11-27" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Jitsi Meet metrics</strong></td>
+<td>Not a scrape target yet. No first-party exporter — evaluate the prosody-metrics plugin or JVB stats, plus a blackbox probe of <code>meet.perdrizet.org</code>. See <a href="../jitsi-meet/">jitsi-meet</a> (also has the planned TURN/TCP media fallback)</td>
+</tr>
+<tr>
+<td><strong>Forgejo metrics</strong></td>
+<td>Not a scrape target yet. Plan: scrape <code>/api/v1/metrics</code> (admin-token auth) + blackbox probe of <code>git.perdrizet.org</code>. See <a href="../forgejo/">forgejo</a></td>
 </tr>
 </tbody>
 </table>
