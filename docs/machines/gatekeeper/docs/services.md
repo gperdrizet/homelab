@@ -8,7 +8,7 @@
 
 Current-state inventory for gatekeeper (74.208.107.78).
 
-Last verified against runtime and nginx config: 2026-07-27
+Last verified against runtime and nginx config: 2026-11-20
 
 ## Public-facing ports
 
@@ -23,11 +23,12 @@ Last verified against runtime and nginx config: 2026-07-27
 
 | Domain | Backend | State | Notes |
 |--------|---------|-------|-------|
-| perdrizet.org | redirect | active | redirects to logkeep |
-| www.perdrizet.org | redirect | active | redirects to logkeep |
+| perdrizet.org | static root `/opt/perdrizet.org` | active | static Astro site (HTTP 200); an older note said "redirects to logkeep" — wrong |
+| www.perdrizet.org | redirect | active | 301 → apex `perdrizet.org` |
 | logkeep.perdrizet.org | `127.0.0.1:8000` | active | LogKeep production |
 | bench.perdrizet.org | `127.0.0.1:8010` | active | Bench production |
 | bug-hunter.perdrizet.org | `127.0.0.1:8509` | active | Bug Hunter frontend |
+| www.bug-hunter.perdrizet.org | `127.0.0.1:8509` | active | same frontend |
 | feedback.perdrizet.org | `127.0.0.1:18080` | active | Feedback app |
 | admin.perdrizet.org | `127.0.0.1:8600` | active | perdrizet-admin systemd service |
 | promptlyapi.com | `127.0.0.1:8503` | active | model-gateway API; `/register` is rate-limited at nginx with a signup zone (`3r/m`, burst 2) |
@@ -37,9 +38,18 @@ Last verified against runtime and nginx config: 2026-07-27
 | headplane.perdrizet.org | `127.0.0.1:3001` | active | Headscale UI |
 | jupyter.perdrizet.org | `100.64.0.2:47302` | active | JupyterLab on pyrite |
 | nixx.perdrizet.org | `100.64.0.2:8000` | configured | pyrite service currently inactive |
-| staging.perdrizet.org | `100.64.0.1:8003` | configured | auth-gated staging endpoint |
+| staging.perdrizet.org | `100.64.0.1:8003` | **down** | auth-gated logkeep staging; `logkeep-staging`/`logkeep-postgres-staging` containers exited since ~2026-10-30, nothing listens on `:8003` (auth returns 401, upstream would 502) |
 | site-staging.perdrizet.org | static root | configured | staging static site endpoint |
 | code.perdrizet.org | `100.64.0.2:47301` | configured | legacy OpenVSCode endpoint; not part of active pyrite service model |
+
+## Tailnet-only HTTP listeners (nginx, `100.64.0.1`)
+
+| Port | Target | Notes |
+|------|--------|-------|
+| 8003 | logkeep staging container | **down** — container exited (see domain table) |
+| 8008 | static root `/opt/perdrizet.org-staging` | site-staging over tailnet |
+| 8012 | `127.0.0.1:8011` (bench staging) | bench staging entry point |
+| 8504–8507 | model-gateway API/adminer (prod+staging) | see [promptly-api](../../../services/promptly-api.md) for the exact matrix |
 
 ## Monitoring stack (gatekeeper)
 
@@ -53,9 +63,10 @@ Managed by `/srv/infra/docker-compose.monitoring.yml`.
 | monitoring-promtail | log shipping |
 | monitoring-alertmanager | alert routing |
 | monitoring-node-exporter | host metrics |
-| monitoring-cadvisor | container metrics |
+| monitoring-cadvisor | container metrics (host cgroups only — no per-container docker series) |
 | monitoring-nginx-exporter | nginx metrics |
 | monitoring-blackbox-exporter | HTTPS/TLS probes |
+| bench-postgres-exporter / logkeep-postgres-exporter | app-owned exporters, loopback `:9188`/`:9187` |
 
 ## Application/runtime containers (high-level)
 
@@ -72,8 +83,10 @@ Managed by `/srv/infra/docker-compose.monitoring.yml`.
 - staging bench containers are present
 
 ### Model gateway
-- `model-gateway-api`, `model-gateway-db` (production)
-- `model-gateway-db-staging` present
+- `model-gateway-api`, `model-gateway-db`, `model-gateway-adminer` (production)
+- `model-gateway-api-staging`, `model-gateway-db-staging`,
+  `model-gateway-adminer-staging` — full bind matrix in
+  [services/promptly-api.md](../../../services/promptly-api.md)
 
 ### Other apps
 - `feedback-*` containers

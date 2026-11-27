@@ -2,7 +2,9 @@
 
 Full observability audit, 2026-11-19 (live-checked: Prometheus target API,
 container inventory on both hosts). Updated 2026-11-19 evening after the
-centralization pass.
+centralization pass. Re-verified 2026-11-20: scrape jobs/targets still match
+this page; the dashboard table below reflects the LogKeep merge and the new
+"Gatekeeper: system resources" dashboard.
 
 ## Architecture
 
