@@ -1,7 +1,8 @@
 # Service inventory
 
 Every running service, its host, ports, and ingress path. Audited against live
-containers/units on **2026-11-20**. Each service has its own page; stub pages
+containers/units on **2026-11-20**; Jitsi Meet and Forgejo added after live
+verification on **2026-11-27**. Each service has its own page; stub pages
 are marked.
 
 ## Public services (ingress on gatekeeper nginx)
@@ -18,6 +19,8 @@ are marked.
 | Grafana | [monitoring](monitoring.md) | gatekeeper | `127.0.0.1:3000` | grafana.perdrizet.org |
 | Headscale / Headplane | [headscale](headscale.md) | gatekeeper | `:8090` / `127.0.0.1:3001` | headscale.perdrizet.org, headplane.perdrizet.org |
 | JupyterLab | [jupyterlab](jupyterlab.md) | pyrite | `100.64.0.2:47302` | jupyter.perdrizet.org |
+| Jitsi Meet (JWT-auth) | [jitsi-meet](jitsi-meet.md) | gatekeeper | `127.0.0.1:9080`; media `0.0.0.0:10000/udp` | meet.perdrizet.org |
+| Forgejo (git hosting) | [forgejo](forgejo.md) | gatekeeper | `127.0.0.1:3300` (web); `0.0.0.0:2222` (git+ssh) | git.perdrizet.org |
 | OpenClaw gateway | (machine: pyrite) | pyrite | caddy `:18789` | openclaw.perdrizet.org (DNS-01 TLS via caddy) |
 
 ## Tailnet-only services
@@ -53,3 +56,5 @@ are marked.
 | 443 | TCP | nginx TLS |
 | 44441 | TCP | sshd |
 | 54321 | TCP | nginx stream proxy → pyrite PostgreSQL (`100.64.0.2:5432`) |
+| 2222 | TCP | Forgejo git+ssh (`forgejo.md`) |
+| 10000 | UDP | Jitsi Meet JVB WebRTC media (`jitsi-meet.md`) |

@@ -8,7 +8,8 @@
 
 Current-state inventory for gatekeeper (74.208.107.78).
 
-Last verified against runtime and nginx config: 2026-11-20
+Last verified against runtime and nginx config: 2026-11-20;
+Jitsi Meet + Forgejo sections verified live 2026-11-27.
 
 ## Public-facing ports
 
@@ -18,6 +19,8 @@ Last verified against runtime and nginx config: 2026-11-20
 | 443 | TCP | nginx | TLS termination for public domains |
 | 44441 | TCP | sshd | primary SSH listener |
 | 54321 | TCP | nginx stream proxy | public PostgreSQL proxy to `100.64.0.2:5432` (pyrite `postgres` container, formerly `student-postgres`) |
+| 2222 | TCP | Forgejo | git+ssh clones (container OpenSSH; `git.perdrizet.org:2222`) |
+| 10000 | UDP | Jitsi JVB | WebRTC media (`meet.perdrizet.org`; no TURN fallback) |
 
 ## Active HTTPS domains on nginx
 
@@ -37,6 +40,8 @@ Last verified against runtime and nginx config: 2026-11-20
 | headscale.perdrizet.org | `127.0.0.1:8090` | active | Headscale API |
 | headplane.perdrizet.org | `127.0.0.1:3001` | active | Headscale UI |
 | jupyter.perdrizet.org | `100.64.0.2:47302` | active | JupyterLab on pyrite |
+| meet.perdrizet.org | `127.0.0.1:9080` | active | Jitsi Meet (JWT auth, members-only door); combined cert with git subdomain (SAN `git.perdrizet.org`) |
+| git.perdrizet.org | `127.0.0.1:3300` | active | Forgejo web / Smart HTTP (LFS up to 1024m, buffering off) |
 | nixx.perdrizet.org | `100.64.0.2:8000` | configured | pyrite service currently inactive |
 | staging.perdrizet.org | `100.64.0.1:8003` | **down** | auth-gated logkeep staging; `logkeep-staging`/`logkeep-postgres-staging` containers exited since ~2026-10-30, nothing listens on `:8003` (auth returns 401, upstream would 502) |
 | site-staging.perdrizet.org | static root | configured | staging static site endpoint |
@@ -87,6 +92,20 @@ Managed by `/srv/infra/docker-compose.monitoring.yml`.
 - `model-gateway-api-staging`, `model-gateway-db-staging`,
   `model-gateway-adminer-staging` — full bind matrix in
   [services/promptly-api.md](../../../services/promptly-api.md)
+
+### Jitsi Meet
+- `jitsi-meet-web-1`, `jitsi-meet-prosody-1`, `jitsi-meet-jicofo-1`,
+  `jitsi-meet-jvb-1` — upstream docker-jitsi-meet @ `stable-11509-1`, compose
+  project at `/opt/jitsi-meet` (local git, no remote); config tree
+  `/opt/jitsi-meet-config`; JWT MUC auth, no guests; public media udp/10000.
+  Details: [services/jitsi-meet.md](../../../services/jitsi-meet.md)
+
+### Forgejo
+- `forgejo` — `codeberg.org/forgejo/forgejo:15` (live 15.0.12), compose at
+  `/opt/forgejo` (github.com:gperdrizet/forgejo-setup); web `127.0.0.1:3300`
+  + git+ssh public `2222`; PostgreSQL on pyrite (`forgejo_db` over
+  `100.64.0.2:5432`, TLS+scram). Details:
+  [services/forgejo.md](../../../services/forgejo.md)
 
 ### Other apps
 - `feedback-*` containers

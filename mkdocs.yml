@@ -22,6 +22,8 @@ nav:
       - Headscale tailnet control: services/headscale.md
       - JupyterLab: services/jupyterlab.md
       - Web apps: services/web-apps.md
+      - Jitsi Meet: services/jitsi-meet.md
+      - Forgejo: services/forgejo.md
       - Minecraft: services/minecraft.md
   - Machines:
       - Overview: machines.md
