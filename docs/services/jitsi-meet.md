@@ -22,7 +22,8 @@ Signaling: `wss://meet.perdrizet.org/xmpp-websocket` (web container → prosody)
 
 > **Known gap: no TURN server.** No `TURN_*` vars are set, so peers behind
 > symmetric/restrictive NAT that can't reach udp/10000 have no TCP/TURN
-> fallback. Optional fallback is documented in the runbook §6 (tcp/4443).
+> fallback. **Planned** (not deployed): JVB TCP/4443 fallback per runbook §6
+> and/or a coturn server — see [Planned](#planned).
 
 ## Ingress and TLS
 
@@ -76,9 +77,18 @@ Signaling: `wss://meet.perdrizet.org/xmpp-websocket` (web container → prosody)
 
 ## Monitoring
 
-- **Not a Prometheus scrape target** — no Jitsi/prosody metrics in the
-  central plane (gap, 2026-11-27). Blackbox probe for the endpoint also
-  absent.
+- **Not a Prometheus scrape target** (gap as of 2026-11-27) — scraping is
+  **planned**, see [Planned](#planned) below and
+  [monitoring](monitoring.md). Blackbox probe for the endpoint also absent.
+
+## Planned
+
+- **TURN/TCP media fallback** (planned, not deployed): JVB TCP/4443 per
+  runbook §6 and/or a coturn server, so restrictive-NAT peers get an escape
+  hatch beyond udp/10000.
+- **Prometheus scraping** (planned, not deployed): no first-party Jitsi
+  exporter; evaluate the prosody-metrics plugin or JVB stats, plus a
+  blackbox probe of `meet.perdrizet.org`.
 
 ## Notes
 

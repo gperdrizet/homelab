@@ -79,8 +79,10 @@ app ─postgres TLS─▶ pyrite 100.64.0.2:5432  (db forgejo_db, role forgejo)
 
 ## Monitoring
 
-- **Not a Prometheus scrape target** (gap, 2026-11-27). Forgejo exposes a
-  `/api/v1/metrics` (requires admin token) that could be scraped if wanted.
+- **Not a Prometheus scrape target** (gap as of 2026-11-27). **Planned**
+  (not deployed): scrape `/api/v1/metrics` (admin-token auth) + blackbox
+  probe of `git.perdrizet.org` — tracked in
+  [monitoring](monitoring.md).
 
 ## Notes
 

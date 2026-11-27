@@ -106,6 +106,13 @@ don't chase it.
 | **Minecraft (the-educator)** | TCP liveness only; host not on tailnet, no node metrics. |
 | **Backups** | No freshness check anywhere. |
 
+## Planned (2026-11-27)
+
+| Item | Detail |
+|------|--------|
+| **Jitsi Meet metrics** | Not a scrape target yet. No first-party exporter — evaluate the prosody-metrics plugin or JVB stats, plus a blackbox probe of `meet.perdrizet.org`. See [jitsi-meet](jitsi-meet.md) (also has the planned TURN/TCP media fallback) |
+| **Forgejo metrics** | Not a scrape target yet. Plan: scrape `/api/v1/metrics` (admin-token auth) + blackbox probe of `git.perdrizet.org`. See [forgejo](forgejo.md) |
+
 ## History
 
 - 2026-11-19 (morning): audit wrote this page; dead `llamacpp-*` jobs found;
