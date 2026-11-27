@@ -424,10 +424,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-open-questions" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes / open questions
+        Notes
       
     </span>
   </a>
@@ -1992,10 +1992,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes-open-questions" class="md-nav__link">
+  <a href="#notes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Notes / open questions
+        Notes
       
     </span>
   </a>
@@ -2063,7 +2063,7 @@ delegated to pyrite over the tailnet.</p>
 <tr>
 <td>model-gateway-api-staging</td>
 <td><code>staging-api</code></td>
-<td><code>127.0.0.1:8505</code>, <code>100.64.0.1:8507*</code></td>
+<td><code>127.0.0.1:8507</code>, <code>100.64.0.1:8505</code></td>
 <td>staging</td>
 </tr>
 <tr>
@@ -2084,16 +2084,20 @@ delegated to pyrite over the tailnet.</p>
 <ul>
 <li><code>promptlyapi.com</code> + <code>www</code> → <code>127.0.0.1:8503</code>; <code>/register</code> rate-limited
   (signup zone <code>3r/m</code>, burst 2) against spam sign-ups.</li>
-<li><code>model.perdrizet.org</code> → <strong>also proxies</strong> to <code>127.0.0.1:8503</code>
-  (<code>conf.d/model.conf</code>) — a second public alias of the gateway, not a redirect.</li>
+<li><code>model.perdrizet.org</code> → <strong>301 redirect</strong> to <code>promptlyapi.com</code>
+  (<code>conf.d/model.conf</code>, verified live 2026-11-20 — an older note called it a
+  second proxy alias; the config is a plain redirect).</li>
 <li>Proxy read/send timeout 600 s (long generations).</li>
 <li>Live config mirrored at
   <a href="../../machines/gatekeeper/configs/nginx/conf.d/promptlyapi.conf">configs/nginx/conf.d/promptlyapi.conf</a>.</li>
 </ul>
-<h2 id="notes-open-questions">Notes / open questions<a class="headerlink" href="#notes-open-questions" title="Permanent link">&para;</a></h2>
+<h2 id="notes">Notes<a class="headerlink" href="#notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Both prod and staging API containers map <code>100.64.0.1:8507</code>; confirm which
-  one actually owns the port (docker shows both; only one can bind).</li>
+<li>The <code>8507</code> overlap was resolved live (2026-11-20): prod owns
+  <code>100.64.0.1:8507</code> (tailnet) + <code>127.0.0.1:8503</code>; staging owns
+  <code>127.0.0.1:8507</code> (loopback) + <code>100.64.0.1:8505</code> (tailnet). Different bind
+  addresses, so both mappings coexist — nginx <code>staging.conf</code>-style public
+  exposure does not exist for the staging API.</li>
 <li>Upstream LiteLLM endpoint is configured inside the app; changing the router
   address means an app config change, not nginx.</li>
 </ul>

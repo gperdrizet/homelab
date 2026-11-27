@@ -2097,6 +2097,7 @@ mirrored under
 </tr>
 </tbody>
 </table>
+<p>Verified against live containers and nginx configs <strong>2026-11-20</strong>.</p>
 <h2 id="bench-prod-staging">Bench (prod + staging)<a class="headerlink" href="#bench-prod-staging" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2120,7 +2121,7 @@ mirrored under
 </tr>
 <tr>
 <td>Ingress</td>
-<td>bench.perdrizet.org</td>
+<td>bench.perdrizet.org; bench <strong>staging</strong> is tailnet-only via nginx <code>100.64.0.1:8012</code> → <code>127.0.0.1:8011</code> (<code>conf.d/bench-staging.conf</code>) — it is <em>not</em> <code>staging.perdrizet.org</code></td>
 </tr>
 <tr>
 <td>DB</td>
@@ -2181,15 +2182,24 @@ mirrored under
 </table>
 <h2 id="perdrizetorg-site">perdrizet.org site<a class="headerlink" href="#perdrizetorg-site" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>perdrizet-admin.service</code> (systemd, not docker) on <code>127.0.0.1:8600</code> →
-  admin.perdrizet.org; apex redirects to logkeep.</li>
+<li>Apex <code>perdrizet.org</code> is a <strong>static site</strong> — nginx <code>root /opt/perdrizet.org</code>
+  (Astro build, HTTP 200 verified 2026-11-20). <code>www</code> 301-redirects to apex.
+  It does <strong>not</strong> redirect to logkeep (older docs claimed that).</li>
+<li><code>admin.perdrizet.org</code> → <code>perdrizet-admin.service</code> (systemd, not docker) on
+  <code>127.0.0.1:8600</code> (live: HTTP 405 on HEAD). Static staging site mirror of the
+  apex lives at <code>site-staging.perdrizet.org</code> (root <code>/opt/perdrizet.org-staging</code>,
+  also tailnet <code>100.64.0.1:8008</code>).</li>
 </ul>
 <h2 id="staging-endpoints">Staging endpoints<a class="headerlink" href="#staging-endpoints" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>staging.perdrizet.org</code> — <strong>logkeep staging slot</strong> (<code>upstream
-  logkeep_staging</code>, <code>conf.d/staging.conf</code>; nginx mirror shows <code>100.64.0.1:8003</code>
-  path), not bench staging as an older note claimed</li>
-<li><code>site-staging.perdrizet.org</code> — static staging root</li>
+  logkeep_staging</code> = <code>100.64.0.1:8003</code>, <code>conf.d/staging.conf</code>), <em>not</em> bench
+  staging as an older note claimed. As of <strong>2026-11-20</strong> the upstream is down:
+  <code>logkeep-staging</code> and <code>logkeep-postgres-staging</code> have been exited since
+  ~2026-10-30, nothing listens on <code>:8003</code>; the vhost's auth gate answers 401
+  before the (would-be 502) proxy.</li>
+<li><code>site-staging.perdrizet.org</code> — static staging root (plus tailnet listener
+  <code>100.64.0.1:8008</code>)</li>
 </ul>
 <p>TODO (stub-level): per-app repos, deploy pipelines, and backup schedules are
 not yet documented here.</p>

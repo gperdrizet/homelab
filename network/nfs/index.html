@@ -1498,10 +1498,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exports-from-etcexports-on-pyrite-verified-2026-11-19" class="md-nav__link">
+  <a href="#exports-from-etcexports-on-pyrite-verified-2026-11-20-file-content-matches-this-table-exactly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exports (from /etc/exports on pyrite, verified 2026-11-19)
+        Exports (from /etc/exports on pyrite, verified 2026-11-20 — file content matches this table exactly)
       
     </span>
   </a>
@@ -1535,6 +1535,17 @@
     <span class="md-ellipsis">
       
         Fix list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nfs-servers-besides-pyrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFS servers besides pyrite
       
     </span>
   </a>
@@ -1970,10 +1981,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exports-from-etcexports-on-pyrite-verified-2026-11-19" class="md-nav__link">
+  <a href="#exports-from-etcexports-on-pyrite-verified-2026-11-20-file-content-matches-this-table-exactly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Exports (from /etc/exports on pyrite, verified 2026-11-19)
+        Exports (from /etc/exports on pyrite, verified 2026-11-20 — file content matches this table exactly)
       
     </span>
   </a>
@@ -2014,6 +2025,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#nfs-servers-besides-pyrite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NFS servers besides pyrite
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#historical" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2045,8 +2067,9 @@
 
 
 <h1 id="network-file-systems">Network file systems<a class="headerlink" href="#network-file-systems" title="Permanent link">&para;</a></h1>
-<p>Audited 2026-11-18. <strong>pyrite is the NFS server</strong>; <code>arkk</code> is decommissioned.</p>
-<h2 id="exports-from-etcexports-on-pyrite-verified-2026-11-19">Exports (from <code>/etc/exports</code> on pyrite, verified 2026-11-19)<a class="headerlink" href="#exports-from-etcexports-on-pyrite-verified-2026-11-19" title="Permanent link">&para;</a></h2>
+<p>Audited 2026-11-18, re-verified 2026-11-20. <strong>pyrite is the NFS server</strong>;
+<code>arkk</code> is decommissioned.</p>
+<h2 id="exports-from-etcexports-on-pyrite-verified-2026-11-20-file-content-matches-this-table-exactly">Exports (from <code>/etc/exports</code> on pyrite, verified 2026-11-20 — file content matches this table exactly)<a class="headerlink" href="#exports-from-etcexports-on-pyrite-verified-2026-11-20-file-content-matches-this-table-exactly" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -2123,18 +2146,27 @@ broader than intended.</p>
 </tr>
 <tr>
 <td>the-educator</td>
-<td><code>10.1.10.202:/mnt/arkk ...</code></td>
-<td><strong>BROKEN — points at decommissioned arkk</strong>, no <code>nofail</code>; can stall boot ~90 s. Should be repointed to <code>10.1.10.200</code> or removed.</td>
+<td><code>10.1.10.200:/mnt/arkk /home/siderealyear/arkk nfs ro,nofail</code></td>
+<td><strong>mounted (ro)</strong> — repointed from dead <code>10.1.10.202</code> to pyrite on 2026-11-20; verified up as nfs4.2 (archive data window, not boot-critical)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="fix-list">Fix list<a class="headerlink" href="#fix-list" title="Permanent link">&para;</a></h2>
 <ol>
-<li>the-educator: replace the dead <code>10.1.10.202</code> entry with
-   <code>10.1.10.200:/mnt/arkk ... ,nofail</code> (or drop it if no longer wanted).</li>
+<li>~~the-educator: replace the dead <code>10.1.10.202</code> entry~~ — <strong>done 2026-11-20</strong>:
+   now <code>10.1.10.200:/mnt/arkk /home/siderealyear/arkk nfs ro,nofail</code>, mount
+   verified (nfs4.2).</li>
 <li>hugo: verify the mount actually comes up (<code>mount /mnt/arkk</code>).</li>
-<li>Record <code>exportfs -v</code> output here for the authoritative export options.</li>
+<li>~~Record <code>exportfs -v</code> output here~~ — <code>/etc/exports</code> re-read 2026-11-20 and
+   matches the table above verbatim.</li>
 </ol>
+<h2 id="nfs-servers-besides-pyrite">NFS servers besides pyrite<a class="headerlink" href="#nfs-servers-besides-pyrite" title="Permanent link">&para;</a></h2>
+<p><code>the-educator</code> also runs an NFS server (<code>nfs-server</code> unit, listening on
+2049): it exports its own local disks to the LAN —
+<code>/home/siderealyear/ark</code> and <code>/home/siderealyear/big_itch</code>, both
+<code>rw,no_root_squash,no_subtree_check,async</code>. No machine on the LAN currently
+mounts from it (checked 2026-11-20). Same <code>no_root_squash</code> + <code>async</code>
+caveats as the pyrite exports above apply.</p>
 <h2 id="historical">Historical<a class="headerlink" href="#historical" title="Permanent link">&para;</a></h2>
 <p>arkk's bonded <code>lan-data</code> (10.1.10.202) and the pyrite direct link
 (192.168.2.0/24) documented here previously are retired with the machine — see

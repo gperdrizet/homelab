@@ -1884,6 +1884,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#tailnet-only-http-listeners-nginx-1006401" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tailnet-only HTTP listeners (nginx, 100.64.0.1)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#monitoring-stack-gatekeeper" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2006,7 +2017,7 @@ fold into the services pages once verified.</p>
 </div>
 <h1 id="gatekeeper-service-inventory">Gatekeeper service inventory<a class="headerlink" href="#gatekeeper-service-inventory" title="Permanent link">&para;</a></h1>
 <p>Current-state inventory for gatekeeper (74.208.107.78).</p>
-<p>Last verified against runtime and nginx config: 2026-07-27</p>
+<p>Last verified against runtime and nginx config: 2026-11-20</p>
 <h2 id="public-facing-ports">Public-facing ports<a class="headerlink" href="#public-facing-ports" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2057,15 +2068,15 @@ fold into the services pages once verified.</p>
 <tbody>
 <tr>
 <td>perdrizet.org</td>
-<td>redirect</td>
+<td>static root <code>/opt/perdrizet.org</code></td>
 <td>active</td>
-<td>redirects to logkeep</td>
+<td>static Astro site (HTTP 200); an older note said "redirects to logkeep" — wrong</td>
 </tr>
 <tr>
 <td>www.perdrizet.org</td>
 <td>redirect</td>
 <td>active</td>
-<td>redirects to logkeep</td>
+<td>301 → apex <code>perdrizet.org</code></td>
 </tr>
 <tr>
 <td>logkeep.perdrizet.org</td>
@@ -2084,6 +2095,12 @@ fold into the services pages once verified.</p>
 <td><code>127.0.0.1:8509</code></td>
 <td>active</td>
 <td>Bug Hunter frontend</td>
+</tr>
+<tr>
+<td>www.bug-hunter.perdrizet.org</td>
+<td><code>127.0.0.1:8509</code></td>
+<td>active</td>
+<td>same frontend</td>
 </tr>
 <tr>
 <td>feedback.perdrizet.org</td>
@@ -2142,8 +2159,8 @@ fold into the services pages once verified.</p>
 <tr>
 <td>staging.perdrizet.org</td>
 <td><code>100.64.0.1:8003</code></td>
-<td>configured</td>
-<td>auth-gated staging endpoint</td>
+<td><strong>down</strong></td>
+<td>auth-gated logkeep staging; <code>logkeep-staging</code>/<code>logkeep-postgres-staging</code> containers exited since ~2026-10-30, nothing listens on <code>:8003</code> (auth returns 401, upstream would 502)</td>
 </tr>
 <tr>
 <td>site-staging.perdrizet.org</td>
@@ -2156,6 +2173,38 @@ fold into the services pages once verified.</p>
 <td><code>100.64.0.2:47301</code></td>
 <td>configured</td>
 <td>legacy OpenVSCode endpoint; not part of active pyrite service model</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tailnet-only-http-listeners-nginx-1006401">Tailnet-only HTTP listeners (nginx, <code>100.64.0.1</code>)<a class="headerlink" href="#tailnet-only-http-listeners-nginx-1006401" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Port</th>
+<th>Target</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8003</td>
+<td>logkeep staging container</td>
+<td><strong>down</strong> — container exited (see domain table)</td>
+</tr>
+<tr>
+<td>8008</td>
+<td>static root <code>/opt/perdrizet.org-staging</code></td>
+<td>site-staging over tailnet</td>
+</tr>
+<tr>
+<td>8012</td>
+<td><code>127.0.0.1:8011</code> (bench staging)</td>
+<td>bench staging entry point</td>
+</tr>
+<tr>
+<td>8504–8507</td>
+<td>model-gateway API/adminer (prod+staging)</td>
+<td>see <a href="../../../../services/promptly-api/">promptly-api</a> for the exact matrix</td>
 </tr>
 </tbody>
 </table>
@@ -2195,7 +2244,7 @@ fold into the services pages once verified.</p>
 </tr>
 <tr>
 <td>monitoring-cadvisor</td>
-<td>container metrics</td>
+<td>container metrics (host cgroups only — no per-container docker series)</td>
 </tr>
 <tr>
 <td>monitoring-nginx-exporter</td>
@@ -2204,6 +2253,10 @@ fold into the services pages once verified.</p>
 <tr>
 <td>monitoring-blackbox-exporter</td>
 <td>HTTPS/TLS probes</td>
+</tr>
+<tr>
+<td>bench-postgres-exporter / logkeep-postgres-exporter</td>
+<td>app-owned exporters, loopback <code>:9188</code>/<code>:9187</code></td>
 </tr>
 </tbody>
 </table>
@@ -2224,8 +2277,10 @@ fold into the services pages once verified.</p>
 </ul>
 <h3 id="model-gateway">Model gateway<a class="headerlink" href="#model-gateway" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>model-gateway-api</code>, <code>model-gateway-db</code> (production)</li>
-<li><code>model-gateway-db-staging</code> present</li>
+<li><code>model-gateway-api</code>, <code>model-gateway-db</code>, <code>model-gateway-adminer</code> (production)</li>
+<li><code>model-gateway-api-staging</code>, <code>model-gateway-db-staging</code>,
+  <code>model-gateway-adminer-staging</code> — full bind matrix in
+  <a href="../../../../services/promptly-api/">services/promptly-api.md</a></li>
 </ul>
 <h3 id="other-apps">Other apps<a class="headerlink" href="#other-apps" title="Permanent link">&para;</a></h3>
 <ul>

@@ -2048,16 +2048,27 @@
 <td>Minecraft server — see <a href="../../services/minecraft/">service page</a></td>
 </tr>
 <tr>
+<td>Docker (<code>dockerd</code>)</td>
+<td>data-root on the <strong>local</strong> RAID at <code>/home/siderealyear/ark/docker</code> — not on NFS</td>
+</tr>
+<tr>
 <td>NFS client</td>
-<td>fstab entry still points at decommissioned arkk (<code>10.1.10.202</code>) — <strong>broken</strong>, no <code>nofail</code>; see <a href="../../network/nfs/#fix-list">network/nfs.md</a></td>
+<td><code>/home/siderealyear/arkk</code> ← <code>10.1.10.200:/mnt/arkk</code> (<code>ro,nofail</code>) — archive data window; repointed from dead <code>10.1.10.202</code> on 2026-11-20</td>
+</tr>
+<tr>
+<td>NFS server (<code>nfs-server</code>)</td>
+<td>exports local <code>ark</code> + <code>big_itch</code> to <code>10.1.10.0/24</code> (<code>rw,no_root_squash,async</code>); no LAN clients currently mounting (2026-11-20)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="todo">TODO<a class="headerlink" href="#todo" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Fix or remove the dead NFS fstab entry.</li>
+<li>~~Fix or remove the dead NFS fstab entry~~ — done 2026-11-20 (repointed to
+  pyrite, <code>ro,nofail</code>).</li>
 <li>Enroll in tailnet (optional, for admin convenience).</li>
 <li>Document Minecraft port/world paths and backup expectations.</li>
+<li>Decide whether the outbound NFS exports (<code>ark</code>, <code>big_itch</code> — <code>rw</code> and
+  <code>no_root_squash</code>) are still wanted; nothing currently mounts them.</li>
 </ul>
 
 

@@ -1989,8 +1989,21 @@
 <td><code>0.0.0.0:8080</code></td>
 <td><code>--models-preset /config/presets.ini --models-max 2</code></td>
 </tr>
+<tr>
+<td>obs-node-exporter</td>
+<td><code>100.64.0.5:9100</code></td>
+<td>host metrics, scraped by central Prometheus (job <code>node-exporter-lan</code>)</td>
+</tr>
+<tr>
+<td>obs-cadvisor</td>
+<td><code>100.64.0.5:8180</code></td>
+<td>container metrics, scraped centrally (job <code>cadvisor-lan</code>)</td>
+</tr>
 </tbody>
 </table>
+<p>Both <code>obs-*</code> exporters joined 2026-11-19 with the single-plane monitoring
+build-out — see <a href="../../services/monitoring/">monitoring</a>. There is no local
+Prometheus/Grafana here.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The inference port is published on all interfaces. Consider rebinding to

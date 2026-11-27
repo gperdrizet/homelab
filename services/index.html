@@ -1933,7 +1933,7 @@
 
 <h1 id="service-inventory">Service inventory<a class="headerlink" href="#service-inventory" title="Permanent link">&para;</a></h1>
 <p>Every running service, its host, ports, and ingress path. Audited against live
-containers/units on <strong>2026-11-18</strong>. Each service has its own page; stub pages
+containers/units on <strong>2026-11-20</strong>. Each service has its own page; stub pages
 are marked.</p>
 <h2 id="public-services-ingress-on-gatekeeper-nginx">Public services (ingress on gatekeeper nginx)<a class="headerlink" href="#public-services-ingress-on-gatekeeper-nginx" title="Permanent link">&para;</a></h2>
 <table>
@@ -1966,7 +1966,7 @@ are marked.</p>
 <td><a href="web-apps/">web-apps</a></td>
 <td>gatekeeper</td>
 <td><code>127.0.0.1:8010</code> / <code>:8011</code></td>
-<td>bench.perdrizet.org, staging.perdrizet.org</td>
+<td>bench.perdrizet.org (bench staging: tailnet-only <code>100.64.0.1:8012</code>)</td>
 </tr>
 <tr>
 <td>Bug Hunter (prod + staging)</td>
@@ -1983,11 +1983,18 @@ are marked.</p>
 <td>feedback.perdrizet.org</td>
 </tr>
 <tr>
-<td>perdrizet.org site</td>
+<td>perdrizet.org site (static)</td>
+<td><a href="web-apps/">web-apps</a></td>
+<td>gatekeeper</td>
+<td>nginx static root <code>/opt/perdrizet.org</code></td>
+<td>perdrizet.org (<code>www</code> → apex)</td>
+</tr>
+<tr>
+<td>perdrizet.org admin panel</td>
 <td><a href="web-apps/">web-apps</a></td>
 <td>gatekeeper</td>
 <td><code>perdrizet-admin.service</code> <code>127.0.0.1:8600</code></td>
-<td>perdrizet.org</td>
+<td>admin.perdrizet.org</td>
 </tr>
 <tr>
 <td>Grafana</td>
@@ -2082,8 +2089,15 @@ are marked.</p>
 </table>
 <h2 id="not-currently-deployed">Not currently deployed<a class="headerlink" href="#not-currently-deployed" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>nixx</strong> — nginx config <code>nixx.conf</code> still present on gatekeeper; no backend
-  running on pyrite.</li>
+<li><strong>nixx</strong> — nginx config <code>nixx.conf</code> still present on gatekeeper (proxies
+  <code>100.64.0.2:8000/8001</code>); no backend running on pyrite (verified dead
+  2026-11-20).</li>
+<li><strong>code.perdrizet.org</strong> — vhost present on gatekeeper nginx proxying
+  <code>100.64.0.2:47301</code> (legacy OpenVSCode path); nothing listens on pyrite:47301.</li>
+<li><strong>LogKeep staging</strong> — <code>staging.perdrizet.org</code> auth-gates (401) to upstream
+  <code>logkeep_staging</code> (<code>100.64.0.1:8003</code>), but <code>logkeep-staging</code> +
+  <code>logkeep-postgres-staging</code> containers are <strong>exited since ~2026-10-30</strong>; the
+  endpoint would 502 past auth. Restart them or retire the vhost.</li>
 </ul>
 <h2 id="gatekeeper-public-ports">Gatekeeper public ports<a class="headerlink" href="#gatekeeper-public-ports" title="Permanent link">&para;</a></h2>
 <table>
